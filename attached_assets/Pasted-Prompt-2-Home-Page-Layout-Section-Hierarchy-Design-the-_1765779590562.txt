@@ -1,0 +1,97 @@
+Prompt 2 — Home Page Layout & Section Hierarchy
+
+Design the Home screen layout based on the previously defined Home UX contract.
+
+Overall structure
+	•	Home should be vertically stacked, scrollable, and calm.
+	•	Visual priority must flow top → bottom.
+	•	Avoid dense grids or analytics-style layouts.
+
+⸻
+
+Section 1 — Today Header
+	•	Display:
+	•	“Today”
+	•	Current date
+	•	Include a subtle daily status indicator:
+	•	Rest / Active / Trained
+	•	No motivational copy or slogans.
+
+⸻
+
+Section 2 — Core Daily Metrics (Glanceable)
+
+Display in a compact block:
+	•	Steps
+	•	Calories (device-reported total)
+	•	Breakdown (rest / active / sleep) should be secondary or expandable.
+	•	No charts.
+	•	Rounded values only.
+	•	Metrics must not dominate the screen.
+
+⸻
+
+Section 3 — Today’s Activity State
+
+This section must dynamically adapt:
+
+If upcoming activity exists:
+	•	Show activity name and planned intensity.
+	•	Tapping navigates to activity details or calendar.
+
+If activity already completed:
+	•	Show activity type + duration.
+	•	Pulled from synced or logged data.
+
+If rest day or no plan:
+	•	Show a neutral rest or recovery message.
+	•	No CTA.
+
+⸻
+
+Section 4 — Calendar Preview
+	•	Show a minimal week or today-focused preview.
+	•	Indicate days with activity (subtle markers).
+	•	Tapping navigates to full Calendar view.
+
+⸻
+
+Section 5 — Quick Access (Optional but minimal)
+	•	Provide small, non-dominant shortcuts to:
+	•	Trainer chat
+	•	Log activity
+	•	Device status (connected / not connected)
+	•	No labels larger than primary content.
+
+⸻
+
+Design Constraints
+	•	Dark mode remains the reference standard.
+	•	Light mode must feel equally premium and subtle.
+	•	Use whitespace and hierarchy over color.
+	•	No new colors, fonts, or components.
+
+⸻
+
+State Handling (Mandatory)
+	•	Home must render intentionally for:
+	•	No data
+	•	Partial data
+	•	Full data
+	•	No empty or broken-looking states.
+
+⸻
+
+Do NOT
+	•	Add trends, streaks, or comparisons
+	•	Add gamification
+	•	Add upsell CTAs
+	•	Add detailed analytics
+
+⸻
+
+Output Required
+
+Return:
+	•	A section-by-section summary of the Home layout
+	•	How it adapts when the user has or hasn’t trained today

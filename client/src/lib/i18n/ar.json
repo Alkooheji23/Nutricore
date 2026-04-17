@@ -1,0 +1,149 @@
+{
+  "common": {
+    "loading": "جاري التحميل...",
+    "save": "حفظ",
+    "cancel": "إلغاء",
+    "delete": "حذف",
+    "edit": "تعديل",
+    "submit": "إرسال",
+    "back": "رجوع",
+    "next": "التالي",
+    "done": "تم",
+    "close": "إغلاق",
+    "yes": "نعم",
+    "no": "لا",
+    "or": "أو",
+    "and": "و"
+  },
+  "nav": {
+    "aiTrainer": "المدرب الذكي",
+    "dailyTracker": "المتابعة اليومية",
+    "profile": "الملف الشخصي",
+    "signIn": "تسجيل الدخول",
+    "signOut": "تسجيل الخروج"
+  },
+  "landing": {
+    "heroTitle": "مدربك الرياضي الذكي",
+    "heroSubtitle": "تدريب وتغذية مخصصة مدعومة بالعلم",
+    "tryFree": "جرب مجاناً",
+    "getStarted": "ابدأ الآن",
+    "features": {
+      "personalizedPlans": "خطط مخصصة",
+      "personalizedPlansDesc": "برامج تمارين وحمية مصممة خصيصاً لأهدافك",
+      "aiPowered": "ذكاء اصطناعي",
+      "aiPoweredDesc": "تحدث مع مدربك الشخصي في أي وقت ومكان",
+      "trackProgress": "تتبع التقدم",
+      "trackProgressDesc": "راقب رحلتك الرياضية بتحليلات مفصلة"
+    }
+  },
+  "chat": {
+    "placeholder": "اسأل مدربك أي شيء...",
+    "send": "إرسال",
+    "newChat": "محادثة جديدة",
+    "conversations": "المحادثات",
+    "noMessages": "ابدأ محادثة مع مدربك الذكي",
+    "welcome": "أهلاً! أنا مدربك الشخصي الذكي. كيف يمكنني مساعدتك اليوم؟",
+    "upgradeRequired": "الترقية للنسخة المميزة",
+    "messagesRemaining": "رسالة متبقية هذا الشهر",
+    "logFood": "تسجيل وجبة",
+    "logWorkout": "تسجيل تمرين"
+  },
+  "tracker": {
+    "title": "المتابعة اليومية",
+    "calories": "السعرات",
+    "protein": "البروتين",
+    "carbs": "الكربوهيدرات",
+    "fats": "الدهون",
+    "workouts": "التمارين",
+    "meals": "الوجبات",
+    "addMeal": "إضافة وجبة",
+    "addWorkout": "إضافة تمرين",
+    "goal": "الهدف",
+    "consumed": "المستهلك",
+    "remaining": "المتبقي"
+  },
+  "profile": {
+    "title": "الملف الشخصي",
+    "personalInfo": "المعلومات الشخصية",
+    "name": "الاسم",
+    "age": "العمر",
+    "weight": "الوزن",
+    "height": "الطول",
+    "gender": "الجنس",
+    "male": "ذكر",
+    "female": "أنثى",
+    "activityLevel": "مستوى النشاط",
+    "fitnessGoals": "الأهداف الرياضية",
+    "trainerPreference": "تفضيل المدرب",
+    "maleTrainer": "مدرب ذكر",
+    "femaleTrainer": "مدربة أنثى",
+    "connectedDevices": "الأجهزة المتصلة",
+    "connect": "ربط",
+    "disconnect": "إلغاء الربط",
+    "sync": "مزامنة",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "lightMode": "الوضع الفاتح",
+    "darkMode": "الوضع الداكن",
+    "deactivateAccount": "إلغاء تفعيل الحساب"
+  },
+  "goals": {
+    "title": "الأهداف",
+    "activeGoals": "الأهداف النشطة",
+    "completedGoals": "الأهداف المكتملة",
+    "noGoals": "لا توجد أهداف نشطة",
+    "markComplete": "تحديد كمكتمل",
+    "progress": "التقدم",
+    "dueDate": "تاريخ الاستحقاق"
+  },
+  "meals": {
+    "breakfast": "الفطور",
+    "lunch": "الغداء",
+    "dinner": "العشاء",
+    "snack": "وجبة خفيفة"
+  },
+  "activityLevels": {
+    "sedentary": "قليل الحركة",
+    "lightlyActive": "نشاط خفيف",
+    "moderatelyActive": "نشاط متوسط",
+    "veryActive": "نشاط عالي",
+    "extremelyActive": "نشاط مكثف"
+  },
+  "fitnessGoals": {
+    "loseWeight": "خسارة الوزن",
+    "gainMuscle": "بناء العضلات",
+    "maintainWeight": "الحفاظ على الوزن",
+    "improveEndurance": "تحسين التحمل",
+    "buildStrength": "بناء القوة",
+    "flexibility": "تحسين المرونة"
+  },
+  "feedback": {
+    "title": "شاركنا رأيك",
+    "rateExperience": "كيف تقيم تجربتك؟",
+    "comments": "أي تعليقات أو اقتراحات؟",
+    "placeholder": "أخبرنا برأيك...",
+    "submit": "إرسال الملاحظات",
+    "thankYou": "شكراً لملاحظاتك!"
+  },
+  "streaks": {
+    "title": "السلسلة",
+    "days": "يوم",
+    "currentStreak": "السلسلة الحالية",
+    "longestStreak": "أطول سلسلة",
+    "keepItUp": "استمر!"
+  },
+  "premium": {
+    "title": "الترقية للنسخة المميزة",
+    "subtitle": "افتح جميع المميزات",
+    "monthly": "شهري",
+    "annual": "سنوي",
+    "perMonth": "/شهر",
+    "perYear": "/سنة",
+    "features": {
+      "unlimitedChat": "محادثات غير محدودة",
+      "advancedTracking": "تتبع متقدم",
+      "prioritySupport": "دعم أولوية",
+      "customPlans": "خطط تمارين مخصصة"
+    }
+  }
+}

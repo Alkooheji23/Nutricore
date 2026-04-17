@@ -1,0 +1,111 @@
+PROMPT 1 — USER ACCESS STATES & LIFECYCLE (FOUNDATIONAL)
+
+Context:
+You are working on NutriCore, a premium AI-powered fitness & nutrition app.
+Your task in this step is ONLY to define and enforce user access states and lifecycle logic.
+Do not redesign UI. Do not change copy unless required for logic clarity. Do not implement onboarding flows yet.
+
+⸻
+
+Objective
+
+Create a clear, strict user access state system that governs what each type of user can and cannot do, with no overlap or leakage.
+
+⸻
+
+User States (Must Be Explicitly Implemented)
+
+1. Anonymous User (Not Signed Up)
+	•	Can access:
+	•	AI trainer chat only
+	•	Restrictions:
+	•	Maximum 50 total messages
+	•	No memory (conversation is session-based only)
+	•	Cannot:
+	•	Generate or save workout plans
+	•	Generate or save nutrition plans
+	•	Track workouts, food, or metrics
+	•	Access smartwatch integrations
+	•	Behavior:
+	•	AI must not imply long-term adaptation
+	•	AI must explain that memory and deeper personalization require an account
+
+⸻
+
+2. Signed-Up User (No Payment) — 7-Day Full Access
+	•	Trigger:
+	•	Starts immediately upon successful signup
+	•	Duration:
+	•	Exactly 7 consecutive days
+	•	Access:
+	•	Full access to all features, including:
+	•	AI memory & personalization
+	•	Training plans
+	•	Nutrition guidance
+	•	Tracking & logs
+	•	Smartwatch data integration
+	•	Weekly adaptive adjustments
+	•	Constraints:
+	•	Must not be labeled as “free trial” in UI or chat
+	•	Pricing must NOT be shown immediately upon signup
+	•	Behavior:
+	•	AI should behave exactly like a paid coach
+	•	AI may reference past conversations and adapt plans
+
+⸻
+
+3. Paid User (Active Subscription)
+	•	Pricing:
+	•	$5 per month
+	•	$40 per year (greater savings)
+	•	Access:
+	•	Unlimited access to all features
+	•	Continuous memory
+	•	Ongoing weekly adaptation
+	•	Behavior:
+	•	Identical to signed-up users, but without time restriction
+
+⸻
+
+4. Post–7-Day Expired User (Not Subscribed)
+	•	Trigger:
+	•	Automatically when the 7-day full access period ends
+	•	Access changes:
+	•	Memory is paused (not deleted)
+	•	Plans become read-only or inaccessible
+	•	Tracking and integrations disabled
+	•	Chat reverts to limited mode
+	•	Behavior:
+	•	AI should clearly but calmly state that subscription is required to continue adaptive coaching
+	•	No aggressive upselling
+	•	User data must remain intact if they subscribe later
+
+⸻
+
+Technical Requirements
+	•	Implement explicit feature flags for each user state
+	•	Ensure no feature leakage between states
+	•	Access control must be enforced at both:
+	•	Backend (API-level)
+	•	Frontend (UI-level)
+	•	Include safeguards to prevent:
+	•	Anonymous users accessing paid features
+	•	Expired users retaining adaptive behavior
+
+⸻
+
+Output Expected
+	•	A clear definition of:
+	•	User states
+	•	Transition rules between states
+	•	Feature availability matrix
+	•	No UI redesign
+	•	No onboarding scripts
+	•	No pricing UI changes beyond logic hooks
+
+⸻
+
+Important Constraints
+	•	Do not assume future steps
+	•	Do not combine this with onboarding, chat tone, or UI styling
+	•	This prompt is strictly about access logic and lifecycle integrity

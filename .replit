@@ -1,0 +1,55 @@
+modules = ["nodejs-20", "web", "postgresql-16"]
+run = "npm run dev"
+hidden = [".config", ".git", "generated-icon.png", "node_modules", "dist"]
+
+[nix]
+channel = "stable-24_05"
+packages = ["imagemagick"]
+
+[deployment]
+deploymentTarget = "autoscale"
+build = ["npm", "run", "build"]
+run = ["npm", "run", "start"]
+
+[[ports]]
+localPort = 5000
+externalPort = 80
+
+[[ports]]
+localPort = 5001
+externalPort = 3001
+
+[env]
+PORT = "5000"
+
+[workflows]
+runButton = "Project"
+
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Start application"
+
+[[workflows.workflow]]
+name = "Start application"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "npm run dev"
+waitForPort = 5000
+
+[agent]
+mockupState = "FULLSTACK"
+integrations = ["javascript_log_in_with_replit:1.0.0", "javascript_openai_ai_integrations:1.0.0", "javascript_object_storage:2.0.0", "javascript_openrouter_ai_integrations:2.0.0"]
+
+[userenv]
+
+[userenv.shared]
+ADMIN_ALERT_EMAIL = "mohamed.alkooheji@nutricoreapp.com"
+PUSH_VAPID_PUBLIC_KEY = "BNNfBthw6QtHOZASDIKP3aoaNavlQ1B1VUDwiE3qzXdNWe0iHrV-68TN75s9-_CY7G-oScx8pNzRRRIAwKy--Pg"
+PUSH_VAPID_PRIVATE_KEY = "vSSHnedGITQUY8qPxkxVr-E5-pw4NqFnuUtEs7kIR5w"

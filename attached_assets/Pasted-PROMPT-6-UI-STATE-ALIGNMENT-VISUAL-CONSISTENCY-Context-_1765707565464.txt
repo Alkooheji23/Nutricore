@@ -1,0 +1,134 @@
+PROMPT 6 — UI STATE ALIGNMENT & VISUAL CONSISTENCY
+
+Context:
+NutriCore has multiple user states (anonymous, signed-up with 7-day access, paid, expired).
+Your task is to ensure the UI always reflects the correct user state, with no confusion, no feature leakage, and no visual inconsistencies across light and dark modes.
+
+Do not change business logic, pricing rules, or AI behavior.
+This prompt is strictly about UI correctness and consistency.
+
+⸻
+
+Objective
+
+Ensure that:
+	•	Users always understand what they can and cannot do
+	•	The UI never contradicts backend access rules
+	•	Light mode and dark mode behave consistently
+	•	The app feels premium, intentional, and reliable
+
+⸻
+
+1. User State → UI Mapping (Mandatory)
+
+Implement a clear UI mapping for each user state:
+
+Anonymous User
+	•	Visible:
+	•	Chat interface
+	•	Hidden or disabled:
+	•	Plan generation
+	•	Tracking features
+	•	Smartwatch integrations
+	•	UI behavior:
+	•	Disabled elements must appear intentionally unavailable (not broken)
+	•	No pricing banners
+	•	No upgrade popups mid-task
+
+⸻
+
+Signed-Up User (7-Day Full Access)
+	•	Visible:
+	•	All features
+	•	Full navigation
+	•	UI behavior:
+	•	No “trial” labels
+	•	No countdown timers
+	•	No gated-looking components
+	•	Experience must be visually identical to a paid user
+
+⸻
+
+Paid User
+	•	Visible:
+	•	All features
+	•	UI behavior:
+	•	No upgrade prompts
+	•	No access warnings
+	•	No visual difference from 7-day users
+
+⸻
+
+Expired (Not Subscribed)
+	•	Visible:
+	•	Limited chat
+	•	General guidance
+	•	Disabled:
+	•	Adaptive plans
+	•	Tracking
+	•	Smartwatch integrations
+	•	UI behavior:
+	•	Locked features must be clearly intentional
+	•	Copy must be calm and factual
+	•	No aggressive upgrade CTAs
+
+⸻
+
+2. Feature Gating Rules (Critical)
+	•	Disabled features must:
+	•	Be visually consistent (same pattern everywhere)
+	•	Never appear usable and then fail
+	•	Avoid:
+	•	Greyed-out buttons without explanation
+	•	Hidden features suddenly reappearing
+	•	Gating should feel designed, not patched
+
+⸻
+
+3. Light & Dark Mode Consistency
+	•	All UI states must render correctly in:
+	•	Light mode
+	•	Dark mode
+	•	No:
+	•	Alignment shifts
+	•	Color mismatches
+	•	Missing elements in one mode
+	•	Theme switching must not cause:
+	•	Layout jumps
+	•	Re-render bugs
+	•	State resets
+
+⸻
+
+4. Brand & Premium Feel Enforcement
+	•	UI should feel:
+	•	Calm
+	•	Minimal
+	•	Intentional
+	•	Avoid:
+	•	Excessive labels (“locked”, “premium”, “upgrade now”)
+	•	Visual clutter
+	•	Use spacing, hierarchy, and subtlety instead of noise
+
+⸻
+
+5. Technical Requirements
+	•	UI state must be driven by:
+	•	Explicit user state flags
+	•	Do not infer access from UI alone
+	•	Ensure frontend always reflects backend permissions
+
+⸻
+
+Output Expected
+	•	Clear UI-state-to-permission alignment
+	•	No feature leakage
+	•	Consistent visuals across themes
+	•	Premium, reliable user experience
+
+⸻
+
+Constraints
+	•	Do not modify access logic
+	•	Do not modify AI behavior
+	•	Do not introduce new CTAs or pricing copy

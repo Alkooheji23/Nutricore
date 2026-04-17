@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tar -xzf \"C:\\\\Users\\\\koohe\\\\Downloads\\\\NutriCore_backup.tar.gz\")",
+      "Bash(tar -xzf \"/c/Users/koohe/Downloads/NutriCore_backup.tar.gz\" -C \"/c/Users/koohe/OneDrive - NutriCore/1. Business/1. NutriCore - NTC\")"
+    ]
+  }
+}

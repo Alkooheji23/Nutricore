@@ -1,0 +1,91 @@
+Prompt 2 — Workout Execution Model (Optional Live Input)
+
+Objective
+Define a flexible workout execution system where users may log workouts live or retrospectively, while preserving structured data quality for the Trainer.
+
+⸻
+
+1️⃣ Execution Modes (User Choice)
+
+Users may execute workouts in one of two modes:
+
+Mode A — Live Workout Inputting (Optional)
+	•	User starts a workout from Activities
+	•	Workout enters live mode
+	•	Strength sets are logged set-by-set
+	•	Reps, weights, and sets can be edited during the workout
+
+Mode B — Post-Workout Logging
+	•	User completes the workout without live input
+	•	User logs:
+	•	Exercises performed
+	•	Sets, reps, and weights
+	•	Logged data represents what was actually completed
+
+Both modes are equally valid and trusted.
+
+⸻
+
+2️⃣ Strength Training (Structured, Manual Source of Truth)
+
+For strength workouts:
+	•	Exercises are defined by:
+	•	Exercise name
+	•	Sets
+	•	Reps
+	•	Weight
+	•	Wearables do not provide structure
+	•	User-entered data (live or post-workout) is the ground truth
+
+Rules:
+	•	Users may:
+	•	Adjust reps/weights from the planned values
+	•	Skip exercises or sets
+	•	Planned workouts are not overwritten
+	•	Logged workouts reflect actual performance
+
+⸻
+
+3️⃣ Cardio Execution (Simple & Device-Compatible)
+
+Supported cardio activities:
+	•	Walking
+	•	Jogging / Running
+
+Logging options:
+	•	Live time tracking (optional)
+	•	Distance entry (manual or device-derived)
+	•	Calories pulled from smartwatch when available
+
+Rules:
+	•	GPS/maps are optional enhancements
+	•	Cardio is logged as one continuous activity
+	•	No forced pace calculations in v1
+
+⸻
+
+4️⃣ Data Integrity Rules
+	•	Live and post-workout logs are stored identically
+	•	No automatic inference of reps/sets from wearables
+	•	No retroactive editing after workout completion
+	•	All completed workouts are immediately available to:
+	•	Trainer
+	•	Progress tracking
+	•	Weekly planning logic
+
+⸻
+
+5️⃣ Trainer Interaction Boundary
+	•	Trainer:
+	•	Reads completed workout data
+	•	Uses it for weekly plan adjustments
+	•	Trainer does not interfere mid-workout
+	•	No live coaching interruptions unless explicitly enabled later
+
+⸻
+
+Governing Principle
+
+Execution is flexible.
+Data integrity is strict.
+Coaching happens after.

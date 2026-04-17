@@ -1,0 +1,158 @@
+UPDATED MASTER PRODUCT & LOGIC DIRECTIVE — NUTRICORE
+
+You are building NutriCore, a premium, sport-agnostic, AI-driven performance system that adapts to the nature of each activity, not one generic metric.
+
+This is a hard requirement.
+
+⸻
+
+1. Core Principle (Clarified)
+
+NutriCore is sport-agnostic in scope, but sport-specific in logic.
+
+This means:
+	•	The app supports all sports and activities
+	•	BUT each sport uses the correct performance metrics
+	•	Metrics must adapt automatically based on activity type
+
+Do not force one measurement model across all sports.
+
+⸻
+
+2. Adaptive Training Logic (Critical Update)
+
+Activity Classification Layer
+
+Each logged or synced activity must first be classified into a category, for example:
+	•	Strength / Resistance
+	•	Endurance (run, swim, cycle)
+	•	Mixed / Hybrid
+	•	Skill / Sport
+	•	Low-intensity / Recovery
+
+This classification determines which metrics are used.
+
+⸻
+
+A. Strength / Resistance Training
+
+For weightlifting and resistance-based activities:
+
+Primary metrics:
+	•	Exercises
+	•	Sets
+	•	Reps
+	•	Load (weight)
+	•	Optional RPE or effort
+
+Secondary metrics:
+	•	Session duration
+	•	Volume trends (sets × reps × load)
+
+The user can manually input sets and reps, because this is meaningful for strength training.
+
+⸻
+
+B. Endurance-Based Activities (Running, Swimming, Cycling, etc.)
+
+For endurance activities:
+
+Primary metric:
+	•	Time (duration)
+
+Supporting metrics (if available):
+	•	Distance
+	•	Pace
+	•	Heart rate zones
+	•	Calories (from wearable)
+
+Do not show reps or sets for these activities under any condition.
+
+⸻
+
+C. Mixed / Hybrid Activities
+
+For activities like CrossFit, classes, or team sports:
+	•	Time is the primary anchor
+	•	Intensity inferred from HR and effort
+	•	Optional notes or tags
+	•	No forced reps unless explicitly strength-based
+
+⸻
+
+D. Recovery & Low-Intensity Activities
+
+For walking, mobility, yoga, recovery:
+	•	Time
+	•	Intensity classification
+	•	Recovery contribution
+
+⸻
+
+3. Weekly Adaptation Logic (Unchanged, but Context-Aware)
+
+Regardless of sport, the system evaluates weekly trends, not single sessions:
+	•	Total workload (appropriate to activity type)
+	•	Intensity distribution
+	•	Frequency
+	•	Recovery signals
+	•	Adherence vs capacity
+
+Adaptations must respect the dominant activity type of the user.
+
+⸻
+
+4. Planning Model (Reaffirmed)
+	•	NutriCore always generates a suggested plan
+	•	Plans adapt to:
+	•	User’s dominant sport(s)
+	•	Available data
+	•	Recovery trends
+	•	Users can:
+	•	Accept
+	•	Modify
+	•	Ignore and simply track
+
+Plans are guidance envelopes, not rigid prescriptions.
+
+⸻
+
+5. Wearables & Manual Input (Clarified)
+	•	Wearables are the source of truth when connected
+	•	Manual logging:
+	•	Enabled for strength training
+	•	Optional or disabled when wearable data already exists
+	•	Never require users to duplicate data
+
+⸻
+
+6. AI Responsibilities (Strict)
+
+AI must:
+	•	Respect the activity model
+	•	Never hallucinate metrics (e.g., reps for running)
+	•	Make recommendations aligned with the user’s sport(s)
+	•	Explain why changes happen when asked
+
+AI must NOT:
+	•	Apply strength logic to endurance sports
+	•	Apply endurance logic to strength training
+	•	Assume missing data incorrectly
+
+⸻
+
+7. UI Enforcement
+	•	The workout page must change layout based on activity type
+	•	Strength view ≠ endurance view
+	•	Metrics shown must always match the activity
+
+If an activity type changes, the UI must update accordingly.
+
+⸻
+
+8. Execution Rules
+	•	Do not generalize metrics across sports
+	•	Do not simplify logic at the expense of correctness
+	•	If uncertain about an activity type, ask before implementing
+
+The goal is credibility, correctness, and trust

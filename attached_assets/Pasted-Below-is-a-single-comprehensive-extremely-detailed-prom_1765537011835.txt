@@ -1,0 +1,226 @@
+Below is a single, comprehensive, extremely detailed prompt you can paste into Replit so it understands exactly how the app — especially the chat interface — must look.
+
+This is not vague. It is a full design specification, like something you’d hand to a professional UI team.
+You can copy/paste the entire prompt directly into Replit.
+
+⸻
+
+✅ COPY & PASTE INTO REPLIT — COMPLETE HIGH-END UI SPEC
+
+Transform NutriCore into a luxury, premium fitness and AI coaching app.
+Every component — especially the chat — must follow the detailed rules below.
+
+⸻
+
+A. OVERALL BRAND STYLE — “Luxury Athletic Intelligence”
+
+Color System (strict)
+
+Use ONLY:
+	•	Primary Dark Background: #0A0A0A (near-black)
+	•	Olive Green: #4A5D4A
+	•	Champagne Gold: #D4AF37
+	•	Soft White: #F2F2F2 for text
+	•	Subtle Grey: #1A1A1A for surfaces
+
+No other colors unless derived from these tones.
+
+Visual Atmosphere
+
+The app must convey:
+	•	High-end
+	•	Precision
+	•	Minimalism
+	•	Calm confidence
+
+Think Apple Fitness + Oura + Whoop + Lululemon Studio.
+
+Nothing should feel crowded, noisy, or “template-like.”
+
+⸻
+
+B. TYPOGRAPHY SYSTEM (mandatory)
+
+Font Family
+
+Use a single premium sans-serif family:
+	•	Font: Inter / SF Pro / or similar premium font
+
+Weights
+	•	Titles: 600–700
+	•	Subheads: 500–600
+	•	Body: 400–500
+	•	Labels: 400
+
+Spacing
+	•	Title line-height: 1.1
+	•	Body line-height: 1.45
+
+Typography should feel airy and elegant — NEVER cramped.
+
+⸻
+
+C. SPACING & LAYOUT GRID
+
+Use a strict spacing system:
+	•	8px increments ONLY
+	•	Section padding: 32px top/bottom
+	•	Max content width: 900px
+	•	Consistent horizontal padding across all screens
+
+Luxury = space.
+
+⸻
+
+D. COMPONENT DESIGN RULES (all components must follow)
+
+1. Buttons
+	•	Rounded corners: 12–16px
+	•	Premium glow on hover (soft olive or soft gold)
+	•	No harsh outlines
+	•	Slow easing animation (200–300ms)
+	•	Primary CTA uses glowing olive background
+	•	Secondary CTA uses soft gold border or subtle gold glow
+
+2. Cards / Panels
+	•	Smooth corners: 16px
+	•	Background: #111
+	•	Soft depth shadows (very subtle, not heavy)
+	•	Clean inner padding
+
+3. Icons
+	•	Thin stroke
+	•	Minimalist
+	•	Consistent size
+
+Never mix icon styles.
+
+⸻
+
+E. HERO SECTION REDESIGN
+
+This is where prestige must be most obvious.
+
+Replace stock coach photo.
+
+Use either:
+	•	The NutriCore pulse-mountain logo, or
+	•	A soft golden gradient emblem, or
+	•	A minimal abstract athletic icon
+
+Photos lower the luxury feel.
+
+Hero Layout
+	•	Center-aligned
+	•	Strong but calm headline
+	•	Short clean subhead
+	•	Large spacing between elements
+	•	Primary + secondary CTAs only
+
+⸻
+
+F. CHAT INTERFACE — COMPLETE PREMIUM REDESIGN (MANDATORY)
+
+This is the most important part.
+The current chat looks generic. It must transform into a luxury AI companion, not “a chat widget.”
+
+1. Chat Container
+	•	Background: #0A0A0A
+	•	Max width: 750px
+	•	Centered
+	•	Large vertical spacing
+	•	Invisible edges (no border)
+
+2. Message Bubbles
+
+User messages:
+	•	Background: #1A1A1A
+	•	Rounded corners: 18–24px
+	•	Text: Soft white
+	•	Subtle olive glow on the outer edge (very faint)
+
+AI messages (“My Trainer”):
+	•	Background: #111
+	•	Rounded: 18–24px
+	•	A soft golden highlight line at the top edge (2–3px), extremely subtle
+	•	Text: #F2F2F2
+	•	A small pulse-mountain icon at the start of the conversation (not every message)
+
+3. Chat Input Bar
+
+This must feel premium and futuristic.
+	•	Full-width rounded pill (height: ~56px)
+	•	Background: #1A1A1A
+	•	Inner shadow for depth
+	•	Olive or gold glowing send button (round, floating style)
+	•	No harsh outlines
+
+4. Typing Indicator
+
+Replace the default dots with:
+	•	A soft gold pulsing line (heartbeat-style), animated gently
+	•	Slow pulsation (luxury avoids fast/cheap animations)
+
+5. Scroll + Transitions
+	•	Smooth scroll
+	•	Messages fade in gently
+	•	No jumpy movement
+	•	Long conversations feel like a continuous flow
+
+6. Header in Chat Screen
+
+Show a minimal, elegant header:
+	•	Pulse-mountain icon (small)
+	•	Text: My Trainer
+	•	No photo, no square shapes
+
+Imagery must be symbolic, not literal.
+
+⸻
+
+G. OVERALL IMPRESSIONS TO ENFORCE
+
+The app must feel:
+	•	Exclusive
+	•	Calm
+	•	Expensive
+	•	Thoughtful
+	•	Consistent
+
+If any element feels:
+	•	generic
+	•	default
+	•	crowded
+	•	cheap
+	•	inconsistent
+
+→ Replit must restyle it to match the premium system.
+
+⸻
+
+H. ZERO DESIGN DRIFT RULE
+
+All new components must automatically follow:
+	•	Theme
+	•	Typography
+	•	Spacing
+	•	Premium style
+	•	Chat prestige look
+
+If anything violates these visual rules, correct it immediately.
+
+⸻
+
+END OF PROMPT — APPLY VISUAL OVERHAUL GLOBALLY
+
+⸻
+
+If you want, I can also provide:
+
+✔ A full Figma-style design system
+
+✔ A sample redesign layout for each screen
+
+✔ Exact component code for the new premium chat
+
+Just tell me.

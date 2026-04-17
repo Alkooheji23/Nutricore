@@ -1,0 +1,113 @@
+Here is a clean, strict, copy-paste prompt you can give Replit that forces the app to look high-end, consistent, reliable, and still preserve the AI logic exactly as you want.
+
+It is written as an instruction set, not a discussion — so Replit will treat it like a specification.
+
+⸻
+
+✅ COPY & PASTE THIS INTO REPLIT
+
+Enable STRICT PREMIUM MODE for the entire NutriCore project.
+All code, UI, and AI behavior must automatically follow the rules below:
+
+⸻
+
+1. Premium Brand Enforcement (Mandatory)
+
+NutriCore must feel high-end, elite, and luxurious at every level.
+Apply these rules globally:
+	•	Use the official theme only:
+	•	Olive Green: #4A5D4A
+	•	Champagne Gold: #D4AF37
+	•	Dark luxury background: near-black
+	•	No inline styling.
+	•	No random colors.
+	•	All spacing, fonts, shadows, glow effects, and radii must come from a central theme file (theme.js).
+	•	Maintain generous spacing, calm layouts, and clean sections.
+	•	Remove any design elements that look cheap, busy, or template-like.
+
+If a new component violates the premium look, correct it automatically.
+
+⸻
+
+2. Strict Permission Logic
+
+Enforce one source of truth for all feature access:
+	•	Free users:
+	•	50 messages
+	•	No long-term memory
+	•	No personalized plans
+	•	No integrations
+	•	Focus group / full access:
+	•	Unlimited messages
+	•	AI memory
+	•	Adaptive plans
+	•	Metrics tracking
+	•	All integrations
+
+All access rules must come from a single permissions file.
+No component may implement its own permission logic.
+
+⸻
+
+3. AI Behavior Architecture
+
+“My Trainer” must use two knowledge layers:
+
+A. User Memory Layer
+
+Store and update:
+	•	goals
+	•	progress
+	•	injuries
+	•	habits
+	•	preferences
+	•	communication tone
+
+Every AI response must use this memory.
+
+B. Global Knowledge Layer
+
+Continuously update from legal, public, open-access sources only, such as:
+	•	ACSM
+	•	NSCA
+	•	ISSN
+	•	WHO
+	•	NIH
+	•	Peer-reviewed open research
+	•	Open fitness education data
+
+Never scrape or quote from paywalled or copyrighted sources.
+My Trainer must always combine user memory + global science in every response.
+
+⸻
+
+4. User Experience & Reliability Requirements
+	•	The app must feel stable and consistent at all times.
+	•	No random layout shifts, color mismatches, or alignment issues.
+	•	All components must load smoothly with premium micro-interactions
+(soft glows, smooth easing, subtle transitions).
+	•	Hero section must feel elegant and clean (Apple-level clarity).
+	•	CTAs must follow proper hierarchy:
+	•	Primary: “Join Focus Group – Get Full Access”
+	•	Secondary: “Try Free – No Signup Required”
+
+⸻
+
+5. Zero Drift Rule
+
+Any new element — design, component, feature, or AI behavior — must not:
+	•	bypass theme rules
+	•	bypass permission rules
+	•	break premium brand styling
+	•	break the AI’s dual-layer architecture
+	•	introduce inconsistencies or design drift
+
+Automatically adjust or reject changes that violate any rule.
+
+⸻
+
+END OF SPECIFICATION. Apply STRICT PREMIUM MODE globally.
+
+⸻
+
+If you want, I can also create a second prompt for Replit that enforces premium copywriting, tone, and brand language.

@@ -1,0 +1,130 @@
+REPLIT PROMPT — UNIFIED LIGHT & DARK MODE DESIGN SYSTEM (PREMIUM BRAND)
+
+“Create a unified design system for NutriCore that ensures both light mode and dark mode are consistent, premium, and clean. Implement the following rules exactly across all components (navbar, hero section, chat UI, buttons, inputs, footer, spacing, typography).
+
+⸻
+
+1. THEME ARCHITECTURE
+
+Set up a theming system with two clearly separated palettes:
+	•	theme.light
+	•	theme.dark
+
+Every component must read from these theme variables — not inline colors.
+
+⸻
+
+2. BRAND COLORS (GLOBAL TOKENS)
+
+Apply these tokens to both themes:
+	•	brandOlive: #4A5D4A
+	•	brandGold: #D4AF37
+	•	charcoal: #1A1A1A
+	•	softCharcoal: #3A3A3A
+	•	offWhite: #F7F5F0
+	•	softGrey: #EDEBE7
+	•	black: #000000
+
+⸻
+
+3. DARK MODE RULES
+
+Background must be pure black or near black. Use:
+	•	background: #000000
+	•	Text: #FFFFFF (no opacity reductions)
+	•	Logo: dark-mode version with soft, subtle ambient glow (≤ 10% opacity)
+	•	Buttons:
+	•	Primary = olive with white text
+	•	Secondary = gold border, transparent background
+
+Chat input:
+	•	background: #111111
+	•	border: #222222
+
+⸻
+
+4. LIGHT MODE RULES
+
+Background must be off-white, not white:
+	•	background: #F7F5F0
+	•	Text: charcoal #1A1A1A, never below 90% opacity
+	•	Logo: no glow, clean natural display
+	•	Buttons:
+	•	Primary = olive with white text
+	•	Secondary = gold border, transparent or off-white background
+
+Chat input:
+	•	background: softGrey #EDEBE7
+	•	no shadows
+
+⸻
+
+5. LOGO BEHAVIOR (BOTH MODES)
+	•	Always use the standalone logo, never inside a rounded square or card.
+	•	Light mode = no glow
+	•	Dark mode = minimal ambient glow only
+	•	Navbar size: 28–32px
+	•	Hero size: 70–90px
+	•	Must have generous spacing in both themes.
+
+⸻
+
+6. TYPOGRAPHY SYSTEM
+
+Apply the same typography scale in both themes:
+	•	Headline: heavy/semibold, high contrast
+	•	Subheadings: softCharcoal or white
+	•	Body text: legible, full opacity, clean line spacing
+	•	No low-opacity text
+	•	No excessive letter spacing
+
+⸻
+
+7. COMPONENT CONSISTENCY RULES
+
+Every component must respond to theme changes by switching only:
+	•	background
+	•	text color
+	•	logo glow
+	•	input background
+	•	subtle shadow behavior
+
+Spacing, padding, icon sizes, borders, and layout must remain identical across both themes.
+
+Prevent light-mode styles from leaking into dark mode and vice versa.
+
+⸻
+
+8. HERO SECTION REQUIREMENTS
+
+For both themes:
+	•	centered layout
+	•	balanced spacing around logo and text
+	•	no heavy glow
+	•	no background blocks
+	•	premium minimal look similar to Apple, Oura, Whoop
+
+⸻
+
+9. CHAT UI REQUIREMENTS
+
+Both modes must share:
+	•	same shape, padding, and layout
+	•	same send button icon size and position
+	•	same border radius
+	•	same input height
+
+Only colors adapt to the theme.
+
+⸻
+
+10. FINAL GOAL
+
+The result must be:
+	•	highly premium
+	•	clean
+	•	consistent
+	•	visually stable in both light and dark mode
+	•	with a unified visual identity that never changes unpredictably.
+
+Refactor any component that does not follow this dual-theme system.”**

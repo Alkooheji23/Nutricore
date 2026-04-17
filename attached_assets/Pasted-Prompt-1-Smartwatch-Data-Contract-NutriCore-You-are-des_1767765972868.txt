@@ -1,0 +1,57 @@
+Prompt 1 — Smartwatch Data Contract (NutriCore)
+
+You are designing NutriCore’s wearable data ingestion layer. Your job is not to model physiology in detail, and not to trust raw sensor precision. Treat smartwatch data as noisy, delayed, and directionally useful, not ground truth.
+
+1. Scope of Data (Allowed Inputs Only)
+
+Ingest aggregated, daily-level signals only:
+	•	Steps (total, cadence optional)
+	•	Active calories (estimate, not BMR)
+	•	Sleep (duration, efficiency, timing)
+	•	HRV (daily average or readiness score)
+	•	Resting heart rate (optional)
+
+Explicitly exclude: raw ECG, second-by-second HR, GPS traces, proprietary readiness scores as truth.
+
+2. Contract Principles (Non‑Negotiable)
+	•	Aggregation-first: No decisions based on single workouts or single nights.
+	•	Trend > Absolute: 7–14 day rolling trends dominate logic.
+	•	Context-free ingestion: Wearable data never directly prescribes diet or training—it only modulates them.
+	•	Failure-tolerant: Missing days, device swaps, or sensor drift must not break plans.
+
+3. Normalization Rules
+	•	Normalize all metrics per user baseline, not population norms.
+	•	Baseline window: first 14–21 valid days.
+	•	Express inputs as deltas (% change, z-score bands, or directional flags), not raw values.
+
+Example:
+	•	HRV ↓ 12% vs baseline → “recovery_degraded = mild”
+	•	Sleep duration ↑ but efficiency ↓ → no automatic recovery credit
+
+4. Trust Model
+
+Assign each signal a confidence weight:
+	•	Steps: high
+	•	Sleep duration: medium
+	•	Sleep stages: low
+	•	Calories burned: low
+	•	HRV: medium (trend only)
+
+Conflicting signals resolve conservatively (bias toward under‑reacting).
+
+5. Output of This Layer
+
+This contract outputs only flags, never prescriptions:
+	•	recovery_ok / recovery_compromised
+	•	activity_low / activity_normal / activity_high
+	•	sleep_debt_present
+	•	physiological_stress_up/down
+
+These flags feed a separate decision layer (trainer authority).
+
+6. Explicit Anti‑Patterns
+	•	No “eat more today because HRV is low”
+	•	No daily plan rewrites
+	•	No treating wearables as medical devices
+
+Success criterion: If the user stops wearing their watch for a week, NutriCore still functions coherently—with slightly less confidence, not broken logic.

@@ -1,0 +1,85 @@
+Here is Prompt 5, clean, final, and only what you need.
+This is the system-level lock that ties everything together.
+
+⸻
+
+🔒 Prompt 5 — Trainer Authority & Unified Decision Layer (NutriCore)
+
+Objective
+Establish the Trainer as the single decision authority across training, recovery, diet, and activity, ensuring no part of the system operates independently or contradicts another.
+
+⸻
+
+1️⃣ Single Brain Rule (Non-Negotiable)
+	•	The Trainer is the only entity allowed to:
+	•	Adjust workout plans
+	•	Adjust calorie targets
+	•	Interpret recovery and readiness
+	•	No tab, feature, or integration may make autonomous decisions.
+
+All other sections are execution or display layers only.
+
+⸻
+
+2️⃣ Unified Decision Layer
+
+All decisions must consider together:
+	•	Training load & performance
+	•	Recovery signals (sleep, HRV, fatigue)
+	•	Activity level (steps, cardio)
+	•	Diet adherence and calorie targets
+	•	User’s primary goal
+
+No domain may be adjusted in isolation.
+
+Example:
+	•	If training volume increases → recovery & diet must be evaluated
+	•	If recovery is compromised → training and diet must adapt
+	•	If calories are reduced → training stress must be reassessed
+
+⸻
+
+3️⃣ Decision Application Rules
+	•	Decisions are made on a weekly cadence (per Prompt 3)
+	•	Changes apply forward only
+	•	No retroactive edits
+	•	No silent mid-week overhauls unless injury or illness is detected
+
+⸻
+
+4️⃣ Data Awareness Requirement
+	•	The Trainer must always read from:
+	•	Logged workouts (live or post-workout)
+	•	Synced smartwatch data (steps, calories, sleep, HRV)
+	•	Progress metrics (weight, trends)
+	•	The Trainer never asks for data that already exists
+	•	Missing data defaults to conservative assumptions
+
+⸻
+
+5️⃣ User Interaction Boundary
+	•	Trainer:
+	•	Issues decisions
+	•	Explains only when asked
+	•	User:
+	•	Executes plans
+	•	Logs data
+	•	System:
+	•	Enforces coherence
+
+No debates. No parallel logic. No contradictions.
+
+⸻
+
+Governing Principle
+
+One Trainer.
+One Decision Layer.
+One Coherent System.
+
+⸻
+
+This prompt locks NutriCore into a true coaching system, not a collection of features.
+
+You’re now done with the foundational architecture.
+Next steps (only if/when you’re ready) would be polish, not structure.

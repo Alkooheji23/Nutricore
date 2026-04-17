@@ -1,0 +1,142 @@
+Replit Prompt — Coaching Decision Layer (Minimal, Authoritative, Silent)
+
+Objective
+Add a Coaching Decision Layer that automatically evaluates user training and recovery data and produces high-level coaching decisions, without requiring chat interaction or user input.
+
+Core Contract (Must Be Enforced)
+
+Devices observe.
+NutriCore decides.
+Chat explains.
+
+Scope (Keep This Small)
+
+No UI changes
+
+No notifications
+
+No chat flow changes
+
+No automatic plan edits (yet)
+
+This layer decides and stores only.
+
+1. Decision Engine
+
+Create a server-side process (e.g., coachingDecisionEngine.ts) that runs weekly per user.
+
+Inputs (read-only):
+
+Last 2–4 weeks of workouts
+
+Average RPE and soreness
+
+Recovery metrics (sleep, HRV when available)
+
+Weeks since last deload
+
+Recent performance trend (maintained / improved / declined)
+
+Output (single decision object):
+
+decisionType:
+
+maintain
+
+reduce_volume
+
+increase_volume
+
+deload_suggested
+
+confidence (low / medium / high)
+
+primaryReason (short string, e.g. “high soreness + elevated RPE”)
+
+generatedAt (timestamp)
+
+2. Decision Rules (Simple, Deterministic)
+
+If:
+
+soreness ≥ 7 AND RPE ≥ 9 → deload_suggested
+
+Else if:
+
+poor sleep OR declining performance → reduce_volume
+
+Else if:
+
+low RPE + good recovery → increase_volume
+
+Else:
+
+maintain
+
+No ML. No AI inference. Pure rules.
+
+3. Persistence
+
+Store decisions in a new table:
+
+coaching_decisions
+
+id
+
+userId
+
+decisionType
+
+confidence
+
+primaryReason
+
+generatedAt
+
+Only one active decision per user at a time (latest wins).
+
+4. Consumption Rules
+
+Home and Plans may read the latest decision.
+
+Chat may reference the decision when explaining advice.
+
+The decision engine itself:
+
+Does NOT modify workouts
+
+Does NOT notify users
+
+Does NOT trigger chat messages
+
+5. Safety Constraints
+
+If insufficient data → no decision generated
+
+Never override user actions
+
+Never surface medical language
+
+Never act without storing a decision record
+
+Acceptance Criteria
+
+Decisions are generated automatically
+
+Decisions are stored consistently
+
+App behavior does not change yet
+
+Chat can explain decisions if asked
+
+System feels intentional, not reactive
+
+Outcome
+
+NutriCore transitions from:
+
+“Smart when asked”
+
+to:
+
+“Quietly paying attention.”

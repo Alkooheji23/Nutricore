@@ -1,0 +1,123 @@
+Unified Coaching Decision Layer (Workout · Recovery · Diet Coherence)
+
+Objective
+Enforce a single, unified coaching decision layer where workout, recovery, and diet are interdependent, and changes in one domain automatically trigger evaluation (and adjustment if relevant) in the others — but only when justified.
+
+⸻
+
+1. Single Coaching Decision Layer (Hard Rule)
+	•	All coaching decisions must pass through a single decision context, not separate logic for:
+	•	Workouts
+	•	Recovery
+	•	Diet
+	•	The Trainer must reason in this order:
+	1.	Recovery state
+	2.	Training load & progression
+	3.	Nutritional support
+
+No domain may be updated in isolation.
+
+⸻
+
+2. Dependency Rules (Non-Negotiable)
+
+Recovery → Workout & Diet
+	•	If recovery state is:
+	•	reduce_volume or deload_suggested:
+	•	Workout intensity/volume must be reduced
+	•	Diet calories must be:
+	•	Maintained or slightly reduced (never increased)
+	•	Protein preserved
+	•	Trainer must explain the adjustment once, then ask for confirmation.
+
+⸻
+
+Workout → Diet
+	•	If training load is:
+	•	Increased (volume, intensity, frequency):
+	•	Diet calories must be evaluated
+	•	Increase calories only if recovery supports it
+	•	If training load is:
+	•	Reduced or paused:
+	•	Diet calories may be adjusted downward
+	•	Only if reduction is expected to persist
+
+⸻
+
+Diet → Workout & Recovery
+	•	If calories are:
+	•	Reduced significantly:
+	•	Trainer must reassess training intensity
+	•	Prevent overload while under-fueled
+	•	Protein targets must never be reduced due to recovery logic alone.
+
+⸻
+
+3. Relevance Filter (Prevents Overreaction)
+
+Before applying any cross-domain change, the Trainer must check:
+	•	Is the signal:
+	•	Acute (1 bad day) → do nothing
+	•	Persistent (trend) → adjust
+	•	Does the change:
+	•	Improve outcomes?
+	•	Reduce risk?
+
+If no clear benefit, the Trainer must leave other domains unchanged.
+
+⸻
+
+4. Mandatory Explanation & Confirmation
+
+When a change affects multiple domains:
+	1.	Trainer issues a single verdict explaining:
+	•	What changed
+	•	Why it changed
+	•	What else was adjusted as a result
+	2.	Trainer asks:
+“Do you want me to apply these changes?”
+	3.	Only after confirmation:
+	•	Persist workout updates
+	•	Persist diet updates
+	•	Update recovery expectations
+	•	Reflect changes across tabs
+
+No partial updates.
+
+⸻
+
+5. Display Rules (Tabs)
+	•	Trainer (Chat):
+	•	Decision + explanation + confirmation
+	•	Diet Tab:
+	•	Shows final calorie & macro targets only
+	•	Activities / Plans:
+	•	Show final confirmed workouts only
+	•	Recovery indicators:
+	•	Inform decisions but do not independently modify plans
+
+Tabs never initiate changes.
+
+⸻
+
+6. Explicit Safeguards
+	•	No automatic calorie changes without workout context
+	•	No workout progression without recovery clearance
+	•	No recovery-based advice without training implications
+	•	No silent background adjustments
+
+⸻
+
+Governing Law (Lock This)
+
+NutriCore does not optimize parts — it optimizes the system.
+
+Workout, recovery, and diet must always move together when relevant, and remain unchanged when not.
+
+⸻
+
+Acceptance Criteria
+	•	Users never see conflicting advice
+	•	Changes feel intentional, not reactive
+	•	Trainer feels like a real coach managing trade-offs
+	•	No domain drifts independently

@@ -1,0 +1,123 @@
+Here’s the compliance-check prompt you can paste into Replit.
+This forces Replit to audit the entire UI after any change and make sure light + dark mode both work perfectly and follow your brand system.
+
+It works together with the previous prompt but can also run alone.
+
+⸻
+
+✅ REPLIT PROMPT — THEME COMPLIANCE CHECK (LIGHT + DARK MODE)
+
+Copy–paste this directly:
+
+⸻
+
+“Run a full design compliance check across the entire project for both light mode and dark mode. Use the following rules as an audit checklist and automatically fix any violations you detect:
+
+⸻
+
+1. THEME VARIABLE ENFORCEMENT
+	•	Every component must use theme variables from theme.light and theme.dark.
+	•	No hard-coded colors.
+	•	Refactor any inline color to the nearest matching token.
+
+⸻
+
+2. BRAND COLOR COMPLIANCE
+
+Verify all colors align with NutriCore’s brand palette:
+	•	Olive #4A5D4A
+	•	Gold #D4AF37
+	•	Charcoal #1A1A1A
+	•	Soft grey #EDEBE7
+	•	Off-white #F7F5F0
+	•	Black #000000
+
+Flag or fix any deviation.
+
+⸻
+
+3. LIGHT MODE REQUIREMENTS
+
+Audit and fix:
+	•	background must be #F7F5F0
+	•	text must be charcoal, never reduced opacity
+	•	inputs must use #EDEBE7
+	•	logo must not glow
+	•	buttons must follow:
+	•	primary: olive bg + white text
+	•	secondary: gold border + off-white background
+
+⸻
+
+4. DARK MODE REQUIREMENTS
+
+Audit and fix:
+	•	background must be pure black (#000)
+	•	text must be pure white
+	•	inputs use #111111 with #222222 border
+	•	logo glow limited to subtle ambient (≤10%)
+	•	buttons must follow:
+	•	primary: olive bg + white text
+	•	secondary: gold border + transparent background
+
+⸻
+
+5. LAYOUT CONSISTENCY
+
+Ensure identical spacing, padding, border radius, and component structure between modes.
+Light/dark mode must never change layout.
+
+If any component behaves differently depending on theme, refactor it.
+
+⸻
+
+6. TYPOGRAPHY CONSISTENCY
+
+Check:
+	•	headers and body text use the same scale in both modes
+	•	no reduced opacity
+	•	no random font-weight shifts
+	•	remove any inconsistent letter spacing
+
+⸻
+
+7. LOGO COMPLIANCE
+	•	same size in both modes
+	•	no background boxes
+	•	no extra glow in light mode
+	•	ensure hero and navbar logo positioning is identical
+
+⸻
+
+8. CHAT INTERFACE AUDIT
+
+Check and fix:
+	•	input field uses correct theme background
+	•	send button icon color matches theme
+	•	message bubbles follow same radius, spacing, and layout in both modes
+	•	no shadows in light mode, minimal shadows in dark mode only if subtle
+
+⸻
+
+9. BUTTON SYSTEM AUDIT
+
+Ensure:
+	•	no inline colors
+	•	no random hover color deviations
+	•	consistent border radius, padding, and font size across both themes
+
+Fix any inconsistencies.
+
+⸻
+
+10. FINAL ACTION
+
+After auditing all components:
+automatically correct every violation, refactor inconsistent styles, and regenerate a stable dual-theme UI that behaves identically across light and dark modes.
+
+Produce a summary of changes and confirm that both themes render cleanly, consistently, and according to the NutriCore brand system.”**
+
+⸻
+
+If you want, I can also give you a third prompt:
+➡️ “Self-healing theme system” — it forces Replit to correct future theme errors automatically.

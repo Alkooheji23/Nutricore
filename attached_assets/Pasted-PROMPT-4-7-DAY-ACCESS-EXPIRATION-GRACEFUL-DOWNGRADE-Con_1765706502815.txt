@@ -1,0 +1,113 @@
+PROMPT 4 — 7-DAY ACCESS EXPIRATION & GRACEFUL DOWNGRADE
+
+Context:
+NutriCore provides a 7-day full-access experience after signup.
+When this period ends, access must be reduced without frustration, data loss, or premium dilution.
+
+This step handles only what happens after the 7-day period ends for users who do not subscribe.
+
+Do not modify onboarding, pricing logic, or AI personality.
+
+⸻
+
+Objective
+
+Implement a calm, respectful downgrade flow that:
+	•	Preserves user data
+	•	Communicates clearly
+	•	Encourages subscription without pressure
+
+⸻
+
+Expiration Trigger
+	•	Trigger immediately when the 7-day access window expires
+	•	Must be calculated server-side
+	•	Must not interrupt an active message or task mid-response
+
+⸻
+
+Post-Expiration User State (Not Subscribed)
+
+Feature Access Changes
+Upon expiration:
+	•	AI memory is paused, not deleted
+	•	Personalized plans become:
+	•	Read-only or
+	•	Temporarily inaccessible (but preserved)
+	•	Tracking (workouts, nutrition, metrics) is disabled
+	•	Smartwatch data ingestion is disabled
+	•	Chat reverts to limited mode
+
+⸻
+
+Chat Behavior After Expiration
+
+The AI must clearly and calmly explain the change once:
+
+“Your full access period has ended.
+To continue adapting your plan and keeping everything consistent, you’ll need an active subscription.”
+
+Rules:
+	•	This message should appear once per session at most
+	•	No urgency
+	•	No guilt
+	•	No repeated nagging
+
+⸻
+
+Subscription Prompt Rules
+
+If the user chooses to subscribe:
+	•	Restore full access immediately
+	•	Resume memory and adaptive logic
+	•	All previous data must reappear seamlessly
+
+Pricing to show:
+	•	$5 / month
+	•	$40 / year (greater savings)
+
+Restrictions:
+	•	No discounts
+	•	No timers
+	•	No upsell language
+
+⸻
+
+If User Does Nothing
+	•	App remains usable in limited mode
+	•	User can still:
+	•	Chat (limited)
+	•	View general guidance
+	•	App must feel usable, not punitive
+
+⸻
+
+Data Integrity Requirements
+	•	No user data is deleted
+	•	No plans are regenerated unless requested
+	•	All prior context must resume correctly upon subscription
+
+⸻
+
+Technical Safeguards
+	•	Enforce downgrade at:
+	•	Backend
+	•	Frontend
+	•	Prevent edge cases:
+	•	Refreshing the app to regain access
+	•	Multiple sessions bypassing expiration
+
+⸻
+
+Output Expected
+	•	Clean downgrade transition
+	•	Clear but calm communication
+	•	Immediate restoration upon payment
+	•	No broken states or UI inconsistencies
+
+⸻
+
+Important Constraints
+	•	Do not add onboarding copy
+	•	Do not re-trigger signup
+	•	Do not change AI tone

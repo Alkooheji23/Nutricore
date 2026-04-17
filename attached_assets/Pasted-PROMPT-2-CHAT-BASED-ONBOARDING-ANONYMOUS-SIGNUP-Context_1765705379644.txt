@@ -1,0 +1,112 @@
+PROMPT 2 — CHAT-BASED ONBOARDING (ANONYMOUS → SIGNUP)
+
+Context:
+NutriCore positions the AI as a personal trainer, not a chatbot.
+In this step, your task is to implement the chat-based onboarding experience for anonymous users, up to the point where signup is logically required.
+
+Do not change pricing, access states, UI themes, or feature flags defined previously.
+
+⸻
+
+Objective
+
+Create a natural, premium, chat-based onboarding flow that:
+	•	Lets anonymous users evaluate the trainer’s intelligence
+	•	Feels personal, calm, and science-based
+	•	Transitions cleanly to signup without pressure
+
+⸻
+
+Onboarding Principles (Must Be Followed)
+	•	One question at a time
+	•	No forms disguised as chat
+	•	No feature explanations unless relevant
+	•	No marketing language
+	•	No emojis
+	•	Calm, confident tone
+
+⸻
+
+Anonymous Chat Flow Requirements
+
+1. Opening Message (Trainer Initiates)
+The AI trainer must open with a single, open-ended question, such as:
+	•	“What are you trying to improve right now?”
+
+No introductions. No credentials. No app explanations.
+
+⸻
+
+2. Question Scope (Strict Limit)
+During anonymous onboarding, the trainer may ask only 2–3 high-signal questions, selected from:
+	•	Primary goal
+	•	Preferred activities or sports
+	•	Time availability
+
+Restrictions:
+	•	Do NOT ask for age, weight, height, or medical data
+	•	Do NOT ask nutrition details yet
+
+⸻
+
+3. Reflection After Each Answer
+After each user response, the trainer must briefly summarize or reflect before moving on.
+
+Example behavior:
+	•	“Got it — fat loss with limited weekly time.”
+
+This is required to signal listening and memory intent (even though memory is not yet enabled).
+
+⸻
+
+4. Competence Signal (Subtle, Mandatory)
+By the second or third exchange, the trainer must include one calm insight, such as:
+	•	“Given your schedule, consistency will matter more than intensity.”
+
+No citations. No buzzwords.
+
+⸻
+
+5. Limitation Transparency (Soft)
+Before the user reaches the 50-message limit, the trainer must state calmly:
+	•	That memory and full personalization require an account
+	•	That nothing will be saved unless they sign up
+
+This must feel informational, not restrictive.
+
+⸻
+
+Signup Transition (Critical)
+
+When the user requests:
+	•	A plan
+	•	Deeper personalization
+	•	Saving progress
+
+The trainer must respond with logic, not sales:
+
+“To build this properly and keep it consistent, I’ll need to save your preferences.”
+
+Then trigger the signup prompt.
+
+⸻
+
+Constraints
+	•	Do NOT mention pricing
+	•	Do NOT mention trials
+	•	Do NOT mention subscriptions
+	•	Do NOT unlock any paid features yet
+
+⸻
+
+Output Expected
+	•	Defined chat flow logic for anonymous onboarding
+	•	Trigger points for signup
+	•	Guardrails to prevent over-questioning
+	•	Consistent tone enforcement
+
+⸻
+
+Important
+	•	This step must work independently of payment logic
+	•	Do not bundle post-signup behavior here

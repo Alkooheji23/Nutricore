@@ -1,0 +1,81 @@
+Fitness App for diet & workout plan:
+1- Price: $2 per month or $20 for a full year
+2- For a healthy life: working out regardless 
+3- Customized diet-plan based on people’s choices
+4- The personal trainer/nutritionist is an AI that you can chat with normally
+5- Workout and diet plans are updated weekly
+6- Your trainer will ask you for weekly updates depending on what your goal is and based on that he will update it
+7- Users will need to create accounts that they can deactivate.
+8- When creating an account, there should be terms and conditions. 
+9- Welcome email needs to be sent to them. 
+10- The name of the app should be: NutriCore
+11- Include anything else you believe should be a available for a smooth experience
+12- As admin, I need to have a dashboard to be able to view anything
+13- The app should be able to do its own accounting 
+14- payment gateway will be afs/EasyPay
+15- the trainer should be able to ask questions and give answers to health and fitness, but not advise on illegal things like steroids and drugs
+16- Users can upload blood and medical tests and reports 
+17- the trainer should set KPI’s for the user depending on their, so it’s not one metric for all
+18- users should receive payment confirmation
+19- users should be able to request for a refund
+20- autopayment for renewals should be possible 
+21- for better understanding and synchronization, users can link the app with their smart watches so the data can also be used by the trainer to provide the user with the best info
+22- the trainer/dietitian can request the user to conduct certain blood checks and tests whenever necessary but this is optional, user can switch this option off
+23- Primary Colour:
+
+#0B3D2E – Dark Evergreen Green
+
+Secondary Accent:
+
+#00C08B – Neon Mint Green (for progress bars, buttons, stats highlights)
+
+Background Shades:
+
+#000000 – Pure Black
+
+#0D0D0D – Almost-Black Grey
+
+#1A1A1A – Soft Dark Grey (for cards and sections)
+
+Text Colours:
+
+#FFFFFF – Main Text
+
+#CFCFCF – Muted Secondary Text
+
+Optional Metallic Accent (for a premium feel):
+
+#D4AF37 – Gold (used sparingly for badges, achievements, VIP tiers)
+
+🧱 How to Use These in Your App
+Buttons
+
+Solid neon green (#00C08B) on black background
+
+Or dark green (#0B3D2E) with neon green outline
+
+Workout Cards / Sections
+
+Black background
+
+Dark green section headers
+
+Neon green progress bars or icons
+
+Progress Rings / Stats
+
+Neon green for active progress
+
+Desaturated green for inactive
+
+White numbers for clarity
+
+Navigation Bar
+
+Black or charcoal background
+
+Green icons when active
+
+24- the app is affordable and for everyone with live information to make our lives healthier
+25- create an about us for the website
+26- 

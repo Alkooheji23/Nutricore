@@ -1,0 +1,303 @@
+Below is a **clean, ready-to-implement architecture** for NutriCore’s **AI Coaching Engine** — the brain behind “My Trainer.”
+This gives you: modules, data structures, logic flow, and prompt patterns.
+
+If you want, I can turn this into **actual Node.js code**, **PostgreSQL schema**, or **OpenAI function-calling prompts** next.
+
+---
+
+# 🧠 NUTRICORE — AI COACHING ENGINE (ARCHITECTURE)
+
+Your AI Coaching Engine should sit between the user, the database, and the LLM.
+It’s NOT just prompts — it’s a set of logic rules + memory handling + adaptive algorithms + personality layer.
+
+---
+
+# 1. **High-Level System Diagram**
+
+```
+User
+  ↓
+Frontend (React)
+  ↓
+Backend (Node.js)
+  ↓
+Coaching Engine
+   ├── User Profile Memory
+   ├── Fitness Engine
+   ├── Nutrition Engine
+   ├── Weekly Plan Generator
+   ├── Tone & Persona Module
+   └── Safety/Compliance Filter
+  ↓
+OpenAI (LLM)
+  ↓
+Response to User ("My Trainer")
+```
+
+---
+
+# 2. **Module Breakdown**
+
+---
+
+## MODULE 1: **User Memory Layer**
+
+Stores and retrieves persistent user-specific data.
+
+### **Data Model (PostgreSQL)**
+
+**User_Profile**
+
+* age
+* gender
+* height
+* weight
+* goal (fat loss, muscle gain, recomposition)
+* experience level
+* injuries / limitations
+* preferred equipment
+* preferred workout style
+* dietary preferences (halal, low-carb, high-protein, vegetarian, etc.)
+* disliked foods
+* cultural foods (GCC meals)
+* communication tone preference (strict, friendly, soft, energetic)
+
+**User_Progress**
+
+* weekly check-ins
+* soreness
+* sleep
+* daily mood
+* performance logs
+* volume history
+* nutrition compliance
+
+### **Memory API (Pseudocode)**
+
+```js
+async function getUserMemory(userId) {
+  return db.query("SELECT * FROM User_Profile WHERE user_id = $1", [userId]);
+}
+
+async function saveUserMemory(userId, updates) {
+  // updates = { key: value }
+  for(key in updates) {
+    db.query(`UPDATE User_Profile SET ${key} = $1 WHERE user_id = $2`, [updates[key], userId]);
+  }
+}
+```
+
+---
+
+## MODULE 2: **Fitness Logic Engine**
+
+Handles training volume, progression, RPE, deloads, and adjustments.
+
+### **Core Concepts**
+
+* **Volume** = sets/week per muscle group
+* **Progression Rule:**
+
+  * If user hits RPE 6–7 → increase load or reps next week
+  * If RPE 8–9 → maintain
+  * If RPE ≥ 9.5 or soreness high → decrease by 10–20%
+* **Workout Structure:**
+
+  * Warm-up
+  * Primary lifts
+  * Secondary lifts
+  * Accessories
+  * Finisher (optional)
+
+### **Volume Table (example)**
+
+| Experience   | Chest | Back  | Legs  | Shoulders | Arms |
+| ------------ | ----- | ----- | ----- | --------- | ---- |
+| Beginner     | 8–10  | 8–12  | 10–12 | 6–8       | 4–6  |
+| Intermediate | 10–16 | 12–18 | 12–20 | 8–12      | 8–10 |
+
+### **Progression Pseudocode**
+
+```js
+function adjustVolume(currentVolume, soreness, rpeAvg) {
+  if (soreness > 7) return currentVolume * 0.8;
+  if (rpeAvg > 9) return currentVolume * 0.9;
+  if (rpeAvg < 7) return currentVolume * 1.1;
+  return currentVolume;
+}
+```
+
+---
+
+## MODULE 3: **Nutrition Engine**
+
+### **Calorie Formula**
+
+Use Mifflin-St Jeor + activity multiplier.
+
+```js
+function calculateCalories(user) {
+  const { weight, height, age, gender, goal } = user;
+
+  const bmr = gender === "male"
+    ? 10*weight + 6.25*height - 5*age + 5
+    : 10*weight + 6.25*height - 5*age - 161;
+
+  let calories = bmr * user.activityLevel;
+
+  if (goal === "fat_loss") calories -= 300;
+  if (goal === "muscle_gain") calories += 250;
+
+  return calories;
+}
+```
+
+### **Macros**
+
+* Protein: 1.8–2.2 g per kg
+* Fat: 20–30% of calories
+* Carbs: remainder
+
+### **Cultural Food Mapping (GCC Support)**
+
+Example:
+
+* Chicken machboos → 850 kcal
+* Shawarma → 420 kcal
+* Luqaimat → 150 kcal (2 pieces)
+
+---
+
+## MODULE 4: **Weekly Adaptive Plan Generator**
+
+This is the heart of the coaching engine.
+
+### **Inputs:**
+
+* Goal
+* Experience level
+* Available days
+* Equipment
+* Previous week volume
+* Soreness
+* Weight changes
+* Personality preferences
+* Dietary compliance
+
+### **Outputs:**
+
+* 7-day workout schedule
+* Weekly meal plan & grocery list
+* Daily calorie targets
+* AI summary (“What we’ll focus on this week”)
+
+### **Sample Generation Flow**
+
+```js
+async function generateWeeklyPlan(user) {
+  const adjustedVolume = adjustVolume(
+    user.volume,
+    user.soreness,
+    user.averageRPE
+  );
+
+  const workoutPlan = buildWorkoutProgram(user, adjustedVolume);
+  const nutritionPlan = buildNutritionPlan(user);
+
+  return {
+    workouts: workoutPlan,
+    meals: nutritionPlan,
+    summary: createWeeklySummary(user, adjustedVolume)
+  };
+}
+```
+
+---
+
+## MODULE 5: **Tone-of-Voice Personalization**
+
+"My Trainer" changes tone based on user preference.
+
+### **Personality Types**
+
+1. **Strict Coach**
+2. **Friendly Motivator**
+3. **Soft Supportive**
+4. **Energetic High-Performance**
+5. **Minimal / Straight-to-the-point**
+
+### **Tone Modifier Examples**
+
+**Strict Coach:**
+“Let’s stay disciplined. Yesterday’s protein intake was low — we fix that today.”
+
+**Friendly:**
+“Great effort! You were only 20g short on protein — easy fix!”
+
+**Soft:**
+“It’s okay, small steps matter. Let’s gently raise your protein a bit.”
+
+**Energetic:**
+“🔥 Let’s crush it! Today is your day!”
+
+### **Prompt Metadata Example**
+
+(You send this to the AI every message.)
+
+```json
+{
+  "user_profile": {...},
+  "tone": "friendly",
+  "goals": ["fat_loss"],
+  "week_progress": {...}
+}
+```
+
+And attach a system message:
+
+```
+You are "My Trainer" — the user's personal fitness coach.
+Match the user's preferred tone: {{tone}}.
+
+Personalize responses using their profile, goals, progress, soreness, and dietary habits.
+Be motivating, concise, and actionable.
+```
+
+---
+
+# 6. **Full Coaching Engine Logic Flow**
+
+```
+USER MESSAGE
+    ↓
+Get user profile + progress from DB
+    ↓
+Update memory if message contains new info
+    ↓
+Run Fitness Engine (if workout-related)
+Run Nutrition Engine (if diet-related)
+Run Plan Generator (if weekly update request)
+    ↓
+Inject Tone-of-Voice
+    ↓
+Construct AI prompt
+    ↓
+Send to OpenAI
+    ↓
+Return optimized response as "My Trainer"
+```
+
+---
+
+# 🚀 Want the next step?
+
+I can build any of these next:
+
+✅ **Full Node.js implementation (TypeScript)**
+✅ **Database schema (PostgreSQL)**
+✅ **Actual API endpoints (REST or GraphQL)**
+✅ **OpenAI function-calling schema**
+✅ **Weekly Plan Generator code**
+✅ **Complete system prompt for “My Trainer”**
+
+Just tell me which one you want.

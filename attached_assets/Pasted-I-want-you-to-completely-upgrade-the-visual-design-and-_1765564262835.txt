@@ -1,0 +1,107 @@
+I want you to completely upgrade the visual design and UX of NutriCore to a premium, high-end, luxury AI coaching experience. The current layout looks too basic and template-like. I need a full redesign of the hero section, layout, spacing, buttons, chat UI, and brand feel. Follow these instructions precisely:
+
+⸻
+
+1. Overall Aesthetic Direction
+	•	Create a luxury, high-end feel similar to Apple Fitness, Oura, or Whoop.
+	•	Use clean minimalism, balanced spacing, soft shadows, and premium typography.
+	•	Introduce subtle motion or micro-interactions where possible.
+	•	Avoid anything that looks like a generic template or cheap landing page.
+
+⸻
+
+2. Typography
+	•	Use a premium geometric or neo-grotesque font (e.g., Inter, Söhne-style, or similar).
+	•	Increase line-height and letter spacing for elegance.
+	•	Headlines should be bold but refined; body text lighter and more breathable.
+
+⸻
+
+3. Hero Section Redesign
+
+Replace the current hero layout entirely. The new hero should include:
+	•	A more refined headline (short, strong, and elegant).
+	•	A smaller, more premium subheadline with balanced spacing.
+	•	A centered layout with more vertical space and better hierarchy.
+	•	Consider adding a subtle animated brand symbol (glow, line animation, or soft motion).
+	•	Replace the coach image with a more abstract premium visual unless I explicitly ask for a human photo again.
+
+⸻
+
+4. Buttons / CTAs
+
+Upgrade all buttons:
+	•	Add soft shadows and subtle depth.
+	•	Use refined gradients or gentle lighting effects.
+	•	Provide smooth hover transitions.
+	•	Increase padding and improve spacing around them.
+	•	Ensure the CTAs feel premium, tactile, and intentional.
+
+Avoid cartoony colors or flat UI.
+
+⸻
+
+5. Messaging Preview / Free Access Banner
+
+Remove or redesign the “50 free messages” badge.
+Make it less “chatbot trial” and more “free preview.”
+
+Example direction:
+	•	“Try NutriCore with Free Preview Access — No Account Required.”
+
+Keep it elegant and simple.
+
+⸻
+
+6. Chat Interface Redesign
+
+The current chat bar looks like a basic support widget. Redesign it completely:
+	•	A slimmer, cleaner input bar with more refined corners.
+	•	Remove “Ask anything” placeholder and replace with something premium:
+“Ask your coach…”
+	•	Add soft ambient glow behind the input field.
+	•	Redesign the send button with a premium icon and better spacing.
+	•	Improve message bubbles and overall chat layout for elegance and clarity.
+	•	Add depth between chat messages and the background.
+
+Make the chat feel like a private coaching session, not a generic chatbot.
+
+⸻
+
+7. Layout & Structure
+	•	Add layered depth (shadows, glass-morphism panels, soft lighting).
+	•	Increase white space and breathing room across the app.
+	•	Improve section alignment and consistency.
+	•	Ensure the entire experience feels handcrafted and unified.
+
+⸻
+
+8. Branding
+
+Enhance the NutriCore brand identity:
+	•	Use a consistent color palette with premium tones (deep blacks, soft neutrals, elegant greens).
+	•	Add subtle brand animations or accents tied to the NutriCore logo.
+	•	Maintain a luxury fitness-tech vibe.
+
+⸻
+
+9. Functionality Consistency
+	•	Maintain a strict separation between free preview users and full-access users.
+	•	Free users can chat but without memory or advanced features.
+	•	Ensure no paid features accidentally appear for free users.
+	•	Keep everything stable, reliable, and predictable.
+
+⸻
+
+10. AI Coach Identity
+
+The AI coach should feel more personal and intelligent:
+	•	Add micro-interactions (loading pulses, subtle animations).
+	•	Give the coach a refined presence without overusing images.
+	•	Maintain respect for privacy laws and use only legally allowed data.
+	•	Ensure the coach continuously learns from health and sports research (safely).
+
+⸻
+
+Make sure all these changes are reflected consistently across the site.
+The final result should feel premium, elite, and extremely polished.

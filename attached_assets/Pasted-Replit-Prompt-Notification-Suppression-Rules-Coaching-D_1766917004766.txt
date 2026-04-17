@@ -1,0 +1,99 @@
+Replit Prompt — Notification Suppression Rules + Coaching Decision Integration
+
+Objective:
+Ensure NutriCore sends notifications only when they add value, and that all notifications are governed by the Coaching Decision Layer, not random triggers.
+
+⸻
+
+1. Notification Suppression Rules (Hard Constraints)
+
+NutriCore must NOT send notifications in the following cases:
+	1.	Low Signal Context
+	•	No recent workouts
+	•	No scheduled plan
+	•	Insufficient data to form a coaching opinion
+→ Silence is preferred.
+	2.	Recovery-Based Suppression
+	•	If Coaching Decision = deload_suggested
+	•	Or recovery metrics indicate poor sleep / high fatigue
+→ Do NOT send motivation or workout reminders.
+	3.	Repetition Control
+	•	Do not send:
+	•	The same message
+	•	Or same category
+	•	More than once within 72 hours.
+	•	Avoid pattern fatigue.
+	4.	Time-Based Guardrails
+	•	No notifications:
+	•	Before 8:00 AM
+	•	After 9:00 PM
+	•	Respect user’s local timezone.
+	5.	Volume Limits
+	•	Max 1 coaching notification per day
+	•	Max 2 total notifications per day (including confirmations)
+	6.	User State Suppression
+	•	If user:
+	•	Just completed a workout
+	•	Is currently active in the app
+→ Suppress non-essential notifications.
+
+⸻
+
+2. Coaching Decision Layer as the Gatekeeper
+
+All proactive notifications must be explicitly tied to the latest coaching decision.
+
+Mapping Rules:
+	•	maintain
+	•	Allowed:
+	•	Light consistency nudges
+	•	Plan awareness
+	•	Tone: neutral, steady
+	•	increase_volume
+	•	Allowed:
+	•	Training encouragement
+	•	“Good day to train” messages
+	•	Tone: confident, calm
+	•	reduce_volume
+	•	Allowed:
+	•	Recovery-respecting suggestions
+	•	Light movement prompts
+	•	Tone: supportive, not restrictive
+	•	deload_suggested
+	•	Allowed:
+	•	Recovery framing only
+	•	Disallowed:
+	•	Workout reminders
+	•	Performance nudges
+
+If no active coaching decision exists → no proactive notifications.
+
+⸻
+
+3. Event-Driven Notifications (Always Allowed, Even When Suppressed)
+
+The following notifications bypass suppression rules (still count toward daily cap):
+	•	Smartwatch workout detected → confirmation request
+	•	Critical sync failures (device disconnected unexpectedly)
+
+These are informational, not coaching.
+
+⸻
+
+4. Notification Generation Rule
+
+Before sending any notification, NutriCore must pass this check:
+	1.	Is there an active coaching decision?
+	2.	Is this notification aligned with that decision?
+	3.	Does it add value right now?
+	4.	Have we already said something similar recently?
+
+If any answer is “no” → do not send.
+
+⸻
+
+5. Success Criteria
+	•	Users feel “spoken to”, not “pinged”
+	•	Notifications feel intentional and rare
+	•	Users do not disable notifications
+	•	Coaching authority is reinforced, not diluted

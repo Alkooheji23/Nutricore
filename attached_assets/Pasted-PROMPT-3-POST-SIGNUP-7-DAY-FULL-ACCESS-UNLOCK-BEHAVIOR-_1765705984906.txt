@@ -1,0 +1,124 @@
+PROMPT 3 — POST-SIGNUP: 7-DAY FULL ACCESS UNLOCK & BEHAVIOR
+
+Context:
+NutriCore allows users to explore the AI trainer anonymously, but full feature access only begins after signup.
+In this step, your task is to implement what happens immediately after signup and how the app behaves during the 7-day full access period.
+
+Do not redesign onboarding. Do not change anonymous behavior. Do not introduce pricing UI beyond what is specified.
+
+⸻
+
+Objective
+
+Ensure that once a user signs up:
+	•	All features unlock correctly
+	•	The AI behaves like a real coach
+	•	The 7-day access period is enforced cleanly and reliably
+
+⸻
+
+Trigger Condition
+	•	This logic activates immediately after successful account creation
+	•	It must not depend on payment status
+
+⸻
+
+7-Day Full Access Rules
+
+Duration
+	•	Exactly 7 consecutive days starting at signup timestamp
+	•	Must be tracked server-side (not client-only)
+
+⸻
+
+Feature Access (All Must Be Enabled)
+During the 7-day period, the user has:
+	•	AI memory enabled
+	•	Personalized training plan generation
+	•	Personalized nutrition guidance
+	•	Workout, nutrition, and health tracking
+	•	Smartwatch data ingestion
+	•	Weekly adaptive logic
+
+There must be no difference in behavior between:
+	•	7-day full access users
+	•	Paid subscribers
+
+⸻
+
+AI Trainer Behavior (Mandatory)
+
+During the 7-day period, the AI must:
+	•	Reference previous conversations naturally
+	•	Adapt recommendations based on feedback
+	•	Use calm, confident, coach-like language
+	•	Avoid:
+	•	Mentioning trials
+	•	Mentioning time limits unless explicitly triggered
+	•	Mentioning pricing unless instructed (see below)
+
+⸻
+
+Pricing Visibility Rules
+	•	Pricing must NOT be shown immediately after signup
+	•	Pricing may only be introduced:
+	•	Around day 5 or
+	•	After a meaningful coaching interaction (e.g., plan adjustment)
+
+When pricing is introduced:
+	•	Show:
+	•	$5 / month
+	•	$40 / year (greater savings)
+	•	No discounts
+	•	No countdowns
+	•	No urgency language
+
+⸻
+
+Day-5 Coaching Prompt (Soft Conversion)
+
+At an appropriate moment, the AI may say:
+
+“I’ll continue adapting this weekly.
+To keep everything consistent, you’ll need an active subscription.”
+
+This message must:
+	•	Appear inside chat
+	•	Feel informational, not promotional
+	•	Not interrupt an active task
+
+⸻
+
+End of 7-Day Period (Do NOT implement downgrade yet)
+	•	When the 7 days end:
+	•	Do NOT delete data
+	•	Do NOT hard-lock mid-session
+	•	Simply mark the user as “access expired”
+
+Actual downgrade behavior will be handled in the next prompt.
+
+⸻
+
+Technical Requirements
+	•	Use explicit feature flags tied to user state
+	•	Ensure access is enforced at:
+	•	Backend
+	•	Frontend
+	•	Include safeguards to prevent:
+	•	Anonymous users getting memory
+	•	Expired users retaining adaptive behavior
+
+⸻
+
+Output Expected
+	•	Reliable 7-day full access unlock
+	•	Correct AI behavior during this period
+	•	Pricing shown only at the correct moment
+	•	No regression to anonymous behavior
+
+⸻
+
+Important Constraints
+	•	Do not touch UI styling
+	•	Do not implement expiration downgrade yet
+	•	Do not rename this as a “trial”

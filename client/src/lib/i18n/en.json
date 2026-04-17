@@ -1,0 +1,149 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "submit": "Submit",
+    "back": "Back",
+    "next": "Next",
+    "done": "Done",
+    "close": "Close",
+    "yes": "Yes",
+    "no": "No",
+    "or": "or",
+    "and": "and"
+  },
+  "nav": {
+    "aiTrainer": "My Trainer",
+    "dailyTracker": "Daily Tracker",
+    "profile": "Profile",
+    "signIn": "Sign In",
+    "signOut": "Sign Out"
+  },
+  "landing": {
+    "heroTitle": "Your AI Fitness Coach",
+    "heroSubtitle": "Personalized training and nutrition guidance powered by science",
+    "tryFree": "Try Free",
+    "getStarted": "Get Started",
+    "features": {
+      "personalizedPlans": "Personalized Plans",
+      "personalizedPlansDesc": "Custom workout and diet plans tailored to your goals",
+      "aiPowered": "AI-Powered",
+      "aiPoweredDesc": "Chat with your personal trainer anytime, anywhere",
+      "trackProgress": "Track Progress",
+      "trackProgressDesc": "Monitor your fitness journey with detailed analytics"
+    }
+  },
+  "chat": {
+    "placeholder": "Ask your trainer anything...",
+    "send": "Send",
+    "newChat": "New Chat",
+    "conversations": "Conversations",
+    "noMessages": "Start a conversation with your AI trainer",
+    "welcome": "Welcome! I'm your personal AI trainer. How can I help you today?",
+    "upgradeRequired": "Upgrade to Premium",
+    "messagesRemaining": "messages remaining this month",
+    "logFood": "Log Food",
+    "logWorkout": "Log Workout"
+  },
+  "tracker": {
+    "title": "Daily Tracker",
+    "calories": "Calories",
+    "protein": "Protein",
+    "carbs": "Carbs",
+    "fats": "Fats",
+    "workouts": "Workouts",
+    "meals": "Meals",
+    "addMeal": "Add Meal",
+    "addWorkout": "Add Workout",
+    "goal": "Goal",
+    "consumed": "Consumed",
+    "remaining": "Remaining"
+  },
+  "profile": {
+    "title": "Profile",
+    "personalInfo": "Personal Information",
+    "name": "Name",
+    "age": "Age",
+    "weight": "Weight",
+    "height": "Height",
+    "gender": "Gender",
+    "male": "Male",
+    "female": "Female",
+    "activityLevel": "Activity Level",
+    "fitnessGoals": "Fitness Goals",
+    "trainerPreference": "Trainer Preference",
+    "maleTrainer": "Male Trainer",
+    "femaleTrainer": "Female Trainer",
+    "connectedDevices": "Connected Devices",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "sync": "Sync",
+    "language": "Language",
+    "theme": "Theme",
+    "lightMode": "Light Mode",
+    "darkMode": "Dark Mode",
+    "deactivateAccount": "Deactivate Account"
+  },
+  "goals": {
+    "title": "Goals",
+    "activeGoals": "Active Goals",
+    "completedGoals": "Completed Goals",
+    "noGoals": "No active goals",
+    "markComplete": "Mark Complete",
+    "progress": "Progress",
+    "dueDate": "Due Date"
+  },
+  "meals": {
+    "breakfast": "Breakfast",
+    "lunch": "Lunch",
+    "dinner": "Dinner",
+    "snack": "Snack"
+  },
+  "activityLevels": {
+    "sedentary": "Sedentary",
+    "lightlyActive": "Lightly Active",
+    "moderatelyActive": "Moderately Active",
+    "veryActive": "Very Active",
+    "extremelyActive": "Extremely Active"
+  },
+  "fitnessGoals": {
+    "loseWeight": "Lose Weight",
+    "gainMuscle": "Gain Muscle",
+    "maintainWeight": "Maintain Weight",
+    "improveEndurance": "Improve Endurance",
+    "buildStrength": "Build Strength",
+    "flexibility": "Improve Flexibility"
+  },
+  "feedback": {
+    "title": "Share Your Feedback",
+    "rateExperience": "How would you rate your experience?",
+    "comments": "Any comments or suggestions?",
+    "placeholder": "Tell us what you think...",
+    "submit": "Submit Feedback",
+    "thankYou": "Thank you for your feedback!"
+  },
+  "streaks": {
+    "title": "Streak",
+    "days": "days",
+    "currentStreak": "Current Streak",
+    "longestStreak": "Longest Streak",
+    "keepItUp": "Keep it up!"
+  },
+  "premium": {
+    "title": "Upgrade to Premium",
+    "subtitle": "Unlock all features",
+    "monthly": "Monthly",
+    "annual": "Annual",
+    "perMonth": "/month",
+    "perYear": "/year",
+    "features": {
+      "unlimitedChat": "Unlimited AI chat",
+      "advancedTracking": "Advanced tracking",
+      "prioritySupport": "Priority support",
+      "customPlans": "Custom workout plans"
+    }
+  }
+}

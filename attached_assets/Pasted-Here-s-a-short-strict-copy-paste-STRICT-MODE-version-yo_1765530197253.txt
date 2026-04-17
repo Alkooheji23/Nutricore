@@ -1,0 +1,97 @@
+Here’s a short, strict, copy-paste “STRICT MODE” version you can give Replit.
+This is the version that forces compliance without long explanation.
+
+⸻
+
+✅ COPY & PASTE — NUTRICORE STRICT MODE INSTRUCTIONS
+
+Enable STRICT MODE for the entire NutriCore project.
+All code must follow the rules below automatically:
+
+⸻
+
+1. Centralized Permissions (Mandatory)
+	•	All role and feature-access logic must come from:
+./config/permissions.js
+	•	No component may define its own permissions.
+	•	All restricted features must use:
+<RequiresPermission />
+
+If a feature is created without using the centralized permissions file + guard, reject the change.
+
+⸻
+
+2. Centralized Theme (Mandatory)
+	•	All colors, spacing, fonts, shadows, and component styles must come from:
+./styles/theme.js
+	•	No inline colors.
+	•	No custom spacing.
+	•	No style overrides.
+
+Any UI element not using the theme must be corrected automatically.
+
+⸻
+
+3. Premium Brand Enforcement
+
+NutriCore must always look and feel premium, high-end, and prestigious.
+
+Enforce:
+	•	Dark luxury theme
+	•	Olive green (#4A5D4A)
+	•	Champagne gold (#D4AF37)
+	•	Spacious, uncluttered layouts
+	•	Smooth transitions
+	•	No cheap-looking or default UI elements
+
+If a new screen or component breaks the premium look, flag it.
+
+⸻
+
+4. AI Behavior Rules
+
+“My Trainer” must use two knowledge layers:
+
+A. User Memory Layer
+
+Store and update:
+	•	goals
+	•	habits
+	•	injuries
+	•	preferences
+	•	progress
+	•	communication style
+
+Every AI response must use this memory.
+
+B. Global Knowledge Layer
+
+Continuously update from legal, public sources only:
+	•	open-access research
+	•	ACSM, NSCA, ISSN, WHO, NIH guidelines
+	•	Creative Commons education
+	•	open data
+
+No scraping or quoting copyrighted or paywalled sources.
+
+Every AI response must combine user memory + global science.
+
+⸻
+
+5. Zero Drift Rule
+
+No new feature, screen, component, style, or AI behavior may bypass:
+	•	the permissions system
+	•	the theme system
+	•	the premium design rules
+	•	the dual-layer AI architecture
+
+Reject or correct anything that breaks these rules.
+
+⸻
+
+End of STRICT MODE. Apply globally.
+
+⸻
+
+If you want, I can also generate a one-page “NutriCore Development Manifesto” to pin at the top of your repo.

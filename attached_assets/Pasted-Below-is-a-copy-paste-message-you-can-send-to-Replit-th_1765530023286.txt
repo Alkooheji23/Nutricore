@@ -1,0 +1,131 @@
+Below is a copy-paste message you can send to Replit that covers BOTH things you want:
+	1.	The app must always stay consistent, aligned with your rules.
+	2.	Your in-app AI (“My Trainer”) must always keep learning—user context + updated fitness/science knowledge—without violating copyright or scraping paid sources.
+
+It’s written in a way Replit understands: clear, directive, implementable.
+
+⸻
+
+✅ COPY & PASTE THIS TO REPLIT
+
+I need you to enforce two key systems across the entire NutriCore project:
+(1) Application Consistency Enforcement
+(2) Safe, Continuous Learning for the AI Coach
+
+Implement the following:
+
+⸻
+
+1. SYSTEM-WIDE CONSISTENCY ENFORCEMENT
+
+You must ensure that every new feature, component, or UI change follows these rules automatically:
+
+A. Centralized Permissions
+
+All access rules MUST come from:
+/config/permissions.js
+
+No component should define its own logic.
+If new features are added, they must reference permissions from this file only.
+
+B. Centralized Design System
+
+All colors, spacing, fonts, and layout rules must come from:
+/styles/theme.js
+
+No inline colors, no custom spacing, no ad-hoc styles.
+If anyone adds visual elements, they must import and use the theme.
+
+C. Permission Guard Enforcement
+
+Every feature that should be restricted must be wrapped with:
+<RequiresPermission />
+
+If a developer forgets to wrap a feature, the build should warn or fail.
+
+D. Developer-Safety Checks
+
+Create automated checks or lint rules that ensure:
+	•	No inline color definitions
+	•	No feature-specific permission logic
+	•	No UI elements using unapproved values
+	•	No bypassing of the role/permission system
+
+The goal: the system cannot drift anymore.
+
+⸻
+
+2. AI KNOWLEDGE + MEMORY SYSTEM REQUIREMENTS
+
+“My Trainer” must follow the rules below:
+
+A. User-Specific Learning (Safe Memory Layer)
+
+The AI must maintain and update a structured internal memory for each user:
+	•	goals
+	•	injuries
+	•	preferences
+	•	progress
+	•	communication style
+
+This memory must be stored in the database and surfaced during chats.
+
+It must NEVER store or use sensitive info beyond what users explicitly provide.
+
+B. Continuous Fitness & Nutrition Knowledge Updates
+
+The AI must stay updated using public, legally-safe sources, including:
+	•	open-access scientific literature
+	•	public guidelines (ACSM, NSCA, ISSN, WHO, NIH, etc.)
+	•	publicly available, non-copyrighted research summaries
+	•	open data sources
+	•	Creative Commons educational content
+
+Do NOT scrape or quote paid, copyrighted, or proprietary publications.
+
+When pulling new information, the AI must:
+	•	paraphrase in its own words
+	•	verify accuracy
+	•	avoid hallucinations
+	•	cite the general source category internally (e.g., “based on ACSM guidelines”)
+
+C. Knowledge Integrity Rules
+
+The AI must NOT:
+	•	invent studies
+	•	use copyrighted content verbatim
+	•	access restricted or paywalled websites
+	•	present uncertain info as fact
+
+D. Separation Between User Memory + Global Knowledge
+
+Make two layers:
+	1.	User Memory Layer → personalized coaching
+	2.	Global Knowledge Layer → updated science
+
+Both must be referenced in every AI response.
+
+⸻
+
+3. GENERAL RULE: NOTHING SHOULD BE IMPLEMENTED OUTSIDE THESE SYSTEMS
+
+Any new:
+	•	feature
+	•	page
+	•	component
+	•	AI behavior
+	•	UI element
+	•	access rule
+
+MUST use the centralized systems above.
+No one-off logic. No exceptions.
+
+⸻
+
+End of instructions.
+
+Please restructure the project so these rules are automatically enforced from now on.
+
+⸻
+
+If you want, I can also give you a system architecture diagram, a policy file you can enforce in Replit, or a test suite that warns you anytime Replit breaks your rules.

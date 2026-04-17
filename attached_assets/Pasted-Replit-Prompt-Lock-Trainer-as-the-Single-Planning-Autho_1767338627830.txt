@@ -1,0 +1,92 @@
+Replit Prompt — Lock Trainer as the Single Planning Authority (Diet + Workouts)
+
+Objective
+Enforce a strict architecture where all workout and diet planning happens exclusively inside the AI Trainer chat, and all other sections (Diet, Activities, Plans) act as read-only execution views that update only after explicit user confirmation.
+
+⸻
+
+1. Trainer Is the Sole Decision Maker (Hard Rule)
+	•	The AI Trainer is the only component allowed to:
+	•	Propose workout plans
+	•	Propose calorie targets
+	•	Propose macro breakdowns
+	•	Propose diet plans (foods + quantities)
+	•	No other page, tab, or UI component may:
+	•	Generate plans
+	•	Modify plans
+	•	Recalculate calories or macros
+
+⸻
+
+2. Mandatory Confirmation Flow (Non-Bypassable)
+
+For any workout or diet plan change:
+	1.	Trainer proposes the plan in chat
+	2.	Trainer clearly asks for confirmation
+Example:
+“Do you want me to apply this plan?”
+	3.	Only after user confirmation:
+	•	Persist workout plan to scheduled_workouts
+	•	Persist diet data (calories, macros, food plan)
+	•	Update Trainer memory
+	•	Reflect changes in Diet and Activities tabs
+
+❌ No confirmation → ❌ No updates anywhere
+
+⸻
+
+3. Diet Tab (/diet) — Execution View Only
+
+The Diet tab must:
+	•	Display:
+	•	Daily calorie target (trainer-set)
+	•	Context label (training day / rest day / recovery / deload)
+	•	Macro breakdown (derived from calories)
+	•	Diet plan table (food + quantity)
+	•	Be completely read-only
+	•	Contain:
+	•	No input fields
+	•	No sliders
+	•	No edit buttons
+	•	No calculations
+
+All data must come from the last confirmed trainer decision.
+
+⸻
+
+4. Activities / Plans — Execution View Only
+	•	Show only workouts that were:
+	•	Proposed by the Trainer
+	•	Explicitly confirmed by the user
+	•	If recovery logic requires changes:
+	•	Trainer explains the adjustment in chat
+	•	Requests confirmation
+	•	Then updates the plans
+
+No silent overrides.
+
+⸻
+
+5. Trainer Memory & State Integrity
+	•	Trainer memory stores:
+	•	Last confirmed workout plan
+	•	Last confirmed calorie & macro targets
+	•	Tabs must read from persisted state, not chat context
+	•	If the chat is cleared or refreshed, plans remain intact
+
+⸻
+
+6. Explicit Non-Goals (Do NOT Implement)
+	•	No diet planning UI outside chat
+	•	No manual calorie editing
+	•	No auto-applying changes without user consent
+	•	No duplicate planning logic in tabs
+
+⸻
+
+Governing Principle (Must Be Preserved)
+
+The Trainer decides.
+The user confirms.
+The system commits.
+The tabs display.

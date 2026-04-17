@@ -1,0 +1,82 @@
+Here’s a clean, authoritative, copy-paste prompt that tells Replit exactly what to do regarding the coach photo — with no ambiguity.
+
+⸻
+
+✅ COPY & PASTE — REMOVE COACH PHOTO & UPGRADE TO PREMIUM IDENTITY
+
+Remove all coach photos from the NutriCore interface.
+Replace them with a premium, symbolic identity element that matches the NutriCore brand. Apply the rules below:
+
+⸻
+
+1. Remove All Human Coach Photos
+	•	Delete or disable any image of a person acting as “the trainer.”
+	•	Do not use stock photos, portraits, or human faces in any training or chat UI.
+	•	“My Trainer” must not have a human face or avatar.
+
+Human photos reduce the luxury and consistency of the brand — remove them globally.
+
+⸻
+
+2. Replace With Premium Brand Symbol
+
+Every location that previously showed a coach image must now use one of these:
+
+Primary identity (preferred):
+	•	The NutriCore pulse-mountain logo (clean, minimalist)
+
+Alternative identity:
+	•	A golden-ring abstract emblem
+	•	A glowing circular AI symbol
+	•	A minimal athletic line icon
+
+Choose whichever integrates best with the layout, but it must look:
+	•	high-end
+	•	minimal
+	•	premium
+	•	modern
+
+No cartoonish or playful style.
+
+⸻
+
+3. Apply These Visual Rules to the New Symbol
+
+The replacement identity must follow:
+	•	Subtle gold glow (very soft, no harsh edges)
+	•	Smooth fade-in animation
+	•	Rounded, minimal shape
+	•	Consistent size across the app
+	•	Works on dark luxury background (#0A0A0A)
+
+⸻
+
+4. Update the Chat Header
+
+Where the coach photo was shown in the chat:
+
+Replace with:
+	•	Small pulse-mountain icon
+	•	Text label: “My Trainer”
+	•	No additional imagery
+	•	Minimal layout, centered or left-aligned depending on existing structure
+
+⸻
+
+5. Keep the Experience High-End
+
+Make sure the removal of the coach image does not create empty or awkward layout gaps.
+
+Adjust spacing so the design feels:
+	•	intentional
+	•	premium
+	•	balanced
+	•	consistent with the luxury aesthetic
+
+⸻
+
+END OF PROMPT — Apply Globally
+
+⸻
+
+If you’d like, I can also create a follow-up prompt telling Replit exactly how the new icon should animate, how big it should be, and how it should look in the chat flow.

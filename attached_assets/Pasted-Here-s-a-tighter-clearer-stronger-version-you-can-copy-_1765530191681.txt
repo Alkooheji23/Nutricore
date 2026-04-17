@@ -1,0 +1,142 @@
+Here’s a tighter, clearer, stronger version you can copy-paste into Replit.
+No fluff, no repetition—just strict instructions a system can follow.
+
+⸻
+
+✅ COPY & PASTE THIS TO REPLIT (REWRITTEN + CLEAN)
+
+I need you to enforce three systems across the entire NutriCore project:
+(1) App Consistency
+(2) Safe, Continuous AI Learning
+(3) Premium Brand Experience
+
+These rules must apply to all existing and future code.
+
+⸻
+
+1. APP CONSISTENCY (NON-NEGOTIABLE)
+
+A. Centralized Permissions
+
+Use a single file for all roles and feature access:
+/config/permissions.js
+No component may define its own access logic.
+All features must reference this file only.
+
+B. Centralized Design System
+
+All colors, spacing, typography, shadows, and component styles must come from:
+/styles/theme.js
+No inline colors.
+No ad-hoc spacing.
+No custom style overrides.
+
+C. Permission Guard
+
+Every restricted feature must be wrapped in a permission guard:
+
+<RequiresPermission />
+
+If a feature is added without this guard, the build should warn or fail.
+
+D. Automatic Consistency Checks
+
+Add lint rules or pre-commit checks to prevent:
+	•	inline styling
+	•	custom colors
+	•	hard-coded permissions
+	•	UI inconsistency
+
+The goal: zero drift, zero exceptions.
+
+⸻
+
+2. AI BEHAVIOR & LEARNING REQUIREMENTS
+
+“My Trainer” must follow a dual-layer learning system:
+
+A. User Memory Layer
+
+Store structured, evolving memory for each user:
+	•	goals
+	•	habits
+	•	injuries
+	•	preferences
+	•	progress
+	•	communication style
+
+This must be referenced in every coaching response.
+
+B. Global Knowledge Layer (Legally Safe Updates)
+
+Continuously update the AI using only publicly legal sources:
+	•	open-access scientific research
+	•	public-domain guidelines (ACSM, NSCA, ISSN, WHO, NIH)
+	•	Creative Commons educational content
+	•	open data sets
+
+No scraping paywalled or copyrighted content.
+No copying text.
+No hallucinating studies.
+
+C. Combined Use
+
+Every AI response must use both:
+	1.	User Memory
+	2.	Updated scientific knowledge
+
+⸻
+
+3. PREMIUM BRAND EXPERIENCE (ALWAYS)
+
+NutriCore must feel like a high-end, luxury fitness app in every interaction.
+
+A. Visual Standards
+
+Use the premium brand consistently:
+	•	Dark luxury UI
+	•	Olive green: #4A5D4A
+	•	Champagne gold: #D4AF37
+	•	Clean typography
+	•	Spacious layouts
+	•	High-quality transitions
+
+No cheap visuals, no generic components.
+
+B. Interaction Quality
+
+Ensure:
+	•	smooth animations
+	•	polished loading states
+	•	consistent spacing
+	•	no janky UI behavior
+
+C. AI Tone Standards
+
+“My Trainer” must sound:
+	•	calm, confident, expert
+	•	tailored to the user’s style
+	•	rooted in real science
+	•	never gimmicky or robotic
+
+Tone must feel like a premium human coach, not a casual chatbot.
+
+⸻
+
+4. GLOBAL RULE
+
+All new features, screens, and AI behaviors must follow:
+	•	the permission system
+	•	the theme system
+	•	the premium design rules
+	•	the dual-layer AI architecture
+
+No exceptions.
+
+⸻
+
+End of instructions — implement all of the above.
+
+⸻
+
+If you want, I can also produce a shorter “strict mode” version or a checklist for Replit to auto-verify before each update.

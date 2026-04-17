@@ -1,0 +1,70 @@
+Replit Prompt — Enable Push Notifications for NutriCore PWA
+
+Goal:
+Enable reliable push notifications for NutriCore as a Progressive Web App (PWA) when installed on the user’s home screen (iOS & Android supported where allowed).
+
+Scope (do not overbuild):
+	•	No native app
+	•	No redesign
+	•	No analytics
+	•	Only push notifications infrastructure + minimal UI permission flow
+
+Requirements:
+	1.	PWA Foundation
+	•	Ensure NutriCore has:
+	•	manifest.json with:
+	•	name, short_name
+	•	display: standalone
+	•	icons (already exist)
+	•	Registered service-worker.js
+	•	Confirm service worker is active on /home
+	2.	Service Worker – Push Handling
+	•	Add push notification handling:
+	•	self.addEventListener('push', ...)
+	•	Parse payload { title, body, actionType, deepLink }
+	•	Show notification with:
+	•	Title
+	•	Body
+	•	App icon
+	•	On click:
+	•	Focus existing client OR open app
+	•	Navigate to deepLink if provided
+	3.	VAPID & Web Push Setup
+	•	Generate VAPID public/private keys
+	•	Store keys securely on server
+	•	Add backend endpoint:
+	•	POST /api/push/subscribe
+	•	Saves userId + subscription object
+	•	POST /api/push/send (internal use only)
+	4.	Client-Side Permission Flow
+	•	Add a one-time prompt (non-blocking):
+	•	Only shown if:
+	•	App is running in standalone mode
+	•	Notifications permission = default
+	•	Text example:
+“Enable notifications to receive workout confirmations and recovery insights.”
+	•	On accept:
+	•	Request notification permission
+	•	Subscribe to push
+	•	Send subscription to backend
+	5.	Initial Notification Use Cases (only these)
+	•	Workout detected from smartwatch →
+“Workout detected. Confirm details?”
+	•	Missed planned workout →
+“You had a workout planned today.”
+	•	Trainer follow-up →
+“Your trainer has a recommendation.”
+	6.	Guards & Constraints
+	•	Do NOT send notifications if:
+	•	User is not in standalone PWA mode
+	•	Permission is denied
+	•	Do NOT spam (max 2/day)
+	•	No marketing notifications
+
+Success Criteria:
+	•	User installs NutriCore to home screen
+	•	Accepts notification permission once
+	•	Receives push even when app is closed
+	•	Notification opens NutriCore correctly
+
+Do not refactor auth, routing, or existing service worker logic unless required.

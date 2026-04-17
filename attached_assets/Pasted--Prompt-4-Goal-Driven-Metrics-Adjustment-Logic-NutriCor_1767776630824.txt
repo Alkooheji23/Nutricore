@@ -1,0 +1,102 @@
+🔒 Prompt 4 — Goal‑Driven Metrics & Adjustment Logic (NutriCore)
+
+Objective
+Define how NutriCore evaluates progress and adjusts plans based on the user’s primary goal, using a small, stable set of metrics. No metric sprawl. No daily overreaction.
+
+⸻
+
+1️⃣ Goal Hierarchy (Single Source of Truth)
+
+Each user has one primary goal at a time:
+	•	Weight Loss
+	•	Muscle Gain
+	•	Performance
+	•	Health / Maintenance
+
+All metrics are interpreted through this goal.
+Secondary signals never override primary goal logic.
+
+⸻
+
+2️⃣ Metric Stack by Goal
+
+Weight Loss
+Primary:
+	•	Weekly average body weight (trend, not day-to-day)
+Secondary:
+	•	Waist / body measurements (if available)
+	•	Adherence to calorie targets
+Ignore:
+	•	Single weigh-ins
+	•	Short-term water fluctuations
+
+Muscle Gain
+Primary:
+	•	Strength progression on key lifts
+Secondary:
+	•	Body weight trend (slow increase)
+	•	Training volume completion
+Ignore:
+	•	Short-term scale stagnation
+
+Performance
+Primary:
+	•	Sport-specific performance markers
+	•	Pace, power, volume, load tolerance
+Secondary:
+	•	Recovery trends
+	•	Consistency
+Ignore:
+	•	Cosmetic body changes
+
+Health / Maintenance
+Primary:
+	•	Consistency across training, steps, sleep
+Secondary:
+	•	Stable body weight range
+	•	Subjective energy
+Ignore:
+	•	Maximal performance or aggressive progression
+
+⸻
+
+3️⃣ Evaluation Window (Hard Rule)
+	•	Metrics are evaluated on a weekly rolling basis
+	•	Minimum data required:
+	•	≥5 days of inputs OR
+	•	≥70% adherence for the week
+	•	No decisions based on single data points
+
+⸻
+
+4️⃣ Adjustment Logic
+
+Adjust only if trends persist ≥2 consecutive weeks.
+
+Possible actions:
+	•	Calories: ±5–10%
+	•	Training volume: ±10–20%
+	•	Cardio emphasis: up / down / hold
+	•	Recovery bias: add deload or rest buffer
+
+Rules:
+	•	One adjustment axis at a time
+	•	No aggressive multi-variable changes
+	•	Adjustments apply next week only
+
+⸻
+
+5️⃣ Failure & Ambiguity Handling
+
+If data is insufficient or noisy:
+	•	Default to hold steady
+	•	Flag adherence issue, not physiology
+	•	Do not “guess” corrections
+
+⸻
+
+Governing Principle
+
+Goals define metrics.
+Trends drive changes.
+Patience beats precision.

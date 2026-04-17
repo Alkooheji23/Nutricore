@@ -1,0 +1,79 @@
+Prompt — Sport-Agnostic Activity Model & Tracker Fix (Final)
+
+Objective
+Refactor the Tracker to be fully sport-agnostic, remove incorrect metrics (e.g., reps for jogging), and ensure workout duration and calories are never manually entered but instead derived from sessions or connected devices.
+
+⸻
+
+Core Principles
+	•	The app must adapt to the activity, not force the activity into a strength-training model.
+	•	Users should never manually enter workout duration or calories.
+	•	Metrics shown must always make sense for the selected activity.
+	•	The system should observe, infer, and summarize — not interrogate the user.
+
+⸻
+
+Implementation Instructions
+
+1. Activity Classification
+Introduce activity categories that determine which metrics are valid:
+	•	Strength-based (e.g., lifting, bodyweight)
+	•	Endurance-based (e.g., running, walking, cycling)
+	•	Mixed / Hybrid (e.g., CrossFit, sports sessions)
+	•	Passive activities (e.g., steps, daily movement)
+
+Each activity type controls which fields are displayed.
+
+⸻
+
+2. Metric Rules by Activity Type
+	•	Strength activities
+	•	Allow: sets, reps, load
+	•	Do NOT require or display duration input
+	•	Endurance activities
+	•	Do NOT show sets or reps
+	•	Duration, distance, and calories are derived automatically
+	•	Mixed activities
+	•	Combine relevant metrics without forcing all fields
+	•	Passive activities
+	•	Fully device-driven
+	•	No manual input
+
+⸻
+
+3. Session-Based Duration (No Manual Input)
+	•	Remove all duration input fields from the Tracker UI
+	•	Implement session timing:
+	•	Session starts when the workout begins
+	•	Session ends when the user finishes the workout
+	•	Duration = end time − start time (computed automatically)
+	•	Duration is shown only in summaries and logs as a read-only value
+
+⸻
+
+4. Smartwatch & Device Integration
+	•	Calories, duration, distance, heart rate, and recovery data are:
+	•	Imported directly from connected devices (e.g., Fitbit; Garmin later)
+	•	Never calculated or overridden by the app
+	•	If no device is connected:
+	•	Duration is derived from session timing only
+	•	Calories may be hidden or shown as “device required”
+
+⸻
+
+5. UI & UX Adjustments
+	•	Remove reps from endurance activities (e.g., jogging, walking)
+	•	Display clean summaries:
+	•	Total time
+	•	Calories (if available from device)
+	•	Distance (if available)
+	•	Maintain a minimal, premium interface aligned with NutriCore branding
+
+⸻
+
+Success Criteria
+	•	Jogging, walking, and endurance activities never show reps or sets
+	•	Users are never asked to type duration or calories
+	•	Tracker works correctly for any sport or activity
+	•	Metrics displayed always match the activity context
+	•	Device data is trusted as the source of truth

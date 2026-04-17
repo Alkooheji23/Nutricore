@@ -1,0 +1,151 @@
+Here’s a clean, direct, copy-paste message you can send to Replit.
+It tells them exactly what to fix—no fluff, no ambiguity.
+
+⸻
+
+COPY & PASTE THIS TO REPLIT
+
+I need you to restructure the project so the design and user-permission logic stops drifting or breaking. Implement the following changes exactly:
+
+⸻
+
+1. Create a single source of truth for user roles and permissions
+
+Add a file at:
+
+/config/permissions.js
+
+With the following content:
+
+export const USER_ROLES = {
+  GUEST: "guest",
+  WAITLIST: "waitlist",
+  ACTIVE: "active"
+};
+
+export const PERMISSIONS = {
+  [USER_ROLES.GUEST]: {
+    canUseChat: true,
+    chatLimit: 50,
+    hasMemory: false,
+    canAccessPlans: false,
+    canAccessTracking: false,
+    canAccessIntegrations: false
+  },
+  [USER_ROLES.WAITLIST]: {
+    canUseChat: true,
+    chatLimit: Infinity,
+    hasMemory: false,
+    canAccessPlans: false,
+    canAccessTracking: false,
+    canAccessIntegrations: false
+  },
+  [USER_ROLES.ACTIVE]: {
+    canUseChat: true,
+    chatLimit: Infinity,
+    hasMemory: true,
+    canAccessPlans: true,
+    canAccessTracking: true,
+    canAccessIntegrations: true
+  }
+};
+
+Every feature in the app must reference this file only.
+No component should define its own access rules.
+
+⸻
+
+2. Create a central theme (color, spacing, typography)
+
+Add:
+
+/styles/theme.js
+
+With:
+
+export const theme = {
+  colors: {
+    primary: "#4A5D4A",
+    gold: "#D4AF37",
+    background: "#000000",
+    text: "#FFFFFF"
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32
+  },
+  fontSizes: {
+    sm: 14,
+    md: 16,
+    lg: 20,
+    xl: 28
+  }
+};
+
+Every component must use values from this file.
+No inline colors or inconsistent spacing.
+
+⸻
+
+3. Add a permission guard component
+
+Create:
+
+/components/RequiresPermission.jsx
+
+With:
+
+import { PERMISSIONS } from "../config/permissions";
+
+export default function RequiresPermission({ userRole, feature, children }) {
+  const allowed = PERMISSIONS[userRole]?.[feature];
+
+  if (!allowed) {
+    return (
+      <div style={{ color: "#D4AF37", textAlign: "center", padding: 20 }}>
+        Full access is only for focus-group members.  
+        Join at NutriCoreApp.com.
+      </div>
+    );
+  }
+
+  return children;
+}
+
+All feature pages must wrap content like this:
+
+<RequiresPermission userRole={user.role} feature="canAccessPlans">
+    <PlansPage />
+</RequiresPermission>
+
+This prevents features from leaking into the wrong user mode.
+
+⸻
+
+4. Enforce consistency in every component
+
+Rules:
+	•	Do not redefine colors inside components
+	•	Do not redefine feature logic
+	•	Everything must pull from theme and permissions
+	•	If a component uses a feature, it must be wrapped by RequiresPermission
+
+⸻
+
+5. Add a clear user state flow
+
+Users can only be one of these states:
+	•	guest
+	•	waitlist (signed up but not approved)
+	•	active (full focus group access)
+
+Enforce this in auth logic.
+
+⸻
+
+End of instructions.
+
+Implement all of the above to make the app consistent and prevent drift in permissions and UI.

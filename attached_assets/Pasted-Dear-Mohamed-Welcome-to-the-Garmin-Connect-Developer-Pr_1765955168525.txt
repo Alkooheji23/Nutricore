@@ -1,0 +1,49 @@
+Dear Mohamed,
+
+
+Welcome to the Garmin Connect Developer Program. 
+My name is Elena, and together with the Partner Services team
+I will guide you through the technical part of onboarding to our ecosystem. 
+
+NutriCore has been given full access to https://developerportal.garmin.com/.
+All API and OAuth specification sheets, a copy of the license agreement, and the
+Garmin branding assets are available for you in the "Documentation" section.
+
+Username / Email: mohamed.alkooheji@nutricoreapp.com‍
+Please click [HERE] to create your first password by using the username above.
+Remember to manually type your Username / Email to avoid hidden characters.
+Please also make sure your mail server allows messages from garmin.com, health.garmin.com, and developer.garmin.com.
+
+ 
+Development and Progress:
+Currently, you are approved to create Evaluation Environment apps/projects for your internal development. 
+Later on, after review, the production environment for commercial use will become available for you.
+Please note that evaluation apps used for commercial/production purposes may be disabled without prior notification!
+ 
+You may also sign up for API Update Release Notifications by going to 'My Account' - Notify Settings - Receive Email - Subscriptions - Blog Entry.
+ 
+ 
+Team Members and Accesses:
+Everybody with access to data considered as "classified" (specifications, internal tools, app credentials, and/or development code)
+must be added to the list of verified persons at developerportal.garmin.com.
+To do so, please click on your company name and "members" after your first login [Developer Portal]
+
+Please consider the following:
+Non-personalized/generic email addresses (support@, info@, contact@, dev@, etc.) are restricted from being added.
+Non-company domain accounts and any freemail accounts  (gmail, outlook, hotmail, etc.) are restricted from being added.
+Third-party integrator accounts are only allowed after providing a copy of the NDA between them and you.
+To do so, please respond to this ticket and attach the NDA.
+ 
+ 
+Integration Call:
+We are also inviting you to make use of our Integration Call.
+We will introduce our Developer Program tools and the general data flow, give best practice suggestions, and answer any questions you may have. 
+The call usually takes half an hour of your time, and, depending on your suggestion, I or one of my colleagues will host the meeting[http://%%PowerAutomate?Trigger=DeveloperPortalInvitation&DevPortalAccessType=GCDP%%].
+If interested, please provide three possible slots for the integration call from 1 AM - 9 PM (GMT).
+For your suggestions, please consider a threshold of 48 hours.
+ 
+Best Regards / Freundliche Grüße / Cordialement
+Elena Kononova
+Garmin Connect Partner Services
+ 
+Please note, responses may be delayed during the winter holiday season.

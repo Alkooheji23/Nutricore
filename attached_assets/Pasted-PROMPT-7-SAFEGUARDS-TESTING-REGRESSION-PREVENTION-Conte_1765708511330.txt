@@ -1,0 +1,97 @@
+PROMPT 7 — SAFEGUARDS, TESTING & REGRESSION PREVENTION
+
+Context:
+NutriCore is being developed iteratively using an AI coding agent. Changes frequently cause regressions (UI drift, feature leakage, color inconsistency, broken access rules). This prompt establishes non-negotiable guardrails.
+
+This prompt does not add features. It prevents future damage.
+
+⸻
+
+Objective
+
+Ensure that:
+	•	Previously implemented rules never silently break
+	•	UI, access logic, and branding remain consistent
+	•	Changes are verified before being accepted
+
+⸻
+
+1. State-Based Regression Checks (Mandatory)
+
+Before finalizing any change, automatically verify:
+	•	Anonymous user:
+	•	Cannot access gated features
+	•	UI shows intentional limitations
+	•	Signed-up (7-day access):
+	•	Has full feature access
+	•	No trial indicators visible
+	•	Paid user:
+	•	Identical experience to signed-up
+	•	Expired user:
+	•	Limited access enforced consistently
+
+Any mismatch = change must be rejected.
+
+⸻
+
+2. Theme Consistency Checks
+
+For every UI change:
+	•	Verify in light mode and dark mode
+	•	Confirm:
+	•	Colors match brand palette
+	•	No contrast issues
+	•	No layout shifts
+	•	Dark mode must never be altered unless explicitly requested.
+
+⸻
+
+3. Feature Gating Safeguards
+	•	Feature visibility must be controlled by a single source of truth
+	•	No feature may be:
+	•	Accidentally enabled
+	•	Partially usable
+	•	UI-visible but backend-blocked
+	•	If a feature is disabled:
+	•	The UI must reflect that state intentionally
+
+⸻
+
+4. Branding Lock
+
+Lock the following as immutable unless explicitly changed:
+	•	Brand colors
+	•	Logo assets
+	•	Typography scale
+	•	Spacing rhythm
+	•	Dark mode appearance
+
+Any attempt to modify these requires explicit instruction.
+
+⸻
+
+5. Change Confirmation Protocol
+
+After completing any task, output:
+	•	What was changed
+	•	What was intentionally left unchanged
+	•	What was verified (states, themes, features)
+
+No silent changes allowed.
+
+⸻
+
+6. Failure Handling
+
+If a requested change would:
+	•	Break existing behavior
+	•	Cause ambiguity
+	•	Require assumptions
+
+The agent must pause and ask for clarification instead of proceeding.
+
+⸻
+
+End Goal
+
+A stable, premium, predictable product that improves iteratively without regressions or erosion of trust.

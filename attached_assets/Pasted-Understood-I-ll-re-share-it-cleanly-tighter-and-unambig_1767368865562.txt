@@ -1,0 +1,148 @@
+Understood. I’ll re-share it cleanly, tighter, and unambiguous, because if Replit “did nothing”, it usually means the prompt was too abstract or left room to interpret.
+
+Below is a hard, implementation-oriented prompt. No philosophy. No ambiguity.
+
+You can paste this verbatim.
+
+⸻
+
+🔧 REPLIT PROMPT — ADD DIET TAB (EXECUTION-ONLY, TRAINER-DRIVEN)
+
+This is a required feature implementation. Do not ignore or reinterpret.
+
+⸻
+
+1️⃣ Bottom Navigation — REQUIRED CHANGE
+	•	Add a new bottom navigation tab labeled Diet
+	•	Position it alongside:
+	•	Home
+	•	Activities
+	•	Trainer
+	•	Progress
+	•	Route must be: /diet
+	•	Do NOT remove or rename any existing tabs
+
+⸻
+
+2️⃣ Diet Page (/diet) — STRUCTURE (NO LOGIC HERE)
+
+The Diet page is read-only.
+It does not calculate, decide, or edit anything.
+
+TOP SECTION — Daily Calories (MANDATORY)
+At the top of /diet, display:
+
+2,800 kcal / day
+Trainer-set calorie target
+
+Rules:
+	•	Value must come from trainer-confirmed data stored in DB
+	•	No progress bars
+	•	No “remaining” calories
+	•	No edit buttons
+	•	No user input
+
+⸻
+
+CONTEXT LABEL (ONE LINE ONLY)
+Directly below calories, display one of the following (from trainer):
+	•	Training day
+	•	Rest day
+	•	Recovery-focused
+	•	Deload adjustment
+
+This is text only. No tooltips.
+
+⸻
+
+MACRO BREAKDOWN (DERIVED)
+Display macros in grams:
+	•	Protein (g)
+	•	Carbs (g)
+	•	Fats (g)
+
+Rules:
+	•	Macros are derived from trainer-set calories
+	•	Macros are not editable
+	•	No sliders
+	•	No calculators in the UI
+
+⸻
+
+DIET PLAN TABLE (LIKE THE EXAMPLE IMAGE)
+Render a table:
+
+Food	Quantity
+Chicken breast	250g
+Rice	300g
+Eggs	4
+…	…
+
+Rules:
+	•	Food + quantity only
+	•	No calories per item
+	•	No logging
+	•	No checkmarks
+	•	No “eaten / not eaten”
+
+⸻
+
+3️⃣ DATA FLOW (THIS IS CRITICAL)
+	•	Diet data must be updated ONLY when:
+	1.	Trainer proposes a diet plan in chat
+	2.	User explicitly confirms
+	•	After confirmation:
+	•	Persist calories, macros, food plan
+	•	/diet renders the latest confirmed plan
+
+❌ Do NOT auto-generate diet plans in the Diet tab
+❌ Do NOT allow manual edits
+❌ Do NOT compute calories inside /diet
+
+⸻
+
+4️⃣ TRAINER INTEGRATION (DO NOT SKIP)
+	•	Trainer is the only authority that:
+	•	Sets calories
+	•	Sets macros
+	•	Sets food breakdown
+	•	Trainer must ask for confirmation before updating diet data
+	•	Diet tab is a display surface only
+
+⸻
+
+5️⃣ NON-GOALS (DO NOT IMPLEMENT)
+	•	No food logging
+	•	No barcode scanning
+	•	No calorie tracking
+	•	No notifications from the Diet tab
+	•	No “remaining calories”
+
+⸻
+
+✅ ACCEPTANCE CHECK (YOU MUST VERIFY THIS)
+
+After implementation, I should be able to:
+	•	Click Diet
+	•	Immediately see:
+	•	Daily calorie target
+	•	Macro breakdown
+	•	Food quantities
+	•	Be unable to edit anything
+	•	See values change only after confirming in chat
+
+⸻
+
+GOVERNING RULE (DO NOT VIOLATE)
+
+Chat decides.
+User confirms.
+Diet tab displays.
+
+⸻
+
+If Replit still “does nothing” after this, the issue is execution discipline, not clarity.
+
+If you want, next I can:
+	•	Break this into 2 smaller prompts (Nav + Page)
+	•	Or add schema field names explicitly so Replit can’t miss it

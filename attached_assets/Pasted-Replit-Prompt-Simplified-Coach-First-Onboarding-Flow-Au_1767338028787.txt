@@ -1,0 +1,112 @@
+Replit Prompt — Simplified Coach-First Onboarding Flow (Authoritative & Minimal)
+
+Objective
+Implement a streamlined onboarding flow where NutriCore starts coaching before collecting excessive data. Onboarding must feel conversational, confident, and science-based — not form-heavy.
+
+⸻
+
+1. Entry Flow (Silent Setup)
+	•	On first visit:
+	•	Show a minimal “Let’s get you started” screen
+	•	Collect ONLY:
+	•	First name
+	•	Age
+	•	Height (cm)
+	•	Weight (kg)
+	•	No step labels, no “wizard”, no explanations
+	•	Save immediately and redirect to /chat
+
+This step must take <30 seconds.
+
+⸻
+
+2. Trainer-Led Onboarding (Primary Experience)
+
+When the user enters the Trainer and profileComplete = false:
+
+Trainer opening message (do NOT say “Hi”):
+“I’ll personalize your training and recovery using evidence-based methods.
+I’ll ask a few quick questions so I don’t guess.”
+
+Tone: calm, confident, professional.
+
+⸻
+
+3. Required Chat Questions (One at a Time)
+
+Ask and save each answer immediately using update_profile.
+	1.	Primary Goal
+	•	“What’s your main goal right now?”
+	•	Options:
+	•	Lose weight
+	•	Build muscle
+	•	Improve endurance
+	•	Increase strength
+	•	General fitness
+	2.	Activity Level
+	•	“How active are you currently?”
+	•	Options:
+	•	Sedentary
+	•	Light
+	•	Moderate
+	•	Active
+	•	Very active
+
+No other questions at this stage.
+
+⸻
+
+4. Immediate Value Delivery (Critical)
+
+After saving goal + activity level:
+
+Trainer MUST pause onboarding and deliver value:
+
+“Based on what you told me, here’s how I’d approach your training.”
+
+Follow with a short, confident directional statement, not a full plan.
+
+Example:
+
+“We’ll prioritize consistency and recovery first, then build intensity once your baseline is solid.”
+
+This step is mandatory before any further questions.
+
+⸻
+
+5. Deferred Onboarding (Optional, Invitation-Based)
+
+Only AFTER value is delivered, Trainer may say:
+
+“When you’re ready, we can go deeper into nutrition, recovery, and preferences.”
+
+At this point (not earlier), the Trainer may optionally ask about:
+	•	Eating habits
+	•	Devices
+	•	Injuries
+	•	Preferences
+
+These are never required to proceed.
+
+⸻
+
+6. Rules & Constraints
+	•	Do NOT ask nutrition questions during initial onboarding
+	•	Do NOT show long explanations or feature lists
+	•	Do NOT repeat questions already answered in the silent setup
+	•	Do NOT block access to coaching if onboarding is incomplete
+	•	Trainer must always sound like a coach, not a form
+
+⸻
+
+7. Success Criteria
+	•	User reaches coaching within 1 minute
+	•	User feels guided, not interrogated
+	•	Trainer earns trust before collecting depth
+	•	Onboarding feels like a conversation that happens to save data
+
+⸻
+
+One guiding principle (must be followed):
+
+NutriCore starts coaching before it finishes onboarding.
