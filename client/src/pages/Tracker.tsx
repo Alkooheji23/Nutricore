@@ -531,15 +531,33 @@ export default function Tracker() {
     // Priority: manual duration > displayed elapsed > final elapsed (from ended session) > live calculation
     const timerDuration = displayedElapsedTime || workoutState.finalElapsedMinutes || getElapsedMinutes();
     const duration = workoutState.manualDuration > 0 ? workoutState.manualDuration : timerDuration;
+    // Normalize exercises: convert flat { sets: 3, reps: 10, weight: 60 } into
+    // proper set arrays so the AI coach reads exact numbers, not guesses
+    const normalizedExercises = workoutState.exercises.map((ex: any) => {
+      if (Array.isArray(ex.sets)) return ex; // Already in correct format (guided flow)
+      const setCount = Number(ex.sets) || 1;
+      const setsArray = Array.from({ length: setCount }, () => ({
+        reps: Number(ex.reps) || 0,
+        weight: Number(ex.weight) || 0,
+        completed: !!ex.completed,
+      }));
+      return {
+        name: ex.name,
+        sets: setsArray,
+        muscleGroup: ex.muscleGroup || null,
+        completed: !!ex.completed,
+      };
+    });
+
     createWorkoutLog.mutate({
       workoutName: workoutState.workoutName,
       activityType: workoutState.activityType,
       duration: duration,
       caloriesBurned: 0,
-      exercises: workoutState.exercises,
+      exercises: normalizedExercises,
       notes: workoutState.notes,
       distance: workoutState.distance,
-      completed: workoutState.exercises.length === 0 || workoutState.exercises.every(ex => ex.completed),
+      completed: workoutState.exercises.length === 0 || workoutState.exercises.every((ex: any) => ex.completed),
     });
   };
 
