@@ -466,6 +466,61 @@ async function sendTrainerUpdateMessage(
 }
 
 // =============================================================================
+// AUTO-APPLY WORKOUT ADJUSTMENTS TO NEXT WEEK
+// =============================================================================
+
+async function applyWorkoutAdjustmentsToNextWeek(
+  userId: string,
+  workoutAdj: WorkoutAdjustment
+): Promise<void> {
+  if (workoutAdj.volumeChange === 'maintain') return;
+
+  try {
+    const now = new Date();
+    const day = now.getDay();
+    const daysUntilMonday = day === 0 ? 1 : (8 - day);
+    const nextMonday = new Date(now);
+    nextMonday.setDate(now.getDate() + daysUntilMonday);
+    nextMonday.setHours(0, 0, 0, 0);
+
+    const nextSunday = new Date(nextMonday);
+    nextSunday.setDate(nextMonday.getDate() + 6);
+    nextSunday.setHours(23, 59, 59, 999);
+
+    const nextWeekWorkouts = await storage.getScheduledWorkouts(userId, nextMonday, nextSunday);
+    const scheduledOnly = nextWeekWorkouts.filter(w => w.status === 'scheduled');
+
+    if (scheduledOnly.length === 0) return;
+
+    const multiplier =
+      workoutAdj.volumeChange === 'deload' ? 0.6 :
+      workoutAdj.volumeChange === 'decrease' ? 0.85 :
+      workoutAdj.volumeChange === 'increase' ? 1.1 : 1.0;
+
+    const newIntensity =
+      workoutAdj.intensityChange === 'decrease' ? 'low' :
+      workoutAdj.intensityChange === 'increase' ? 'high' : undefined;
+
+    for (const workout of scheduledOnly) {
+      const exercises = (workout.exercises as any[]) || [];
+      const adjustedExercises = exercises.map(ex => ({
+        ...ex,
+        sets: Math.max(1, Math.round((ex.sets || 3) * multiplier)),
+      }));
+
+      const updates: Record<string, any> = { exercises: adjustedExercises };
+      if (newIntensity) updates.intensity = newIntensity;
+
+      await storage.updateScheduledWorkout(workout.id, updates);
+    }
+
+    console.log(`[WeeklyReview] Applied ${workoutAdj.volumeChange} adjustments to ${scheduledOnly.length} workouts for user ${userId}`);
+  } catch (error) {
+    console.error('[WeeklyReview] Failed to apply workout adjustments:', error);
+  }
+}
+
+// =============================================================================
 // MAIN ORCHESTRATION
 // =============================================================================
 
@@ -598,6 +653,9 @@ export async function generateWeeklyReview(
   
   const report = await storage.createWeeklyReviewReport(reportData);
   
+  // Auto-apply workout adjustments to next week's schedule
+  await applyWorkoutAdjustmentsToNextWeek(userId, workoutAdj);
+
   // Send automatic trainer message and push notification about changes
   await sendTrainerUpdateMessage(
     userId,
