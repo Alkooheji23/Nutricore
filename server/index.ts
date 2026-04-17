@@ -8,6 +8,7 @@ import { startWeeklyPlanScheduler } from "./weeklyPlanScheduler";
 import { startLearningScheduler } from "./learning/learningScheduler";
 import { startTokenRefreshScheduler } from "./tokenRefreshScheduler";
 import { startWeeklyReviewScheduler } from "./weeklyReviewScheduler";
+import { runStartupWearableSync } from "./startupWearableSync";
 
 const app = express();
 const httpServer = createServer(app);
@@ -105,6 +106,7 @@ app.use((req, res, next) => {
       startLearningScheduler();
       startTokenRefreshScheduler();
       startWeeklyReviewScheduler();
+      runStartupWearableSync();
     },
   );
 })();

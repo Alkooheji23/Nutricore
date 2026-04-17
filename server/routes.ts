@@ -3694,8 +3694,20 @@ Be professional, attentive, and genuinely invested in their progress.`;
       const trainerContextPrompt = formatTrainerContext(trainerContext);
       
       const workoutDaysCount = fitnessProfile?.preferredWorkoutDays?.length || 0;
+      const sportWorkoutRules: Record<string, string> = {
+        strength:    'Only schedule gym/strength workouts (compound lifts, resistance training). No HIIT, running, or cardio-primary sessions unless the user explicitly asks.',
+        running:     'Only schedule running-based workouts (easy runs, tempo, intervals, long runs). Strength work is supplemental only if the user requests it.',
+        cycling:     'Only schedule cycling workouts (endurance rides, intervals, recovery spins). Cross-training only if the user requests it.',
+        swimming:    'Only schedule swim sessions (drills, intervals, distance). Dryland strength is supplemental only if the user requests it.',
+        crossfit:    'Only schedule CrossFit/HIIT-style workouts (WODs, metcons, Olympic lifting). Pure strength or cardio-only sessions only if the user asks.',
+        yoga:        'Only schedule yoga, mobility, or flexibility sessions. Strength work only if the user requests it.',
+        team_sports: 'Schedule sport-specific conditioning (agility, speed, power) and strength support. No unrelated cardio sessions unless requested.',
+        general:     'Schedule well-rounded workouts mixing strength and cardio based on the user\'s goal.',
+      };
+      const sport = fitnessProfile?.primarySport || 'general';
+      const sportRule = sportWorkoutRules[sport] || sportWorkoutRules['general'];
       const fitnessContext = fitnessProfile ?
-        `\n\nTRAINING PREFERENCES:\nSport: ${fitnessProfile.primarySport || 'General fitness'}\nTraining Frequency: ${workoutDaysCount > 0 ? `${workoutDaysCount} days per week` : 'Flexible'}\nPreferred Workout Days: ${fitnessProfile.preferredWorkoutDays ? JSON.stringify(fitnessProfile.preferredWorkoutDays) : 'Flexible'}\nSession Duration: ${fitnessProfile.workoutDuration || 60} minutes\n\nIMPORTANT: When creating a weekly schedule, you MUST create exactly ${workoutDaysCount || 3} workouts to match their training frequency.` : '';
+        `\n\nTRAINING PREFERENCES:\nSport: ${fitnessProfile.primarySport || 'General fitness'}\nTraining Frequency: ${workoutDaysCount > 0 ? `${workoutDaysCount} days per week` : 'Flexible'}\nPreferred Workout Days: ${fitnessProfile.preferredWorkoutDays ? JSON.stringify(fitnessProfile.preferredWorkoutDays) : 'Flexible'}\nSession Duration: ${fitnessProfile.workoutDuration || 60} minutes\n\nWORKOUT TYPE RULE: ${sportRule}\n\nIMPORTANT: When creating a weekly schedule, you MUST create exactly ${workoutDaysCount || 3} workouts to match their training frequency.` : '';
 
       const knowledgeContext = await getTrainerKnowledgeContext();
 
