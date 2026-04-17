@@ -1788,6 +1788,17 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   });
 
   // Admin routes
+  app.post('/api/admin/reset-my-profile', isAuthenticated, requireAdmin, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      await storage.resetUserForOnboarding(userId);
+      res.json({ success: true, message: "Profile reset — go through onboarding again." });
+    } catch (error) {
+      console.error("Error resetting profile:", error);
+      res.status(500).json({ message: "Failed to reset profile" });
+    }
+  });
+
   app.get('/api/admin/stats', isAuthenticated, requireAdmin, async (req: any, res) => {
     try {
       const stats = await storage.getAdminStats();

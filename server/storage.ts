@@ -3685,6 +3685,50 @@ export class DatabaseStorage implements IStorage {
       .orderBy(desc(learningJobHistory.startedAt))
       .limit(limit);
   }
+
+  // Wipe all fitness/profile/chat data for a user without touching auth or admin status
+  async resetUserForOnboarding(userId: string): Promise<void> {
+    await Promise.all([
+      // Clear profile fields, force onboarding
+      db.update(users).set({
+        firstName: null,
+        lastName: null,
+        age: null,
+        gender: null,
+        height: null,
+        currentWeight: null,
+        targetWeight: null,
+        fitnessGoal: null,
+        activityLevel: null,
+        profileComplete: false,
+      }).where(eq(users.id, userId)),
+
+      // Wipe fitness profile + coaching prefs
+      db.delete(userFitnessProfiles).where(eq(userFitnessProfiles.userId, userId)),
+      db.delete(userCoachingPreferences).where(eq(userCoachingPreferences.userId, userId)),
+
+      // Wipe chat
+      db.delete(conversations).where(eq(conversations.userId, userId)),
+      // chatMessages cascade-delete via conversation FK, but clean orphans too
+      db.delete(chatMessages).where(eq(chatMessages.userId, userId)),
+
+      // Wipe workout + activity data
+      db.delete(workoutLogs).where(eq(workoutLogs.userId, userId)),
+      db.delete(scheduledWorkouts).where(eq(scheduledWorkouts.userId, userId)),
+      db.delete(dailyActivity).where(eq(dailyActivity.userId, userId)),
+      db.delete(weeklyCheckIns).where(eq(weeklyCheckIns.userId, userId)),
+
+      // Wipe health metrics
+      db.delete(healthMetrics).where(eq(healthMetrics.userId, userId)),
+      db.delete(bodyweightEntries).where(eq(bodyweightEntries.userId, userId)),
+      db.delete(bodyMeasurements).where(eq(bodyMeasurements.userId, userId)),
+
+      // Wipe wearable data
+      db.delete(wearableActivities).where(eq(wearableActivities.userId, userId)),
+      db.delete(userWearableBaselines).where(eq(userWearableBaselines.userId, userId)),
+      db.delete(wearablePhysiologicalFlags).where(eq(wearablePhysiologicalFlags.userId, userId)),
+    ]);
+  }
 }
 
 export const storage = new DatabaseStorage();
