@@ -842,16 +842,47 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
-  // Diet plan endpoint (read-only, trainer-set data)
+  // Diet plan endpoint — auto-generates plan from profile if none exists
   app.get('/api/diet/current', isAuthenticated, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
-      const dietPlan = await storage.getCurrentDietPlan(userId);
-      
+      let dietPlan = await storage.getCurrentDietPlan(userId);
+
+      if (!dietPlan) {
+        const user = await storage.getUser(userId);
+        if (user && user.currentWeight && user.height && user.age) {
+          const { calculateMacros } = await import('./coaching/nutritionEngine');
+          const activityMap: Record<string, any> = {
+            sedentary: 'sedentary', light: 'light', moderate: 'moderate',
+            active: 'active', very_active: 'very_active',
+          };
+          const goalMap: Record<string, any> = {
+            weight_loss: 'fat_loss', fat_loss: 'fat_loss',
+            muscle_gain: 'muscle_gain', build_muscle: 'muscle_gain',
+            maintenance: 'maintenance', general_fitness: 'maintenance',
+            strength: 'strength', recomposition: 'recomposition',
+          };
+          const macros = calculateMacros({
+            weight: user.currentWeight,
+            height: user.height,
+            age: user.age,
+            gender: (user.gender as 'male' | 'female') || 'male',
+            activityLevel: activityMap[user.activityLevel || 'moderate'] || 'moderate',
+            goal: goalMap[user.fitnessGoal || 'maintenance'] || 'maintenance',
+          });
+          dietPlan = await storage.createConfirmedDietPlan(userId, {
+            dailyCalories: macros.calories,
+            macros: { protein: macros.protein, carbs: macros.carbs, fats: macros.fats },
+            contextLabel: 'Auto-generated from your profile',
+            foodPlan: [],
+          });
+        }
+      }
+
       if (!dietPlan) {
         return res.status(404).json({ message: "No diet plan found" });
       }
-      
+
       res.json({
         dailyCalories: dietPlan.dailyCalories,
         macros: dietPlan.macros,
@@ -862,6 +893,43 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     } catch (error) {
       console.error("Error fetching diet plan:", error);
       res.status(500).json({ message: "Failed to fetch diet plan" });
+    }
+  });
+
+  // 7-day calorie history for Diet page chart
+  app.get('/api/food/history', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const end = new Date();
+      const start = new Date();
+      start.setDate(start.getDate() - 6);
+      const startStr = start.toISOString().split('T')[0];
+      const endStr = end.toISOString().split('T')[0];
+      const logs = await storage.getFoodLogsByDateRange(userId, startStr, endStr);
+      const user = await storage.getUser(userId);
+      const calorieGoal = user?.dailyCalorieGoal || 2000;
+
+      const byDate: Record<string, number> = {};
+      for (let i = 0; i < 7; i++) {
+        const d = new Date(start);
+        d.setDate(start.getDate() + i);
+        byDate[d.toISOString().split('T')[0]] = 0;
+      }
+      for (const log of logs) {
+        const d = typeof log.date === 'string' ? log.date : new Date(log.date).toISOString().split('T')[0];
+        if (d in byDate) byDate[d] += log.calories || 0;
+      }
+
+      const result = Object.entries(byDate).map(([date, calories]) => ({
+        date,
+        calories,
+        goal: calorieGoal,
+      }));
+
+      res.json(result);
+    } catch (error) {
+      console.error('Error fetching food history:', error);
+      res.status(500).json({ message: 'Failed to fetch food history' });
     }
   });
 

@@ -8,8 +8,9 @@ import { Input } from "@/components/ui/input";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { motion, AnimatePresence } from "framer-motion";
-import { format } from "date-fns";
+import { format, parseISO, subDays } from "date-fns";
 import { useState, useEffect, useCallback } from "react";
+import { BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, ReferenceLine } from "recharts";
 import { useToast } from "@/hooks/use-toast";
 import { BarcodeScanner } from "@/components/BarcodeScanner";
 
@@ -841,6 +842,15 @@ export default function Diet() {
     addFoodMutation.mutate({ food, quantity, mealType });
   };
 
+  const { data: calorieHistory = [] } = useQuery<{ date: string; calories: number; goal: number }[]>({
+    queryKey: ["/api/food/history"],
+    queryFn: async () => {
+      const res = await fetch("/api/food/history", { credentials: "include" });
+      if (!res.ok) return [];
+      return res.json();
+    },
+  });
+
   const isLoading = summaryLoading;
 
   if (isLoading) {
@@ -894,6 +904,22 @@ export default function Diet() {
             </Button>
           </Link>
         </div>
+
+        {calorieHistory.length > 0 && (
+          <Card className="bg-card/50 border-0">
+            <CardContent className="pt-4 pb-2">
+              <p className="text-xs text-muted-foreground mb-3">7-Day Calories</p>
+              <ResponsiveContainer width="100%" height={80}>
+                <BarChart data={calorieHistory} barSize={18}>
+                  <XAxis dataKey="date" tick={{ fontSize: 9 }} tickFormatter={(d) => format(parseISO(d), "EEE")} axisLine={false} tickLine={false} />
+                  <Tooltip formatter={(v: any) => [`${v} cal`, "Consumed"]} labelFormatter={(d) => format(parseISO(d), "MMM d")} />
+                  <ReferenceLine y={calorieHistory[0]?.goal} stroke="hsl(var(--primary))" strokeDasharray="3 3" />
+                  <Bar dataKey="calories" fill="hsl(var(--primary) / 0.7)" radius={[3, 3, 0, 0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            </CardContent>
+          </Card>
+        )}
 
         <motion.div
           initial={{ opacity: 0, y: 10 }}
