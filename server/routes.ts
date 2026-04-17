@@ -749,6 +749,28 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  // Save sport + experience level during onboarding (no premium required)
+  app.post('/api/profile/sport', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { primarySport, experienceLevel } = req.body;
+
+      await Promise.all([
+        primarySport
+          ? storage.upsertUserFitnessProfile({ userId, primarySport })
+          : Promise.resolve(),
+        experienceLevel
+          ? storage.upsertUserCoachingPreferences({ userId, experienceLevel })
+          : Promise.resolve(),
+      ]);
+
+      res.json({ success: true });
+    } catch (error) {
+      console.error("Error saving sport profile:", error);
+      res.status(500).json({ message: "Failed to save sport profile" });
+    }
+  });
+
   // Update trainer preference
   app.post('/api/user/trainer-preference', isAuthenticated, async (req: any, res) => {
     try {

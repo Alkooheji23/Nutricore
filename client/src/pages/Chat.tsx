@@ -60,6 +60,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea";
 import { AdBanner } from "@/components/AdBanner";
 import { FeedbackButton } from "@/components/FeedbackButton";
+import { IOSInstallBanner } from "@/components/IOSInstallBanner";
 import { getUserState, getPermissions, USER_STATES, hasFullAccess, getTrialDaysRemaining } from "@shared/permissions";
 import { PRICING } from "@shared/pricing";
 
@@ -695,12 +696,49 @@ export default function Chat() {
     }
   };
 
-  const suggestedPrompts = [
-    { icon: Activity, text: "Help me train for a 5K run", color: "text-emerald-400" },
-    { icon: Dumbbell, text: "Create a strength training plan", color: "text-orange-400" },
-    { icon: Heart, text: "Best warmup before lifting weights", color: "text-blue-400" },
-    { icon: Activity, text: "Create a weekly training schedule", color: "text-purple-400" },
-  ];
+  const suggestedPrompts = (() => {
+    const goal = user?.fitnessGoal ?? "";
+
+    const byGoal: Record<string, { icon: any; text: string; color: string }[]> = {
+      weight_loss: [
+        { icon: Flame, text: "Build me a fat-loss training plan", color: "text-orange-400" },
+        { icon: Utensils, text: "What should I eat on rest days to lose fat?", color: "text-emerald-400" },
+        { icon: Activity, text: "Best cardio for fat loss without losing muscle", color: "text-blue-400" },
+        { icon: Dumbbell, text: "How do I track my progress effectively?", color: "text-purple-400" },
+      ],
+      muscle_gain: [
+        { icon: Dumbbell, text: "Create a hypertrophy training plan for me", color: "text-orange-400" },
+        { icon: Utensils, text: "How much protein do I need to build muscle?", color: "text-emerald-400" },
+        { icon: Heart, text: "Best recovery routine for muscle growth", color: "text-blue-400" },
+        { icon: Activity, text: "Progressive overload — how should I apply it?", color: "text-purple-400" },
+      ],
+      performance: [
+        { icon: Activity, text: "Design a performance training block for me", color: "text-emerald-400" },
+        { icon: Dumbbell, text: "How do I peak for competition?", color: "text-orange-400" },
+        { icon: Heart, text: "Best warmup protocol for athletic performance", color: "text-blue-400" },
+        { icon: Utensils, text: "Pre-competition nutrition strategy", color: "text-purple-400" },
+      ],
+      endurance: [
+        { icon: Activity, text: "Build me an endurance training plan", color: "text-emerald-400" },
+        { icon: Heart, text: "How do I improve my aerobic base?", color: "text-blue-400" },
+        { icon: Utensils, text: "What to eat during long training sessions?", color: "text-orange-400" },
+        { icon: Dumbbell, text: "Strength training for endurance athletes", color: "text-purple-400" },
+      ],
+      recomposition: [
+        { icon: Dumbbell, text: "Build me a recomposition training plan", color: "text-orange-400" },
+        { icon: Utensils, text: "How to eat for muscle gain and fat loss together?", color: "text-emerald-400" },
+        { icon: Activity, text: "How do I track body composition changes?", color: "text-blue-400" },
+        { icon: Heart, text: "Optimal recovery for body recomposition", color: "text-purple-400" },
+      ],
+    };
+
+    return byGoal[goal] ?? [
+      { icon: Activity, text: "Help me train for a 5K run", color: "text-emerald-400" },
+      { icon: Dumbbell, text: "Create a strength training plan", color: "text-orange-400" },
+      { icon: Heart, text: "Best warmup before lifting weights", color: "text-blue-400" },
+      { icon: Activity, text: "Create a weekly training schedule", color: "text-purple-400" },
+    ];
+  })();
 
   const [showPlusMenu, setShowPlusMenu] = useState(false);
 
@@ -1811,6 +1849,8 @@ export default function Chat() {
           </div>
         </DialogContent>
       </Dialog>
+
+      <IOSInstallBanner />
     </div>
   );
 }
