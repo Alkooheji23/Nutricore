@@ -2,6 +2,7 @@ import cron, { ScheduledTask } from 'node-cron';
 import { storage } from './storage';
 import OpenAI from 'openai';
 import type { WeeklyCheckIn } from '@shared/schema';
+import { sendPushNotification } from './pushService';
 
 // OpenRouter client for Grok via Replit AI Integrations
 const openrouter = new OpenAI({
@@ -242,6 +243,12 @@ async function generateWeeklyPlansForAllUsers() {
         if (result.generated) {
           generated++;
           console.log(`[WeeklyPlanScheduler] Generated plan for user ${user.id}: ${result.workoutCount} workouts`);
+          await sendPushNotification(user.id, {
+            title: 'Your new training plan is ready 💪',
+            body: `${result.workoutCount} workouts scheduled for next week. Tap to view your plan.`,
+            notificationType: 'weekly_plan_ready',
+            deepLink: '/plans',
+          });
         } else {
           skipped++;
           console.log(`[WeeklyPlanScheduler] Skipped user ${user.id}: ${result.reason}`);
