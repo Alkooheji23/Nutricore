@@ -21,6 +21,8 @@ import { checkAndNotifyWeightTrend } from "./coaching/bodyweightNotificationServ
 import { checkAndNotifyWorkoutCompletion } from "./coaching/workoutCompletionNotificationService";
 import { getTrainerKnowledgeContext } from "./learning/trainerLearningService";
 import { generateCurrentWeekPlanForUser } from "./weeklyPlanScheduler";
+import { calculateBaseline, generatePhysiologicalFlags, dailyActivityToMetrics } from './coaching/wearableDataContract';
+import { generateTonePrompt, type TonePreference } from './coaching/tonePersonalization';
 
 // OpenAI client via Replit AI Integrations
 const openai = new OpenAI({
@@ -456,6 +458,18 @@ async function buildTrainerContext(userId: string): Promise<TrainerContextData> 
     weightAnalysis = { weeklyAverage, twoWeekAverage, monthlyChange, weeklyRateOfChange, trend };
   }
   
+  // Compute physiological flags from 14-day activity history
+  let wearableFlags = null;
+  try {
+    const dailyMetrics = (dailyActivityHistory || []).map(dailyActivityToMetrics);
+    if (dailyMetrics.length >= 7) {
+      const { baseline } = calculateBaseline(dailyMetrics);
+      wearableFlags = generatePhysiologicalFlags(dailyMetrics, baseline);
+    }
+  } catch (e) {
+    // Wearable flag computation is non-critical
+  }
+
   return {
     userId,
     firstName: user?.firstName || 'Athlete',
@@ -483,6 +497,7 @@ async function buildTrainerContext(userId: string): Promise<TrainerContextData> 
     goalEvaluation: formattedGoalEvaluation,
     workoutConsistency,
     weightAnalysis,
+    wearableFlags,
   };
 }
 
@@ -2573,6 +2588,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
             recentPerformance,
             recentCompletedWorkouts,
             workoutLogs,
+            wearableFlags: trainerContext.wearableFlags,
             isPremium: true,
           });
           
@@ -3535,6 +3551,19 @@ Be professional, attentive, and genuinely invested in their progress.`;
 
       const todayStr = new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
 
+      // Tone personalization for premium users
+      let toneContext = '';
+      if (isPremium) {
+        try {
+          const streamCoachingPrefs = await storage.getUserCoachingPreferences(userId);
+          if (streamCoachingPrefs?.tonePreference) {
+            toneContext = generateTonePrompt(streamCoachingPrefs.tonePreference as TonePreference);
+          }
+        } catch (e) {
+          // Non-critical
+        }
+      }
+
       // Build pending wearable activities context
       // Filter out activities that were auto-confirmed via FIT parsing (structureStatus === 'complete')
       let pendingWearablesContext = '';
@@ -3607,7 +3636,7 @@ FAILURE MODE: If data is partial, stale, or conflicting, infer conservatively fr
 
 GOVERNING PRINCIPLE: The Trainer decides. The user executes. When asked for explanation, the Trainer educates.
 
-${trainerContextPrompt}${fitnessContext}${pendingWearablesContext}${knowledgeContext}
+${trainerContextPrompt}${fitnessContext}${pendingWearablesContext}${knowledgeContext}${toneContext}
 
 TEXT FORMATTING: Write in plain conversational text. No bullet points, no markdown. Be concise and decisive.
 

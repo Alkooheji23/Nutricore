@@ -1,6 +1,7 @@
 import cron, { ScheduledTask } from 'node-cron';
 import { storage } from './storage';
 import { generateWeeklyReview } from './coaching/weeklyReviewService';
+import { runWeeklyReview } from './coaching/weeklyCadenceEngine';
 
 let cronJob: ScheduledTask | null = null;
 
@@ -38,6 +39,7 @@ async function runWeeklyReviewForAllUsers() {
     for (const user of activeUsers) {
       try {
         await generateWeeklyReview(user.id);
+        await runWeeklyReview(user.id);
         succeeded++;
         console.log(`[WeeklyReviewScheduler] Review complete for user ${user.id}`);
         // Stagger requests to avoid hammering the AI API

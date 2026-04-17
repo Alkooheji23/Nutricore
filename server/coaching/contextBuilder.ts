@@ -677,6 +677,7 @@ export interface TrainerContextData {
     weeklyRateOfChange: number | null;
     trend: 'gaining' | 'losing' | 'stable' | 'unknown';
   };
+  wearableFlags?: PhysiologicalFlags | null;
 }
 
 /**
