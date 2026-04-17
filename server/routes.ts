@@ -911,6 +911,95 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     }
   });
 
+  // Ramadan meal plan endpoint
+  app.get('/api/diet/ramadan', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const user = await storage.getUser(userId);
+      let targetCalories = 2000;
+      let protein = 150;
+      let carbs = 220;
+      let fats = 65;
+
+      if (user && user.currentWeight && user.height && user.age) {
+        const { calculateMacros } = await import('./coaching/nutritionEngine');
+        const macros = calculateMacros({
+          weight: user.currentWeight,
+          height: user.height,
+          age: user.age,
+          gender: (user.gender as 'male' | 'female') || 'male',
+          activityLevel: (user.activityLevel as any) || 'moderate',
+          goal: (user.fitnessGoal as any) || 'maintenance',
+        });
+        targetCalories = macros.calories;
+        protein = macros.protein;
+        carbs = macros.carbs;
+        fats = macros.fat;
+      }
+
+      const suhoorCalories = Math.round(targetCalories * 0.35);
+      const iftarCalories = Math.round(targetCalories * 0.45);
+      const snackCalories = Math.round(targetCalories * 0.20);
+
+      const plan = {
+        targetCalories,
+        macros: { protein, carbs, fats },
+        context: 'Ramadan — fasting from Fajr to Maghrib',
+        meals: [
+          {
+            name: 'Suhoor (Pre-dawn meal)',
+            timing: '30–60 minutes before Fajr',
+            calories: suhoorCalories,
+            focus: 'Slow-digesting carbs, protein, healthy fats, and hydration',
+            foods: [
+              'Oats or whole wheat bread (slow-release energy)',
+              'Eggs or labneh (protein)',
+              'Dates × 2–3 (quick energy + potassium)',
+              'Full glass of water + 1 glass of milk or laban',
+              'Olive oil drizzle or a small handful of nuts',
+            ],
+            tips: 'Drink at least 2–3 glasses of water. Avoid salty or very sweet foods that increase thirst during the day.',
+          },
+          {
+            name: 'Iftar (Breaking the fast)',
+            timing: 'At Maghrib prayer',
+            calories: iftarCalories,
+            focus: 'Rehydrate first, then light meal before main dish',
+            foods: [
+              'Dates × 3 + water (Sunnah and quick glucose)',
+              'Lentil soup or chicken soup (gentle on stomach)',
+              'Grilled chicken, lamb, or hammour fish',
+              'Brown rice, kabsa, or whole wheat bread',
+              'Arabic salad or fattoush (vegetables + fiber)',
+            ],
+            tips: 'Wait 20 minutes before having seconds. Avoid fried foods at Iftar — your digestive system needs time to restart.',
+          },
+          {
+            name: 'Post-Iftar Snack',
+            timing: '2–3 hours after Iftar or after Tarawih',
+            calories: snackCalories,
+            focus: 'Light protein + hydration to support muscle and recovery',
+            foods: [
+              'Greek yogurt with honey or fruit',
+              'Protein shake or 2 boiled eggs',
+              'Fresh fruit (mango, watermelon, banana)',
+              'Water or laban',
+            ],
+            tips: 'If you train, do so 2 hours after Iftar. Have a small protein snack after training.',
+          },
+        ],
+        hydrationGoal: '8–10 glasses of water between Iftar and Suhoor',
+        trainingAdvice: 'Best times to train: 1–2 hours before Iftar (light session) or 2–3 hours after Iftar (main session). Keep intensity moderate — no PR attempts during Ramadan.',
+        supplementTiming: 'Shift all supplements to the Iftar–Suhoor window. Creatine and protein can be taken at Iftar or post-training snack.',
+      };
+
+      res.json(plan);
+    } catch (error) {
+      console.error('Error generating Ramadan plan:', error);
+      res.status(500).json({ message: 'Failed to generate Ramadan meal plan' });
+    }
+  });
+
   // 7-day calorie history for Diet page chart
   app.get('/api/food/history', isAuthenticated, async (req: any, res) => {
     try {
@@ -1068,7 +1157,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         { name: "Beef (lean, grilled)", calories: 250, protein: 26, carbs: 0, fats: 15, servingSize: "100g" },
         { name: "Ground Beef (80/20)", calories: 254, protein: 17, carbs: 0, fats: 20, servingSize: "100g" },
         { name: "Lamb Chops", calories: 294, protein: 25, carbs: 0, fats: 21, servingSize: "100g" },
-        { name: "Pork Chops", calories: 231, protein: 25, carbs: 0, fats: 14, servingSize: "100g" },
+        { name: "Lamb Rack", calories: 294, protein: 25, carbs: 0, fats: 21, servingSize: "100g" },
         { name: "Turkey Breast", calories: 135, protein: 30, carbs: 0, fats: 1, servingSize: "100g" },
         { name: "Salmon (baked)", calories: 208, protein: 20, carbs: 0, fats: 13, servingSize: "100g" },
         { name: "Tuna (canned in water)", calories: 116, protein: 26, carbs: 0, fats: 0.8, servingSize: "100g" },
@@ -1218,12 +1307,40 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         { name: "Labneh", calories: 230, protein: 10, carbs: 6, fats: 18, servingSize: "100g" },
         { name: "Manakeesh (zaatar)", calories: 280, protein: 7, carbs: 38, fats: 12, servingSize: "1 piece" },
         { name: "Manakeesh (cheese)", calories: 350, protein: 12, carbs: 36, fats: 18, servingSize: "1 piece" },
-        
+
+        // GCC / Bahrain Traditional Foods
+        { name: "Hammour Fish (grilled)", calories: 145, protein: 28, carbs: 0, fats: 3, servingSize: "100g" },
+        { name: "Hammour Fish (fried)", calories: 220, protein: 25, carbs: 8, fats: 10, servingSize: "100g" },
+        { name: "Kabsa (chicken)", calories: 370, protein: 24, carbs: 48, fats: 10, servingSize: "1 plate" },
+        { name: "Kabsa (lamb)", calories: 430, protein: 26, carbs: 48, fats: 16, servingSize: "1 plate" },
+        { name: "Harees", calories: 290, protein: 18, carbs: 38, fats: 7, servingSize: "1 cup" },
+        { name: "Madfoon (lamb)", calories: 480, protein: 30, carbs: 45, fats: 20, servingSize: "1 plate" },
+        { name: "Margoog (chicken)", calories: 340, protein: 22, carbs: 42, fats: 10, servingSize: "1 bowl" },
+        { name: "Saloona (chicken)", calories: 280, protein: 24, carbs: 18, fats: 12, servingSize: "1 bowl" },
+        { name: "Saloona (lamb)", calories: 350, protein: 26, carbs: 18, fats: 18, servingSize: "1 bowl" },
+        { name: "Foul Medames", calories: 180, protein: 11, carbs: 28, fats: 4, servingSize: "1 cup" },
+        { name: "Shakshuka", calories: 200, protein: 14, carbs: 12, fats: 12, servingSize: "2 eggs" },
+        { name: "Balaleet (sweet vermicelli)", calories: 380, protein: 8, carbs: 62, fats: 12, servingSize: "1 serving" },
+        { name: "Chebab (Emirati pancakes)", calories: 210, protein: 6, carbs: 34, fats: 6, servingSize: "2 pieces" },
+        { name: "Regag (thin bread)", calories: 180, protein: 5, carbs: 35, fats: 3, servingSize: "1 piece" },
+        { name: "Laban (buttermilk)", calories: 40, protein: 3, carbs: 5, fats: 1, servingSize: "200ml" },
+        { name: "Dates (Medjool)", calories: 277, protein: 2, carbs: 75, fats: 0.2, servingSize: "100g" },
+        { name: "Dates (Khalas)", calories: 270, protein: 2, carbs: 73, fats: 0.2, servingSize: "100g" },
+        { name: "Halwa (Omani)", calories: 290, protein: 2, carbs: 52, fats: 10, servingSize: "100g" },
+        { name: "Muhammar (sweet rice)", calories: 320, protein: 4, carbs: 68, fats: 4, servingSize: "1 cup" },
+        { name: "Shish Taouk", calories: 195, protein: 28, carbs: 4, fats: 7, servingSize: "100g" },
+        { name: "Mixed Grill (GCC)", calories: 420, protein: 38, carbs: 6, fats: 26, servingSize: "1 serving" },
+        { name: "Seafood Rice (sayadieh)", calories: 360, protein: 22, carbs: 50, fats: 10, servingSize: "1 plate" },
+        { name: "Chicken Mandi", calories: 390, protein: 26, carbs: 50, fats: 12, servingSize: "1 plate" },
+        { name: "Lamb Mandi", calories: 460, protein: 28, carbs: 50, fats: 18, servingSize: "1 plate" },
+        { name: "Harissa (GCC porridge)", calories: 260, protein: 16, carbs: 34, fats: 6, servingSize: "1 cup" },
+        { name: "Thareed (lamb & bread)", calories: 420, protein: 24, carbs: 44, fats: 16, servingSize: "1 bowl" },
+
         // Asian
         { name: "Sushi Roll (California)", calories: 255, protein: 9, carbs: 38, fats: 7, servingSize: "6 pieces" },
         { name: "Sushi Roll (Salmon)", calories: 290, protein: 12, carbs: 36, fats: 11, servingSize: "6 pieces" },
         { name: "Sashimi (salmon)", calories: 127, protein: 21, carbs: 0, fats: 4, servingSize: "100g" },
-        { name: "Ramen (pork)", calories: 500, protein: 22, carbs: 60, fats: 20, servingSize: "1 bowl" },
+        { name: "Ramen (chicken)", calories: 450, protein: 22, carbs: 58, fats: 16, servingSize: "1 bowl" },
         { name: "Fried Rice", calories: 333, protein: 10, carbs: 45, fats: 12, servingSize: "1 cup" },
         { name: "Pad Thai", calories: 380, protein: 14, carbs: 48, fats: 14, servingSize: "1 plate" },
         { name: "Sweet and Sour Chicken", calories: 320, protein: 18, carbs: 38, fats: 12, servingSize: "1 cup" },
@@ -1261,8 +1378,8 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         { name: "Granola", calories: 489, protein: 12, carbs: 64, fats: 20, servingSize: "100g" },
         { name: "Toast with Butter", calories: 150, protein: 3, carbs: 17, fats: 8, servingSize: "1 slice" },
         { name: "Avocado Toast", calories: 280, protein: 6, carbs: 22, fats: 18, servingSize: "1 slice" },
-        { name: "Bacon", calories: 42, protein: 3, carbs: 0, fats: 3, servingSize: "1 slice" },
-        { name: "Sausage Patty", calories: 180, protein: 8, carbs: 1, fats: 16, servingSize: "1 patty" },
+        { name: "Turkey Bacon", calories: 35, protein: 4, carbs: 0, fats: 2, servingSize: "1 slice" },
+        { name: "Chicken Sausage", calories: 140, protein: 10, carbs: 2, fats: 10, servingSize: "1 patty" },
         { name: "Breakfast Sandwich", calories: 450, protein: 20, carbs: 35, fats: 25, servingSize: "1 sandwich" },
         
         // Soups & Salads

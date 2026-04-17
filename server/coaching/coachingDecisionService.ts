@@ -1,12 +1,13 @@
 import { storage } from "../storage";
-import { 
-  evaluateCoachingDecision, 
+import {
+  evaluateCoachingDecision,
   calculatePerformanceTrend,
   calculateWeeksSinceDeload,
   type DecisionInputMetrics,
-  type CoachingDecisionResult 
+  type CoachingDecisionResult
 } from "./coachingDecisionEngine";
 import type { CoachingDecision, InsertCoachingDecision } from "@shared/schema";
+import { sendPushNotification } from "../pushService";
 
 export interface DecisionGenerationResult {
   decision: CoachingDecision | null;
@@ -36,6 +37,39 @@ export async function generateCoachingDecision(userId: string): Promise<Decision
   };
 
   const savedDecision = await storage.createCoachingDecision(decisionData);
+
+  // Send push notification for the coaching decision
+  try {
+    const decisionMessages: Record<string, { title: string; body: string }> = {
+      deload_suggested: {
+        title: 'Recovery Week Recommended',
+        body: `Your trainer recommends a deload this week — ${result.primaryReason}.`,
+      },
+      reduce_volume: {
+        title: 'Adjust Your Training',
+        body: 'Your trainer is dialing back volume this week. Your body needs it.',
+      },
+      increase_volume: {
+        title: 'Time to Push Harder',
+        body: 'Your recovery looks solid. Your trainer is increasing your training load.',
+      },
+      maintain: {
+        title: 'Stay the Course',
+        body: "Your training balance is on point. Keep doing what you're doing.",
+      },
+    };
+    const msg = decisionMessages[result.decisionType];
+    if (msg) {
+      await sendPushNotification(userId, {
+        title: msg.title,
+        body: msg.body,
+        notificationType: 'trainer_followup',
+        deepLink: '/chat',
+      });
+    }
+  } catch (e) {
+    // Non-critical — don't fail the decision if push fails
+  }
 
   return {
     decision: savedDecision,

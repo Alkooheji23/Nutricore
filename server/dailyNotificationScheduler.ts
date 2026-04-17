@@ -1,6 +1,7 @@
 import { storage } from './storage';
-import { sendPushNotification, isPushEnabled } from './pushService';
+import { sendPushNotification, isPushEnabled, sendRecoveryNotification } from './pushService';
 import { generateDailyCoachingMessage } from './notificationMessageGenerator';
+import { calculateBaseline, generatePhysiologicalFlags, dailyActivityToMetrics } from './coaching/wearableDataContract';
 
 const DAILY_CHECK_INTERVAL = 60 * 60 * 1000;
 const TARGET_HOUR_UTC = 6;
@@ -101,9 +102,25 @@ async function sendDailyNotificationsToAllUsers() {
         if (result.success) {
           sent++;
         } else {
+          // Coaching message suppressed — check if recovery alert is needed instead
+          try {
+            const todayStr = new Date().toISOString().split('T')[0];
+            const sevenDaysAgoStr = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+            const activityHistory = await storage.getDailyActivityRange(userId, sevenDaysAgoStr, todayStr).catch(() => []);
+            if (activityHistory.length >= 5) {
+              const metrics = activityHistory.map(dailyActivityToMetrics);
+              const { baseline } = calculateBaseline(metrics);
+              const flags = generatePhysiologicalFlags(metrics, baseline);
+              if (flags.recoveryStatus === 'compromised' && flags.overallConfidence !== 'low') {
+                await sendRecoveryNotification(userId);
+              }
+            }
+          } catch (e) {
+            // Non-critical
+          }
           skipped++;
         }
-        
+
         await new Promise(resolve => setTimeout(resolve, 100));
         
       } catch (error) {

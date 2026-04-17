@@ -1,6 +1,6 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Loader2, Utensils, MessageCircle, Target, Apple, Beef, Droplet, ChevronRight, Sparkles, TrendingUp, Clock, RefreshCw, Plus, Search, X, Trash2, Check, Sun, Moon, ScanLine } from "lucide-react";
+import { Loader2, Utensils, MessageCircle, Target, Apple, Beef, Droplet, ChevronRight, Sparkles, TrendingUp, Clock, RefreshCw, Plus, Search, X, Trash2, Check, Sun, Moon, ScanLine, Star } from "lucide-react";
 import { useLocation, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -743,6 +743,7 @@ function EmptyState({ onTalkToTrainer }: { onTalkToTrainer: () => void }) {
 export default function Diet() {
   const [, setLocation] = useLocation();
   const [addFoodOpen, setAddFoodOpen] = useState(false);
+  const [ramadanOpen, setRamadanOpen] = useState(false);
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const today = new Date().toISOString().split('T')[0];
@@ -849,6 +850,16 @@ export default function Diet() {
       if (!res.ok) return [];
       return res.json();
     },
+  });
+
+  const { data: ramadanPlan } = useQuery<any>({
+    queryKey: ["/api/diet/ramadan"],
+    queryFn: async () => {
+      const res = await fetch("/api/diet/ramadan", { credentials: "include" });
+      if (!res.ok) return null;
+      return res.json();
+    },
+    enabled: ramadanOpen,
   });
 
   const isLoading = summaryLoading;
@@ -984,16 +995,89 @@ export default function Diet() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
+          className="flex gap-2"
         >
           <Button
             onClick={() => setAddFoodOpen(true)}
-            className="w-full gradient-primary text-white h-12"
+            className="flex-1 gradient-primary text-white h-12"
             data-testid="button-log-food"
           >
             <Plus className="w-5 h-5 mr-2" />
             Log Food
           </Button>
+          <Button
+            onClick={() => setRamadanOpen(true)}
+            variant="outline"
+            className="h-12 px-4 border-amber-500/40 text-amber-500 hover:bg-amber-500/10"
+            data-testid="button-ramadan-plan"
+          >
+            <Star className="w-4 h-4 mr-1.5" />
+            Ramadan
+          </Button>
         </motion.div>
+
+        {ramadanOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+          >
+            <Card className="bg-card/80 border border-amber-500/30">
+              <CardHeader className="pb-2 pt-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Star className="w-4 h-4 text-amber-500" />
+                    <CardTitle className="text-base">Ramadan Meal Plan</CardTitle>
+                  </div>
+                  <Button variant="ghost" size="icon" className="h-7 w-7" onClick={() => setRamadanOpen(false)}>
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+                {ramadanPlan && (
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {ramadanPlan.targetCalories} cal/day — {ramadanPlan.macros?.protein}g protein
+                  </p>
+                )}
+              </CardHeader>
+              <CardContent className="space-y-3 pb-4">
+                {!ramadanPlan ? (
+                  <div className="flex items-center justify-center py-6">
+                    <Loader2 className="w-5 h-5 animate-spin text-amber-500" />
+                  </div>
+                ) : (
+                  <>
+                    {ramadanPlan.meals?.map((meal: any, i: number) => (
+                      <div key={i} className="rounded-lg bg-amber-500/5 border border-amber-500/20 p-3 space-y-1.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-sm font-semibold">{meal.name}</span>
+                          <span className="text-xs text-amber-500 font-medium">{meal.calories} cal</span>
+                        </div>
+                        <p className="text-[10px] text-muted-foreground">{meal.timing}</p>
+                        <ul className="space-y-0.5">
+                          {meal.foods?.map((food: string, j: number) => (
+                            <li key={j} className="text-xs text-foreground/80 flex gap-1.5">
+                              <span className="text-amber-500 mt-0.5">•</span>{food}
+                            </li>
+                          ))}
+                        </ul>
+                        {meal.tips && (
+                          <p className="text-[10px] italic text-muted-foreground border-t border-amber-500/10 pt-1.5">{meal.tips}</p>
+                        )}
+                      </div>
+                    ))}
+                    <div className="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
+                      <p className="text-xs font-medium">Hydration Goal</p>
+                      <p className="text-xs text-muted-foreground">{ramadanPlan.hydrationGoal}</p>
+                    </div>
+                    <div className="rounded-lg bg-primary/5 border border-primary/20 p-3 space-y-1">
+                      <p className="text-xs font-medium">Training</p>
+                      <p className="text-xs text-muted-foreground">{ramadanPlan.trainingAdvice}</p>
+                    </div>
+                  </>
+                )}
+              </CardContent>
+            </Card>
+          </motion.div>
+        )}
 
         {logsLoading ? (
           <div className="flex items-center justify-center py-8">
