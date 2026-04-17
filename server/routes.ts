@@ -7877,6 +7877,76 @@ Format your response as JSON with these fields:
     }
   });
 
+  // Progress Analytics: Strength history per exercise
+  app.get('/api/progress/strength', isAuthenticated, requireTermsAccepted, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const since = new Date();
+      since.setMonth(since.getMonth() - 6);
+      const logs = await storage.getWorkoutLogs(userId, since);
+
+      const exerciseMap = new Map<string, { date: string; maxWeight: number; totalVolume: number }[]>();
+
+      for (const log of logs) {
+        const dateStr = typeof log.date === 'string' ? log.date : new Date(log.date).toISOString().split('T')[0];
+        const exercises = (log.exercises as any[]) || [];
+        for (const ex of exercises) {
+          if (!ex.name) continue;
+          const name = ex.name as string;
+          const sets = (ex.sets as any[]) || [];
+          let maxWeight = 0;
+          let volume = 0;
+          for (const s of sets) {
+            const w = Number(s.weight) || 0;
+            const r = Number(s.reps) || 0;
+            if (w > maxWeight) maxWeight = w;
+            volume += w * r;
+          }
+          if (maxWeight === 0 && ex.weight) maxWeight = Number(ex.weight) || 0;
+          if (!exerciseMap.has(name)) exerciseMap.set(name, []);
+          exerciseMap.get(name)!.push({ date: dateStr, maxWeight, totalVolume: volume });
+        }
+      }
+
+      const result = Array.from(exerciseMap.entries())
+        .filter(([, history]) => history.length >= 2)
+        .map(([exercise, history]) => ({
+          exercise,
+          history: history.sort((a, b) => a.date.localeCompare(b.date)),
+        }))
+        .sort((a, b) => b.history.length - a.history.length)
+        .slice(0, 10);
+
+      res.json(result);
+    } catch (error) {
+      console.error('Error fetching strength progress:', error);
+      res.status(500).json({ message: 'Failed to fetch strength data' });
+    }
+  });
+
+  // Progress Analytics: Activity trends (steps, HRV, calories)
+  app.get('/api/progress/activity', isAuthenticated, requireTermsAccepted, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const end = new Date();
+      const start = new Date();
+      start.setDate(start.getDate() - 90);
+      const startStr = start.toISOString().split('T')[0];
+      const endStr = end.toISOString().split('T')[0];
+      const activities = await storage.getDailyActivityRange(userId, startStr, endStr);
+      res.json(activities.map((a: any) => ({
+        date: a.date,
+        steps: a.steps || 0,
+        hrvScore: a.hrvScore || null,
+        caloriesBurned: a.caloriesBurned || a.calories || 0,
+        activeMinutes: a.activeMinutes || 0,
+      })));
+    } catch (error) {
+      console.error('Error fetching activity progress:', error);
+      res.status(500).json({ message: 'Failed to fetch activity data' });
+    }
+  });
+
   // Body Measurements Routes (weekly body composition tracking)
   app.get('/api/body-measurements', isAuthenticated, requireTermsAccepted, async (req: any, res) => {
     try {

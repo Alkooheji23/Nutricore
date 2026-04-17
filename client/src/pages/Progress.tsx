@@ -1,7 +1,8 @@
 import { useState, useMemo } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { format, subDays, subWeeks, subMonths, subYears, parseISO, startOfDay, startOfWeek, startOfMonth, startOfYear } from "date-fns";
-import { ArrowUp, ArrowDown, Pencil, Smartphone, EyeOff, Eye, MessageSquare, Plus, Ruler, TrendingUp, Calendar } from "lucide-react";
+import { ArrowUp, ArrowDown, Pencil, Smartphone, EyeOff, Eye, MessageSquare, Plus, Ruler, TrendingUp, Calendar, Dumbbell, Activity } from "lucide-react";
+import { LineChart, Line, BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from "recharts";
 import { 
   TIME_RANGES, 
   TimeRangeKey, 
@@ -34,6 +35,8 @@ const TIME_RANGE_SHORT_LABELS: Record<TimeRangeKey, string> = {
 const SUB_TABS = [
   { id: "weight", label: "Weight", icon: TrendingUp },
   { id: "measurements", label: "Body Comp", icon: Ruler },
+  { id: "strength", label: "Strength", icon: Dumbbell },
+  { id: "activity", label: "Activity", icon: Activity },
 ];
 
 const KG_TO_LB = 2.20462;
@@ -135,6 +138,28 @@ export default function Progress() {
   });
 
   const entries = useMemo(() => rawEntries, [rawEntries]);
+
+  const { data: strengthData = [] } = useQuery<{ exercise: string; history: { date: string; maxWeight: number; totalVolume: number }[] }[]>({
+    queryKey: ["/api/progress/strength"],
+    queryFn: async () => {
+      const res = await fetch("/api/progress/strength", { credentials: "include" });
+      if (!res.ok) return [];
+      return res.json();
+    },
+    enabled: selectedTab === "strength",
+  });
+
+  const [selectedExercise, setSelectedExercise] = useState<string>("");
+
+  const { data: activityData = [] } = useQuery<{ date: string; steps: number; hrvScore: number | null; caloriesBurned: number; activeMinutes: number }[]>({
+    queryKey: ["/api/progress/activity"],
+    queryFn: async () => {
+      const res = await fetch("/api/progress/activity", { credentials: "include" });
+      if (!res.ok) return [];
+      return res.json();
+    },
+    enabled: selectedTab === "activity",
+  });
 
   const saveMutation = useMutation({
     mutationFn: async (data: { date: string; weight: number }) => {
@@ -418,6 +443,110 @@ export default function Progress() {
             }}
             onDelete={(id) => deleteMeasurementMutation.mutate(id)}
           />
+        )}
+
+        {selectedTab === "strength" && (
+          <div className="space-y-6">
+            {strengthData.length === 0 ? (
+              <div className="text-center py-16 text-muted-foreground">
+                <Dumbbell className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                <p>No strength data yet. Log workouts with weights to see your progress here.</p>
+              </div>
+            ) : (
+              <>
+                <div className="flex gap-2 flex-wrap">
+                  {strengthData.map((d) => (
+                    <button
+                      key={d.exercise}
+                      onClick={() => setSelectedExercise(d.exercise)}
+                      className={`px-3 py-1.5 rounded-full text-sm font-medium transition-all ${
+                        (selectedExercise || strengthData[0]?.exercise) === d.exercise
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-muted text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      {d.exercise}
+                    </button>
+                  ))}
+                </div>
+                {(() => {
+                  const active = strengthData.find(d => d.exercise === (selectedExercise || strengthData[0]?.exercise));
+                  if (!active) return null;
+                  const pr = Math.max(...active.history.map(h => h.maxWeight));
+                  return (
+                    <Card>
+                      <CardHeader className="pb-2">
+                        <CardTitle className="text-base">{active.exercise}</CardTitle>
+                        <CardDescription>PR: {pr} kg</CardDescription>
+                      </CardHeader>
+                      <CardContent>
+                        <ResponsiveContainer width="100%" height={200}>
+                          <LineChart data={active.history}>
+                            <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                            <XAxis dataKey="date" tick={{ fontSize: 11 }} tickFormatter={(d) => format(parseISO(d), "MMM d")} />
+                            <YAxis tick={{ fontSize: 11 }} unit="kg" />
+                            <Tooltip formatter={(v: any) => [`${v} kg`, "Max Weight"]} labelFormatter={(d) => format(parseISO(d), "MMM d, yyyy")} />
+                            <Line type="monotone" dataKey="maxWeight" stroke="hsl(var(--primary))" strokeWidth={2} dot={{ r: 3 }} />
+                          </LineChart>
+                        </ResponsiveContainer>
+                      </CardContent>
+                    </Card>
+                  );
+                })()}
+              </>
+            )}
+          </div>
+        )}
+
+        {selectedTab === "activity" && (
+          <div className="space-y-6">
+            {activityData.length === 0 ? (
+              <div className="text-center py-16 text-muted-foreground">
+                <Activity className="w-10 h-10 mx-auto mb-3 opacity-30" />
+                <p>No activity data yet. Connect your Garmin or Fitbit to see trends here.</p>
+              </div>
+            ) : (
+              <>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-base">Daily Steps</CardTitle>
+                    <CardDescription>Last 90 days</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <ResponsiveContainer width="100%" height={180}>
+                      <BarChart data={activityData.slice(-30)}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis dataKey="date" tick={{ fontSize: 10 }} tickFormatter={(d) => format(parseISO(d), "MMM d")} interval={6} />
+                        <YAxis tick={{ fontSize: 11 }} />
+                        <Tooltip formatter={(v: any) => [v.toLocaleString(), "Steps"]} labelFormatter={(d) => format(parseISO(d), "MMM d, yyyy")} />
+                        <Bar dataKey="steps" fill="hsl(var(--primary))" radius={[2, 2, 0, 0]} />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  </CardContent>
+                </Card>
+
+                {activityData.some(d => d.hrvScore) && (
+                  <Card>
+                    <CardHeader className="pb-2">
+                      <CardTitle className="text-base">HRV Score</CardTitle>
+                      <CardDescription>Heart Rate Variability — higher is better recovery</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <ResponsiveContainer width="100%" height={180}>
+                        <LineChart data={activityData.filter(d => d.hrvScore)}>
+                          <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                          <XAxis dataKey="date" tick={{ fontSize: 10 }} tickFormatter={(d) => format(parseISO(d), "MMM d")} />
+                          <YAxis tick={{ fontSize: 11 }} />
+                          <Tooltip formatter={(v: any) => [v, "HRV"]} labelFormatter={(d) => format(parseISO(d), "MMM d, yyyy")} />
+                          <Line type="monotone" dataKey="hrvScore" stroke="#D4AF37" strokeWidth={2} dot={{ r: 2 }} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </CardContent>
+                  </Card>
+                )}
+              </>
+            )}
+          </div>
         )}
       </div>
 
