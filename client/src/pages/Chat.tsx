@@ -453,18 +453,20 @@ export default function Chat() {
   const [onboardingTriggered, setOnboardingTriggered] = useState(false);
   const [pendingCoachIntro, setPendingCoachIntro] = useState(false);
 
-  // Step 1: detect empty chat and ensure a conversation exists
+  // Step 1: when user has no conversations at all, create one and queue intro
   useEffect(() => {
-    if (user && !isLoading && messages.length === 0 && !onboardingTriggered && !sendMessage.isPending) {
+    if (
+      user &&
+      conversationsLoaded &&
+      conversationsList.length === 0 &&
+      !onboardingTriggered &&
+      !createConversation.isPending
+    ) {
       setOnboardingTriggered(true);
-      if (!activeConversationId) {
-        setPendingCoachIntro(true);
-        createConversation.mutate("New Chat");
-      } else {
-        sendMessage.mutate("__coach_intro__");
-      }
+      setPendingCoachIntro(true);
+      createConversation.mutate("New Chat");
     }
-  }, [user, isLoading, messages.length, onboardingTriggered, sendMessage.isPending, activeConversationId]);
+  }, [user, conversationsLoaded, conversationsList.length, onboardingTriggered, createConversation.isPending]);
 
   // Step 2: once conversation is ready, send the intro
   useEffect(() => {
@@ -748,7 +750,7 @@ export default function Chat() {
 
   const [showPlusMenu, setShowPlusMenu] = useState(false);
 
-  const { data: conversationsList = [] } = useQuery<{ id: string; title: string; createdAt: string }[]>({
+  const { data: conversationsList = [], isSuccess: conversationsLoaded } = useQuery<{ id: string; title: string; createdAt: string }[]>({
     queryKey: ["/api/conversations"],
     queryFn: async () => {
       const res = await fetch("/api/conversations", { credentials: "include" });
