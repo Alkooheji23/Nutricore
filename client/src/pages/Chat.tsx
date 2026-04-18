@@ -453,29 +453,28 @@ export default function Chat() {
   const [onboardingTriggered, setOnboardingTriggered] = useState(false);
   const [pendingCoachIntro, setPendingCoachIntro] = useState(false);
 
-  // Step 1: when user has no conversations at all, create one and queue intro
-  // Note: createConversation is defined below but accessed via ref to avoid TDZ error
-  const createConversationRef = useRef<typeof createConversation | null>(null);
+  // Step 1: when user has no conversations, create one directly via fetch (avoids TDZ on createConversation)
   useEffect(() => {
-    if (
-      user &&
-      conversationsLoaded &&
-      conversationsList.length === 0 &&
-      !onboardingTriggered &&
-      createConversationRef.current &&
-      !createConversationRef.current.isPending
-    ) {
+    if (user && conversationsLoaded && conversationsList.length === 0 && !onboardingTriggered) {
       setOnboardingTriggered(true);
       setPendingCoachIntro(true);
-      createConversationRef.current.mutate("New Chat");
+      fetch("/api/conversations", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ title: "New Chat" }),
+        credentials: "include",
+      })
+        .then(r => r.json())
+        .then(newConvo => {
+          if (newConvo?.id) setActiveConversationId(newConvo.id);
+        })
+        .catch(() => setPendingCoachIntro(false));
     }
   }, [user, conversationsLoaded, conversationsList.length, onboardingTriggered]);
 
   // Step 2: once conversation is ready, send the intro
   useEffect(() => {
-    console.log('[CoachIntro] Step2 — pending:', pendingCoachIntro, 'convId:', activeConversationId, 'sending:', sendMessage.isPending);
     if (pendingCoachIntro && activeConversationId && !sendMessage.isPending) {
-      console.log('[CoachIntro] Sending __coach_intro__');
       setPendingCoachIntro(false);
       sendMessage.mutate("__coach_intro__");
     }
@@ -781,8 +780,6 @@ export default function Chat() {
       queryClient.invalidateQueries({ queryKey: ["/api/chat/messages", newConvo.id] });
     },
   });
-
-  createConversationRef.current = createConversation;
 
   const deleteConversation = useMutation({
     mutationFn: async (id: string) => {
