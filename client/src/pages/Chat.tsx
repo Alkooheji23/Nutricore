@@ -454,21 +454,22 @@ export default function Chat() {
   const [pendingCoachIntro, setPendingCoachIntro] = useState(false);
 
   // Step 1: when user has no conversations at all, create one and queue intro
+  // Note: createConversation is defined below but accessed via ref to avoid TDZ error
+  const createConversationRef = useRef<typeof createConversation | null>(null);
   useEffect(() => {
-    console.log('[CoachIntro] user:', !!user, 'loaded:', conversationsLoaded, 'convos:', conversationsList.length, 'triggered:', onboardingTriggered, 'pending:', createConversation.isPending);
     if (
       user &&
       conversationsLoaded &&
       conversationsList.length === 0 &&
       !onboardingTriggered &&
-      !createConversation.isPending
+      createConversationRef.current &&
+      !createConversationRef.current.isPending
     ) {
-      console.log('[CoachIntro] Firing — creating conversation');
       setOnboardingTriggered(true);
       setPendingCoachIntro(true);
-      createConversation.mutate("New Chat");
+      createConversationRef.current.mutate("New Chat");
     }
-  }, [user, conversationsLoaded, conversationsList.length, onboardingTriggered, createConversation.isPending]);
+  }, [user, conversationsLoaded, conversationsList.length, onboardingTriggered]);
 
   // Step 2: once conversation is ready, send the intro
   useEffect(() => {
@@ -780,6 +781,8 @@ export default function Chat() {
       queryClient.invalidateQueries({ queryKey: ["/api/chat/messages", newConvo.id] });
     },
   });
+
+  createConversationRef.current = createConversation;
 
   const deleteConversation = useMutation({
     mutationFn: async (id: string) => {
