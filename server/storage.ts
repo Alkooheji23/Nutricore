@@ -3686,8 +3686,8 @@ export class DatabaseStorage implements IStorage {
       .limit(limit);
   }
 
-  // Wipe all fitness/profile/chat data for a user without touching auth or admin status
-  async resetUserForOnboarding(userId: string): Promise<void> {
+  // Wipe all fitness/profile/chat data for a user, optionally clearing admin status
+  async resetUserForOnboarding(userId: string, clearAdmin = false): Promise<void> {
     await Promise.all([
       // Clear profile fields, force onboarding
       db.update(users).set({
@@ -3701,6 +3701,7 @@ export class DatabaseStorage implements IStorage {
         fitnessGoal: null,
         activityLevel: null,
         profileComplete: false,
+        ...(clearAdmin ? { isAdmin: false } : {}),
       }).where(eq(users.id, userId)),
 
       // Wipe fitness profile + coaching prefs

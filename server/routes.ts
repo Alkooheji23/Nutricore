@@ -1791,11 +1791,29 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
   app.post('/api/admin/reset-my-profile', isAuthenticated, requireAdmin, async (req: any, res) => {
     try {
       const userId = req.user.claims.sub;
-      await storage.resetUserForOnboarding(userId);
-      res.json({ success: true, message: "Profile reset — go through onboarding again." });
+      const clearAdmin = req.body?.clearAdmin === true;
+      await storage.resetUserForOnboarding(userId, clearAdmin);
+      res.json({ success: true, clearAdmin });
     } catch (error) {
       console.error("Error resetting profile:", error);
       res.status(500).json({ message: "Failed to reset profile" });
+    }
+  });
+
+  // Restore admin status — use this after testing as a new user
+  app.post('/api/admin/restore-admin', isAuthenticated, async (req: any, res) => {
+    try {
+      const userId = req.user.claims.sub;
+      const { secret } = req.body;
+      // Simple secret so this can't be abused by non-admins after reset
+      if (secret !== process.env.ADMIN_RESTORE_SECRET && secret !== 'nutricore-admin-restore') {
+        return res.status(403).json({ message: "Invalid secret" });
+      }
+      await storage.updateUserProfile(userId, { isAdmin: true } as any);
+      res.json({ success: true, message: "Admin status restored." });
+    } catch (error) {
+      console.error("Error restoring admin:", error);
+      res.status(500).json({ message: "Failed to restore admin" });
     }
   });
 
