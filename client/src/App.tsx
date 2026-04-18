@@ -52,7 +52,7 @@ function ProtectedRoute({ component: Component, allowIncompleteProfile = false }
   useEffect(() => {
     if (user && user.termsAccepted && !user.profileComplete && !allowIncompleteProfile && location !== "/chat" && location !== "/onboarding") {
       setRedirecting(true);
-      setLocation("/home");
+      setLocation("/onboarding");
     }
   }, [user, allowIncompleteProfile, location, setLocation]);
 
