@@ -451,19 +451,28 @@ export default function Chat() {
 
   // Auto-trigger onboarding for users who need goal/activity level collected
   const [onboardingTriggered, setOnboardingTriggered] = useState(false);
-  
+  const [pendingCoachIntro, setPendingCoachIntro] = useState(false);
+
+  // Step 1: detect empty chat and ensure a conversation exists
   useEffect(() => {
-    if (
-      user &&
-      !isLoading &&
-      messages.length === 0 &&
-      !onboardingTriggered &&
-      !sendMessage.isPending
-    ) {
+    if (user && !isLoading && messages.length === 0 && !onboardingTriggered && !sendMessage.isPending) {
       setOnboardingTriggered(true);
+      if (!activeConversationId) {
+        setPendingCoachIntro(true);
+        createConversation.mutate("New Chat");
+      } else {
+        sendMessage.mutate("__coach_intro__");
+      }
+    }
+  }, [user, isLoading, messages.length, onboardingTriggered, sendMessage.isPending, activeConversationId]);
+
+  // Step 2: once conversation is ready, send the intro
+  useEffect(() => {
+    if (pendingCoachIntro && activeConversationId && !sendMessage.isPending) {
+      setPendingCoachIntro(false);
       sendMessage.mutate("__coach_intro__");
     }
-  }, [user, isLoading, messages.length, onboardingTriggered, sendMessage.isPending]);
+  }, [pendingCoachIntro, activeConversationId, sendMessage.isPending]);
 
   const handleSend = async () => {
     const uploadedPhotoUrls = pendingPhotos
