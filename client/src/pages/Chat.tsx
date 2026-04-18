@@ -453,18 +453,15 @@ export default function Chat() {
   const [onboardingTriggered, setOnboardingTriggered] = useState(false);
   
   useEffect(() => {
-    // Trigger when user needs onboarding (goal or activity level not set)
-    const needsOnboarding = user && (!user.fitnessGoal || !user.activityLevel);
     if (
-      needsOnboarding && 
-      !isLoading && 
-      messages.length === 0 && 
+      user &&
+      !isLoading &&
+      messages.length === 0 &&
       !onboardingTriggered &&
       !sendMessage.isPending
     ) {
       setOnboardingTriggered(true);
-      // Neutral trigger to start the coach-first onboarding
-      sendMessage.mutate("Ready to get started");
+      sendMessage.mutate("__coach_intro__");
     }
   }, [user, isLoading, messages.length, onboardingTriggered, sendMessage.isPending]);
 
@@ -1099,7 +1096,7 @@ export default function Chat() {
             ) : (
               <div className="space-y-6 pb-4">
                 <AnimatePresence initial={false}>
-                {messages.map((msg) => (
+                {messages.filter(msg => !(msg.role === "user" && msg.content === "__coach_intro__")).map((msg) => (
                   <motion.div
                     key={msg.id}
                     initial={{ opacity: 0, y: 12 }}

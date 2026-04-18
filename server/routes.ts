@@ -704,6 +704,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
     firstName: z.string().min(1, "First name is required"),
     lastName: optionalString,
     age: z.number().min(13).max(120),
+    dateOfBirth: optionalString,
     gender: optionalString,
     nationality: optionalString,
     currentWeight: z.number().min(30).max(300),
@@ -732,6 +733,7 @@ export async function registerRoutes(httpServer: Server, app: Express): Promise<
         firstName: data.firstName,
         lastName: data.lastName ?? null,
         age: data.age,
+        dateOfBirth: data.dateOfBirth ?? null,
         gender: data.gender ?? null,
         nationality: data.nationality ?? null,
         currentWeight: data.currentWeight,
@@ -3803,6 +3805,13 @@ RESPONSE STYLE:
 - For casual greetings (Hi, Hello, Hey): Respond warmly and briefly, then ask how you can help with their training
 - For coaching questions or requests: Be direct and decisive with your recommendation
 - Never output internal system formats like "VERDICT:" or "STATUS:" - those are for internal processing only
+
+FIRST MESSAGE RULE:
+- If the user's message is exactly "__coach_intro__", this is their very first time opening the app after onboarding. Do NOT repeat this token back.
+- Greet them by first name, introduce yourself as their coach in one sentence.
+- Acknowledge their goal and sport/activity from their profile (e.g. "I see you're focused on strength training and want to build muscle").
+- Then ask ONE specific question to understand them better — something that will shape their plan (e.g. how many days per week they train, their biggest challenge, how long they've been training, or what they've tried before).
+- Keep the whole message under 4 sentences. Warm but direct.
 
 FORBIDDEN LANGUAGE - Never use:
 - "Based on your data…"

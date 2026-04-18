@@ -11,7 +11,8 @@ import phoenixLogo from "@assets/generated_images/phoenix_muted_olive_champagne.
 
 interface ProfileData {
   firstName: string;
-  age: number | null;
+  lastName: string;
+  dateOfBirth: string;   // stored as YYYY-MM-DD
   gender: string;
   height: number | null;      // always stored in cm
   heightUnit: "cm" | "ft";
@@ -118,7 +119,8 @@ export default function Onboarding() {
 
   const [data, setData] = useState<ProfileData>({
     firstName: "",
-    age: null,
+    lastName: "",
+    dateOfBirth: "",
     gender: "",
     height: null,
     heightUnit: "cm",
@@ -133,6 +135,18 @@ export default function Onboarding() {
 
   const set = <K extends keyof ProfileData>(field: K, value: ProfileData[K]) =>
     setData(prev => ({ ...prev, [field]: value }));
+
+  // Calculate age in years from YYYY-MM-DD
+  const ageFromDob = (dob: string): number | null => {
+    if (!dob) return null;
+    const birth = new Date(dob);
+    if (isNaN(birth.getTime())) return null;
+    const today = new Date();
+    let age = today.getFullYear() - birth.getFullYear();
+    const m = today.getMonth() - birth.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birth.getDate())) age--;
+    return age;
+  };
 
   // Convert ft+in → cm
   const heightInCm = () => {
@@ -155,7 +169,9 @@ export default function Onboarding() {
         credentials: "include",
         body: JSON.stringify({
           firstName: data.firstName.trim(),
-          age: data.age,
+          lastName: data.lastName.trim() || null,
+          age: ageFromDob(data.dateOfBirth),
+          dateOfBirth: data.dateOfBirth || null,
           gender: data.gender === "Prefer not to say" ? null : data.gender,
           height: cm,
           currentWeight: data.currentWeight,
@@ -188,7 +204,10 @@ export default function Onboarding() {
 
   // ── Validation per step ──
   const canProceed = () => {
-    if (step === 0) return data.firstName.trim() !== "" && data.age !== null && data.age >= 13 && data.gender !== "";
+    if (step === 0) {
+      const age = ageFromDob(data.dateOfBirth);
+      return data.firstName.trim() !== "" && age !== null && age >= 13 && data.gender !== "";
+    }
     if (step === 1) {
       const cm = heightInCm();
       return cm !== null && cm >= 100 && data.currentWeight !== null && data.currentWeight > 0;
@@ -226,29 +245,39 @@ export default function Onboarding() {
               <p className="text-xs text-muted-foreground">This personalizes your coaching experience.</p>
             </div>
 
-            <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground uppercase tracking-wide">First name</label>
-              <Input
-                value={data.firstName}
-                onChange={e => set("firstName", e.target.value)}
-                placeholder="Your name"
-                className="bg-white/5 border-white/10 h-12"
-                data-testid="input-first-name"
-                autoFocus
-              />
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <label className="text-xs text-muted-foreground uppercase tracking-wide">First name</label>
+                <Input
+                  value={data.firstName}
+                  onChange={e => set("firstName", e.target.value)}
+                  placeholder="Mohamed"
+                  className="bg-white/5 border-white/10 h-12"
+                  data-testid="input-first-name"
+                  autoFocus
+                />
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs text-muted-foreground uppercase tracking-wide">Last name</label>
+                <Input
+                  value={data.lastName}
+                  onChange={e => set("lastName", e.target.value)}
+                  placeholder="Al-Kooheji"
+                  className="bg-white/5 border-white/10 h-12"
+                  data-testid="input-last-name"
+                />
+              </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs text-muted-foreground uppercase tracking-wide">Age</label>
+              <label className="text-xs text-muted-foreground uppercase tracking-wide">Date of birth</label>
               <Input
-                type="number"
-                min={13}
-                max={100}
-                value={data.age ?? ""}
-                onChange={e => set("age", parseInt(e.target.value) || null)}
-                placeholder="25"
+                type="date"
+                max={new Date(Date.now() - 13 * 365.25 * 24 * 60 * 60 * 1000).toISOString().split("T")[0]}
+                value={data.dateOfBirth}
+                onChange={e => set("dateOfBirth", e.target.value)}
                 className="bg-white/5 border-white/10 h-12"
-                data-testid="input-age"
+                data-testid="input-dob"
               />
             </div>
 

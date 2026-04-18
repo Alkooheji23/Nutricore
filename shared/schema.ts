@@ -40,6 +40,7 @@ export const users = pgTable("users", {
   targetWeight: real("target_weight"),
   height: real("height"),
   age: integer("age"),
+  dateOfBirth: varchar("date_of_birth", { length: 10 }),  // YYYY-MM-DD
   gender: varchar("gender", { length: 20 }),
   fitnessGoal: varchar("fitness_goal", { length: 100 }),
   activityLevel: varchar("activity_level", { length: 50 }),
