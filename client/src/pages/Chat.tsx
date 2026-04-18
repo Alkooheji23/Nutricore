@@ -455,6 +455,7 @@ export default function Chat() {
 
   // Step 1: when user has no conversations at all, create one and queue intro
   useEffect(() => {
+    console.log('[CoachIntro] user:', !!user, 'loaded:', conversationsLoaded, 'convos:', conversationsList.length, 'triggered:', onboardingTriggered, 'pending:', createConversation.isPending);
     if (
       user &&
       conversationsLoaded &&
@@ -462,6 +463,7 @@ export default function Chat() {
       !onboardingTriggered &&
       !createConversation.isPending
     ) {
+      console.log('[CoachIntro] Firing — creating conversation');
       setOnboardingTriggered(true);
       setPendingCoachIntro(true);
       createConversation.mutate("New Chat");
@@ -470,7 +472,9 @@ export default function Chat() {
 
   // Step 2: once conversation is ready, send the intro
   useEffect(() => {
+    console.log('[CoachIntro] Step2 — pending:', pendingCoachIntro, 'convId:', activeConversationId, 'sending:', sendMessage.isPending);
     if (pendingCoachIntro && activeConversationId && !sendMessage.isPending) {
+      console.log('[CoachIntro] Sending __coach_intro__');
       setPendingCoachIntro(false);
       sendMessage.mutate("__coach_intro__");
     }
