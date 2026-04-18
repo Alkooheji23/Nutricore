@@ -5,32 +5,22 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Badge } from "@/components/ui/badge";
-import { 
-  Send, 
-  Bot, 
-  User, 
-  Sparkles, 
-  Loader2, 
+import {
+  Send,
+  Sparkles,
+  Loader2,
   Check,
   Star,
   Lock,
   Crown,
-  Paperclip,
-  Calendar,
-  Gift,
   ChevronRight,
-  LogIn,
   Plus,
-  Upload,
-  Moon,
-  Sun,
   Trash2,
   Menu,
-  MessageSquare,
-  ClipboardList,
-  Trophy,
   Shield,
-  Watch
+  Watch,
+  Dumbbell,
+  Gift,
 } from "lucide-react";
 import { PremiumIcon } from "@/components/ui/premium-icons";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -63,12 +53,6 @@ export default function Landing() {
   const [showSignInModal, setShowSignInModal] = useState(false);
   const [signInFeature, setSignInFeature] = useState<string>("");
   const [guestMessageCount, setGuestMessageCount] = useState(0);
-  const [showFocusGroupModal, setShowFocusGroupModal] = useState(false);
-  const [focusGroupEmail, setFocusGroupEmail] = useState("");
-  const [focusGroupName, setFocusGroupName] = useState("");
-  const [focusGroupLoading, setFocusGroupLoading] = useState(false);
-  const [focusGroupSuccess, setFocusGroupSuccess] = useState(false);
-  const [focusGroupError, setFocusGroupError] = useState("");
 
   // Redirect logged-in users to their dashboard
   useEffect(() => {
@@ -77,35 +61,6 @@ export default function Landing() {
     }
   }, [user, isHydrating, setLocation]);
 
-  const handleFocusGroupSignup = async () => {
-    if (!focusGroupEmail.includes('@')) {
-      setFocusGroupError("Please enter a valid email address");
-      return;
-    }
-    
-    setFocusGroupLoading(true);
-    setFocusGroupError("");
-    
-    try {
-      const res = await fetch('/api/focus-group/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: focusGroupEmail, firstName: focusGroupName }),
-      });
-      
-      const data = await res.json();
-      
-      if (res.ok) {
-        setFocusGroupSuccess(true);
-      } else {
-        setFocusGroupError(data.message || 'Signup failed. Please try again.');
-      }
-    } catch (err) {
-      setFocusGroupError('Network error. Please try again.');
-    } finally {
-      setFocusGroupLoading(false);
-    }
-  };
   const [showPlusMenu, setShowPlusMenu] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -367,36 +322,50 @@ export default function Landing() {
                 <Logo size="lg" />
               </div>
               
-              {/* Premium Hero Content */}
+              {/* Hero Content */}
               <div className="max-w-2xl mx-auto px-4">
-                {/* Refined Headline */}
-                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display headline-luxury mb-6">
-                  Elite AI Coaching
-                </h1>
-                
-                {/* Premium Subheadline */}
-                <p className="subhead-luxury text-lg md:text-xl max-w-lg mx-auto mb-10 leading-relaxed">
-                  Personalized training and nutrition guidance powered by sports science.
-                </p>
-                
-                {/* Premium Free Preview Badge */}
-                <div className="badge-luxury inline-flex items-center gap-2 px-5 py-2.5 rounded-full mb-10">
-                  <div className="w-2 h-2 rounded-full bg-[#D4AF37] animate-pulse" />
-                  <span className="text-sm font-medium tracking-wide">Free Preview Access</span>
+                {/* Eyebrow */}
+                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#D4AF37]/30 bg-[#D4AF37]/5 mb-8">
+                  <div className="w-1.5 h-1.5 rounded-full bg-[#D4AF37] animate-pulse" />
+                  <span className="text-xs font-medium tracking-widest uppercase text-[#D4AF37]">AI Sports Coaching</span>
                 </div>
-                
-                {/* Focus Group CTA - Premium Button */}
-                <div className="space-y-4">
+
+                {/* Headline */}
+                <h1 className="text-4xl md:text-5xl lg:text-6xl font-display headline-luxury mb-5 leading-tight">
+                  Train smarter.<br />Recover faster.
+                </h1>
+
+                {/* Subheadline */}
+                <p className="subhead-luxury text-base md:text-lg max-w-md mx-auto mb-10 leading-relaxed">
+                  A personal coach that knows your sport, tracks your recovery, and adapts every week.
+                </p>
+
+                {/* Feature pills */}
+                <div className="flex flex-wrap justify-center gap-2 mb-10">
+                  {[
+                    { icon: Dumbbell, label: "Personalized Plans" },
+                    { icon: Watch,   label: "Wearable Sync" },
+                    { icon: Shield,  label: "Nutrition Tracking" },
+                  ].map(({ icon: Icon, label }) => (
+                    <div key={label} className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs text-muted-foreground">
+                      <Icon className="w-3.5 h-3.5" />
+                      {label}
+                    </div>
+                  ))}
+                </div>
+
+                {/* CTA */}
+                <div className="space-y-3">
                   <Button
-                    onClick={() => setShowFocusGroupModal(true)}
-                    className="btn-luxury text-white font-semibold px-10 py-6 text-base rounded-xl"
-                    data-testid="button-join-focus-group-cta"
+                    onClick={() => window.location.href = '/api/login'}
+                    className="btn-luxury text-black font-semibold px-10 py-6 text-base rounded-xl"
+                    data-testid="button-get-started"
                   >
-                    <Crown className="w-5 h-5 mr-3" />
-                    Join Focus Group
+                    Get Started Free
+                    <ChevronRight className="w-5 h-5 ml-1" />
                   </Button>
-                  <p className="text-xs text-[#666666] tracking-wide">
-                    Limited early access • Full features unlocked
+                  <p className="text-xs text-[#555555] tracking-wide">
+                    No credit card required · Cancel anytime
                   </p>
                 </div>
               </div>
@@ -613,7 +582,7 @@ export default function Landing() {
       {/* Footer with Privacy Link */}
       <footer className="border-t border-white/5 bg-background py-3 px-4">
         <div className="max-w-3xl mx-auto flex items-center justify-center gap-4 text-[10px] text-muted-foreground/60">
-          <span>© 2025 NutriCore</span>
+          <span>© 2026 NutriCore</span>
           <span>•</span>
           <Link href="/privacy" className="hover:text-foreground transition-colors" data-testid="link-privacy">
             Privacy Policy
@@ -762,106 +731,6 @@ export default function Landing() {
         </DialogContent>
       </Dialog>
 
-      {/* Focus Group Signup Modal */}
-      <Dialog open={showFocusGroupModal} onOpenChange={(open) => {
-        setShowFocusGroupModal(open);
-        if (!open) {
-          setFocusGroupSuccess(false);
-          setFocusGroupError("");
-        }
-      }}>
-        <DialogContent className="sm:max-w-md bg-card border-white/10">
-          <DialogHeader className="text-center">
-            <div className="w-16 h-16 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-4">
-              <Sparkles className="w-8 h-8 text-primary" />
-            </div>
-            <DialogTitle className="text-xl font-display">
-              {focusGroupSuccess ? "Check Your Email!" : "Join the Focus Group"}
-            </DialogTitle>
-            <DialogDescription className="text-muted-foreground">
-              {focusGroupSuccess 
-                ? "We've sent you a verification link. Click it to confirm your spot."
-                : "Get early access to NutriCore's full coaching experience."}
-            </DialogDescription>
-          </DialogHeader>
-          
-          {focusGroupSuccess ? (
-            <div className="py-4 space-y-4">
-              <div className="w-20 h-20 rounded-full bg-green-500/20 flex items-center justify-center mx-auto">
-                <Check className="w-10 h-10 text-green-500" />
-              </div>
-              <p className="text-sm text-muted-foreground text-center">
-                Verify your email to join the waitlist. We'll let you know when your spot opens up!
-              </p>
-              <Button
-                onClick={() => setShowFocusGroupModal(false)}
-                className="w-full"
-                variant="outline"
-              >
-                Got it
-              </Button>
-            </div>
-          ) : (
-            <div className="space-y-4 py-4">
-              <div className="space-y-3">
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground mb-1.5 block">Your Name (optional)</label>
-                  <Input
-                    placeholder="First name"
-                    value={focusGroupName}
-                    onChange={(e) => setFocusGroupName(e.target.value)}
-                    className="h-11 bg-white/5 border-white/10"
-                    data-testid="input-focus-group-name"
-                  />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-muted-foreground mb-1.5 block">Email Address *</label>
-                  <Input
-                    type="email"
-                    placeholder="your@email.com"
-                    value={focusGroupEmail}
-                    onChange={(e) => setFocusGroupEmail(e.target.value)}
-                    className="h-11 bg-white/5 border-white/10"
-                    data-testid="input-focus-group-email"
-                  />
-                </div>
-              </div>
-              
-              {focusGroupError && (
-                <p className="text-sm text-red-400 text-center">{focusGroupError}</p>
-              )}
-              
-              <div className="p-4 rounded-xl bg-primary/5 border border-primary/20 space-y-2">
-                <p className="text-sm font-medium text-primary">What you'll get:</p>
-                <ul className="text-sm text-muted-foreground space-y-1">
-                  <li className="flex items-center gap-2"><Check className="w-3 h-3 text-primary" /> Personalized workout & diet plans</li>
-                  <li className="flex items-center gap-2"><Check className="w-3 h-3 text-primary" /> AI that remembers your journey</li>
-                  <li className="flex items-center gap-2"><Check className="w-3 h-3 text-primary" /> Unlimited coaching chat</li>
-                  <li className="flex items-center gap-2"><Check className="w-3 h-3 text-primary" /> Priority access to new features</li>
-                </ul>
-              </div>
-
-              <Button 
-                onClick={handleFocusGroupSignup}
-                disabled={focusGroupLoading || !focusGroupEmail}
-                className="w-full h-12 gradient-primary text-white font-semibold premium-glow" 
-                data-testid="button-join-focus-group"
-              >
-                {focusGroupLoading ? (
-                  <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                ) : (
-                  <Sparkles className="w-4 h-4 mr-2" />
-                )}
-                {focusGroupLoading ? "Signing up..." : "Join Focus Group"}
-              </Button>
-              
-              <p className="text-[10px] text-center text-muted-foreground">
-                By signing up, you agree to receive updates about NutriCore.
-              </p>
-            </div>
-          )}
-        </DialogContent>
-      </Dialog>
     </div>
   );
 }
