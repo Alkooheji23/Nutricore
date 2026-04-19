@@ -36,9 +36,47 @@ export default defineConfig({
     },
   },
   root: path.resolve(import.meta.dirname, "client"),
+  optimizeDeps: {
+    // Force Vite to pre-bundle the unified/remark/rehype ESM ecosystem.
+    // These pure-ESM packages have internal circular references that cause
+    // "Cannot access before initialization" TDZ crashes when Rollup bundles
+    // them statically. Pre-bundling converts them to a single CJS-compatible
+    // module that initialises in a safe, deterministic order.
+    include: [
+      "react-markdown",
+      "remark-parse",
+      "remark-rehype",
+      "rehype-stringify",
+      "unified",
+      "vfile",
+      "unist-util-visit",
+    ],
+  },
   build: {
     outDir: path.resolve(import.meta.dirname, "dist/public"),
     emptyOutDir: true,
+    rollupOptions: {
+      output: {
+        // Isolate the unified/markdown ecosystem into its own vendor chunk so
+        // its internal circular references are resolved within that chunk alone
+        // and never pollute the main application bundle's initialisation order.
+        manualChunks(id) {
+          if (
+            id.includes("node_modules/react-markdown") ||
+            id.includes("node_modules/unified") ||
+            id.includes("node_modules/remark") ||
+            id.includes("node_modules/rehype") ||
+            id.includes("node_modules/vfile") ||
+            id.includes("node_modules/unist") ||
+            id.includes("node_modules/micromark") ||
+            id.includes("node_modules/mdast") ||
+            id.includes("node_modules/hast")
+          ) {
+            return "markdown-vendor";
+          }
+        },
+      },
+    },
   },
   server: {
     host: "0.0.0.0",
