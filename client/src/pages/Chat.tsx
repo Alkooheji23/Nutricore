@@ -1,11 +1,14 @@
-import { useRef, useEffect, useState, useLayoutEffect } from "react";
+import { useRef, useEffect, useState, useLayoutEffect, lazy, Suspense } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
-import ReactMarkdown from "react-markdown";
+// Lazy-load react-markdown to prevent TDZ crash — the unified/remark/rehype ESM ecosystem
+// has circular module references that cause "Cannot access before initialization" when
+// bundled statically. Dynamic import defers their initialization past the render cycle.
+const ReactMarkdown = lazy(() => import("react-markdown"));
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Send, 
@@ -1165,18 +1168,20 @@ export default function Chat() {
                               }`}
                             >
                               <div className="whitespace-pre-wrap prose prose-sm prose-invert max-w-none">
-                                                <ReactMarkdown
-                                                  components={{
-                                                    p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                                    strong: ({ children }) => <strong className="font-semibold text-primary">{children}</strong>,
-                                                    em: ({ children }) => <em className="italic">{children}</em>,
-                                                    ul: ({ children }) => <ul className="list-disc list-inside mb-2">{children}</ul>,
-                                                    ol: ({ children }) => <ol className="list-decimal list-inside mb-2">{children}</ol>,
-                                                    li: ({ children }) => <li className="mb-1">{children}</li>,
-                                                  }}
-                                                >
-                                                  {text}
-                                                </ReactMarkdown>
+                                                <Suspense fallback={<span className="whitespace-pre-wrap">{text}</span>}>
+                                                  <ReactMarkdown
+                                                    components={{
+                                                      p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                                                      strong: ({ children }) => <strong className="font-semibold text-primary">{children}</strong>,
+                                                      em: ({ children }) => <em className="italic">{children}</em>,
+                                                      ul: ({ children }) => <ul className="list-disc list-inside mb-2">{children}</ul>,
+                                                      ol: ({ children }) => <ol className="list-decimal list-inside mb-2">{children}</ol>,
+                                                      li: ({ children }) => <li className="mb-1">{children}</li>,
+                                                    }}
+                                                  >
+                                                    {text}
+                                                  </ReactMarkdown>
+                                                </Suspense>
                                               </div>
                             </div>
                             
