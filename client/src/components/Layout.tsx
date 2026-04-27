@@ -45,7 +45,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <div className="flex flex-col h-full bg-sidebar text-sidebar-foreground">
       {/* Logo */}
       <div className="p-6 flex items-center gap-3 border-b border-white/5">
-        <div className="w-11 h-11 rounded-xl bg-black flex items-center justify-center overflow-hidden">
+        <div className="w-11 h-11 rounded-xl bg-[#0f0f0f] flex items-center justify-center overflow-hidden">
           <img src={nutriCoreLogo} alt="NutriCore" className="w-10 h-10 object-contain" />
         </div>
         <div>
@@ -112,7 +112,6 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
       {/* Footer */}
       <div className="p-4 border-t border-white/5 space-y-2">
-        {/* Admin link - only visible to admin */}
         {user?.email === 'maalkooheji@gmail.com' && (
           <Link 
             href="/admin"
@@ -148,25 +147,22 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const isChat = location === "/chat";
   const isHome = location === "/home" || location === "/dashboard";
 
-  // Landing page has its own full-screen layout without bottom nav
   if (isLanding) {
     return <div className="min-h-screen bg-background text-foreground">{children}</div>;
   }
 
-  // Chat page has its own layout but gets bottom nav on mobile
   if (isChat) {
     return (
-      <div className="min-h-screen bg-background text-foreground pb-20 md:pb-0">
+      <>
         {children}
         <BottomNav />
-      </div>
+      </>
     );
   }
 
-  // Home page uses standard layout with bottom nav
   if (isHome) {
     return (
-      <div className="min-h-screen bg-background text-foreground pb-20 md:pb-0">
+      <div className="min-h-screen bg-background text-foreground pb-[80px] md:pb-0">
         {children}
         <BottomNav />
       </div>
@@ -176,22 +172,20 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <div className="min-h-screen bg-background flex">
-        {/* Desktop Sidebar */}
         <aside className="hidden md:block w-64 fixed h-full z-30 border-r border-white/5">
           <NavContent />
         </aside>
 
-        {/* Mobile Navigation */}
-        <div className="md:hidden fixed top-0 left-0 right-0 z-40 glass border-b border-white/5 px-4 py-3 flex items-center justify-between">
+        <div className="md:hidden fixed top-0 left-0 right-0 z-40 glass border-b border-white/5 px-4 h-[56px] flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-lg bg-black flex items-center justify-center overflow-hidden">
-              <img src={nutriCoreLogo} alt="NutriCore" className="w-8 h-8 object-contain" />
+            <div className="w-8 h-8 rounded-lg bg-[#0f0f0f] flex items-center justify-center overflow-hidden flex-shrink-0">
+              <img src={nutriCoreLogo} alt="NutriCore" className="w-7 h-7 object-contain" />
             </div>
-            <span className="font-display font-bold text-lg">NutriCore</span>
+            <span className="font-display font-bold text-base tracking-tight">NutriCore</span>
           </div>
           <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="rounded-xl">
+              <Button variant="ghost" size="icon" className="rounded-xl w-10 h-10">
                 <Menu className="w-5 h-5" />
               </Button>
             </SheetTrigger>
@@ -201,14 +195,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           </Sheet>
         </div>
 
-        {/* Main Content */}
-        <main className="flex-1 md:ml-64 min-h-screen p-4 md:p-8 pt-20 md:pt-8 pb-24 md:pb-8 overflow-y-auto bg-background texture-noise">
+        <main className="flex-1 md:ml-64 min-h-screen p-4 md:p-8 pt-[72px] md:pt-8 pb-[88px] md:pb-8 overflow-y-auto bg-background texture-noise">
           <div className="max-w-6xl mx-auto animate-in fade-in slide-in-from-bottom-4 duration-500">
             {children}
           </div>
         </main>
         
-        {/* Mobile Bottom Navigation */}
         <BottomNav />
       </div>
 
@@ -246,12 +238,12 @@ export default function Layout({ children }: { children: React.ReactNode }) {
               >
                 Maybe Later
               </Button>
-              <Button 
+              <Button
                 onClick={() => {
                   setShowUpgradeModal(false);
                   window.location.href = '/profile';
                 }}
-                className="flex-1 bg-gradient-to-r from-primary to-green-600 hover:opacity-90"
+                className="flex-1 bg-gradient-to-r from-primary to-primary hover:opacity-90"
               >
                 View Plans
               </Button>
